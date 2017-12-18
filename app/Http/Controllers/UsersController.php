@@ -15,7 +15,7 @@ class UsersController extends Controller
 	/** 
 	 * Get all users.
 	 *
-	 * @return - All users from the db
+	 * @return Json Collection
 	*/
 	public function all()
 	{
@@ -25,29 +25,29 @@ class UsersController extends Controller
 	/** 
 	 * Get a user based on ID.
 	 *
-	 * @param - $id The ID of the user
-	 * @return - The requested user
+	 * @param $id - The ID of the user
+	 * @return Json App\User - The requested user
 	*/
 	public function get($id)
 	{
-		return User::find($id);
+		return User::findOrFail($id);
 	}
 
 	/** 
 	 * Get the authenticated user.
 	 *
-	 * @return - The authenticated user
+	 * @return Json App\User - The authenticated user
 	*/
 	public function getAuth()
 	{
-		return Auth::user();
+		return \Auth::user();
 	}
 
 	/** 
 	 * Create a new user in the db with bcrypted password
 	 *
-	 * @param - $request SaveUser custom request 
-	 * @return - App\User the created user
+	 * @param $request - SaveUser custom request 
+	 * @return Json App\User - The created user
 	*/
     public function create(SaveUser $request)
     {
@@ -62,19 +62,19 @@ class UsersController extends Controller
 	/** 
 	 * Updates a user in the db. Does not touch the password.
 	 *
-	 * @param - $request UpdateUser custom request 
-	 * @return - App\User the updated user
+	 * @param $request - UpdateUser custom request 
+	 * @return Json App\User - The updated user
 	*/
     public function update(UpdateUser $request)
     {
-    	return $this->genericSave(User::find($request->id), $request);
+    	return $this->genericSave(User::findOrFail($request->id), $request);
     }
 
 	/** 
 	 * Changes a specific users password in the db. Uses bcrypt.
 	 *
-	 * @param - $request ChangePassword custom request 
-	 * @return - App\User the updated user
+	 * @param $request - ChangePassword custom request 
+	 * @return Json App\User - The updated user
 	*/
     public function changePassword(ChangePassword $request)
     {
@@ -83,14 +83,14 @@ class UsersController extends Controller
 		// Merge crypted password into request
 		$request->merge(['password' => $crypted]); 
 		  
-    	return $this->genericSave(User::find($request->id), $request);    	
+    	return $this->genericSave(User::findOrFail($request->id), $request);    	
     }
 
 	/** 
 	 * Changes the authenticated users password in the db. Uses bcrypt.
 	 *
-	 * @param - $request ChangePassword custom request 
-	 * @return - App\User the updated user
+	 * @param $request - ChangePassword custom request 
+	 * @return Json App\User - The updated user
 	*/
     public function changeAuthPassword(ChangePassword $request)
     {
@@ -99,6 +99,17 @@ class UsersController extends Controller
 		// Merge crypted password into request
 		$request->merge(['password' => $crypted]); 
 		  
-    	return $this->genericSave(User::find(Auth::user()->id), $request);    	
+    	return $this->genericSave(User::findOrFail(Auth::user()->id), $request);    	
     }    
+
+	/** 
+	 * Removes a user from the db.
+	 *
+	 * @param $id - The id of the user to remove 
+	 * @return Int - The id of the removed user
+	*/
+    public function remove($id)
+    {
+    	return $this->genericRemove(User::findOrFail($id));
+    }
 }
