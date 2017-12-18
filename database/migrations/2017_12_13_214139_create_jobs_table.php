@@ -26,7 +26,8 @@ class CreateJobsTable extends Migration
             $table->boolean('is_complete')->default(false);
             $table->decimal('tech_pay_total', 13, 3)->default(0.000);
             $table->decimal('job_labour_total', 13, 3)->default(0.000);
-            $table->decimal('job_parts_total', 13, 3)->default(0.000);
+            $table->decimal('parts_total_cost', 13, 3)->default(0.000);
+            $table->decimal('parts_total_billed', 13, 3)->default(0.000);
             $table->decimal('job_grand_total', 13, 3)->default(0.000);            
             $table->timestamps();
         });

@@ -46,29 +46,6 @@ class JobsController extends Controller
 	}
 
 	/** 
-	 * Returns and error if the work order is closed (invoiced) and true if the work order is open (not invoiced)
-	 *
-	 * @param $work_order_id - The ID of the parent work order
-	 * @return Boolean or json error
-	*/
-	private function ensureWorkOrderIsOpen($work_order_id)
-	{
-		// First get the owning work order so we can make sure its still open and not invoiced
-		$wo = WorkOrder::findOrFail($work_order_id);
-
-		// If work order is closed (invoiced) then stop here
-		if($wo->is_invoiced){
-    		// Failed response
-	        return response()->json([
-	            'result' => 'error',
-	            'message' => 'Cannot create, update, or remove a job on a closed work order (invoiced).'
-	        ], 422);			
-		}
-
-		return true;		
-	}
-
-	/** 
 	 * Get a job based on ID.
 	 *
 	 * @param $id - The ID of the job

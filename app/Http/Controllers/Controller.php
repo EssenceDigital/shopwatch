@@ -7,11 +7,13 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+Use App\WorkOrder;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected function genericSave($model, $request, $beforeSave = null, $afterSave = null)
+    protected function genericSave($model, $request = false, $beforeSave = null, $afterSave = null)
     {
     	/* Check if the before fill function should run
     	if(is_callable($beforeFill)){
@@ -19,8 +21,11 @@ class Controller extends BaseController
     		call_user_func_array($beforeFill, array(&$request));
     	}*/
 
-    	// Populate the model with request data
-    	$model->fill($request->all());
+    	// If there is a request then populate the model with it
+    	if($request){
+    		// Populate the model with request data
+    		$model->fill($request->all());
+    	}
 
     	// Save the model, if it does not save then return a failed response
     	if(! $model->save()){
@@ -87,4 +92,27 @@ class Controller extends BaseController
 
     	return $id;
     }
+
+	/** 
+	 * Returns and error if the work order is closed (invoiced) and true if the work order is open (not invoiced)
+	 *
+	 * @param $work_order_id - The ID of the parent work order
+	 * @return Boolean or json error
+	*/
+	protected function ensureWorkOrderIsOpen($work_order_id)
+	{
+		// First get the owning work order so we can make sure its still open and not invoiced
+		$wo = WorkOrder::findOrFail($work_order_id);
+
+		// If work order is closed (invoiced) then stop here
+		if($wo->is_invoiced){
+    		// Failed response
+	        return response()->json([
+	            'result' => 'error',
+	            'message' => 'Cannot create, update, or remove a job on a closed work order (invoiced).'
+	        ], 422);			
+		}
+
+		return true;		
+	}    
 }
