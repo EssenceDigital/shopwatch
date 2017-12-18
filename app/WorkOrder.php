@@ -24,6 +24,14 @@ class WorkOrder extends Model
     }
      
     /**
+     * Get the jobs associated with this work order
+     */
+    public function jobs()
+    {
+        return $this->hasMany('App\Job');
+    } 
+
+    /**
      * Get the invoice associated with this work order
      */
     public function invoice()

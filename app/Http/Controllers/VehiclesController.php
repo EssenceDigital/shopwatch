@@ -11,6 +11,24 @@ Use App\Vehicle;
 class VehiclesController extends Controller
 {
 	/** 
+	 * Filters the vehicle table based on passed params.
+	 * 
+	 * @return Json Collection
+	*/
+	public function filter($year = false, $make = false, $model = false, $plate_number = false)
+	{
+		// Possible where fields for the filter
+		$whereFields = [
+			['filter' => $year, 'field' => 'year', 'value' => $year, 'conditional' => '='],
+			['filter' => $make, 'field' => 'make', 'value' => "%{$make}%", 'conditional' => 'like'],
+			['filter' => $model, 'field' => 'model', 'value' => "%{$model}%", 'conditional' => 'like'],
+			['filter' => $plate_number, 'field' => 'plate_number', 'value' => "%{$plate_number}%", 'conditional' => 'like']
+		];
+
+		return $this->genericFilter(Vehicle::with(['work_orders'])->orderBy('year', 'asc'), $whereFields);	
+	}
+
+	/** 
 	 * Get a vehicle based on ID.
 	 *
 	 * @param $id - The ID of the vehicle
@@ -18,7 +36,7 @@ class VehiclesController extends Controller
 	*/
 	public function get($id)
 	{
-		return Vehicle::findOrFail($id);
+		return Vehicle::with(['work_orders'])->findOrFail($id);
 	}
 
 	/** 
@@ -52,14 +70,14 @@ class VehiclesController extends Controller
     public function remove($id)
     {
     	// Find the vehicle
-    	$vehicle = Vehicle::findOrFail($id);
+    	$vehicle = Vehicle::with(['work_orders'])->findOrFail($id);
 
     	// If the vehicle has work orders it cannot be removed
     	if(count($vehicle->work_orders) > 0){
     		// Failed response
 	        return response()->json([
 	            'result' => 'error',
-	            'message' => 'Customer with vehicles cannot be removed.'
+	            'message' => 'Vehicle with work orders cannot be removed.'
 	        ], 422);      		
     	}
 

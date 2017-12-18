@@ -29,7 +29,8 @@ class SaveVehicle extends FormRequest
             'year' => 'required|numeric',
             'make' => 'required|string|max:25',
             'model' => 'required|string|max:25',
-            'vin' => 'required|string|max:17'
+            'vin' => 'required|string|max:17',
+            'plate_number' => "string|max:12|nullable"
         ];
     }
 }

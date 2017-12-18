@@ -43,6 +43,7 @@ Route::get('/customers/{id}', 'CustomersController@get');
 */
 Route::get('/vehicles/{id}/work-orders', 'WorkOrdersController@getVehicles');
 Route::get('/vehicles/{id}/invoices', 'InvoicesController@getVehicles');
+Route::get('/vehicles/{year}/{make}/{model}/{plate_number}', 'VehiclesController@filter');
 Route::post('/vehicles/create', 'VehiclesController@create');
 Route::post('/vehicles/update', 'VehiclesController@update');
 Route::delete('/vehicles/{id}/remove', 'VehiclesController@remove');

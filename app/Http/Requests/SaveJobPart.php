@@ -26,6 +26,7 @@ class SaveJobPart extends FormRequest
         return [
             'id' => 'numeric|nullable',
             'job_id' => 'required|numeric',
+            'supplier' => 'required|string|max:50',
             'title' => 'required|string|max:255',
             'total_cost' => 'required|numeric|between:0,1000000000000.99',
             'billing_price' => 'required|numeric|between:0,1000000000000.99'

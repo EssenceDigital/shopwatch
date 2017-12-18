@@ -20,6 +20,27 @@ class DatabaseSeeder extends Seeder
             'address' => '145 35 St. North',
             'postal_code' => 'T3T U8Y',
             'phone' => '403-942-0200'
-        ]);    	
+        ]);    
+
+        DB::table('customers')->insert([
+            "first" => "Antonio",
+            "last" => "Romeo",
+            "phone_one" => "545-545-4444",
+            "phone_two" => ""
+        ]);  
+
+        DB::table('vehicles')->insert([
+            "customer_id" => 1,
+            "make" => "Honda",
+            "model" => "Civic",
+            "year" => 2006,
+            "vin" => "HS45ETGDGD4",
+            "plate_number" => "TYE874"
+        ]);   
+
+        DB::table('work_orders')->insert([
+            "vehicle_id" => 1,
+            "created_by" => "Matt"
+        ]);                       	
     }
 }

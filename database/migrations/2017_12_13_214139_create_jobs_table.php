@@ -17,13 +17,16 @@ class CreateJobsTable extends Migration
             $table->increments('id');
             $table->integer('work_order_id')->unsigned();
             $table->foreign('work_order_id')->references('id')->on('work_orders');
-            $table->string('technician', 50);
+            $table->string('tech', 50);
             $table->string('title', 100);
             $table->string('description')->nullable();
             $table->decimal('hours', 13, 1)->default(0.0);
-            $table->decimal('hourly_rate', 13, 3)->default(0.000);
+            $table->decimal('shop_rate', 13, 3)->default(0.000);
+            $table->decimal('tech_hourly_rate', 13, 3)->default(0.000);
             $table->boolean('is_complete')->default(false);
+            $table->decimal('tech_pay_total', 13, 3)->default(0.000);
             $table->decimal('job_labour_total', 13, 3)->default(0.000);
+            $table->decimal('job_parts_total', 13, 3)->default(0.000);
             $table->decimal('job_grand_total', 13, 3)->default(0.000);            
             $table->timestamps();
         });

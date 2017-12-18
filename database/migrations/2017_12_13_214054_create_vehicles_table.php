@@ -21,6 +21,7 @@ class CreateVehiclesTable extends Migration
             $table->string('make', 25);
             $table->string('model', 25);
             $table->string('vin', 17);
+            $table->string('plate_number', 12);
             $table->timestamps();
         });
     }

@@ -12,7 +12,7 @@ class JobPart extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'job_id', 'title', 'total_cost', 'billing_price'
+        'id', 'job_id', 'supplier', 'part_invoice_number', 'title', 'total_cost', 'billing_price'
     ];
 
     /**

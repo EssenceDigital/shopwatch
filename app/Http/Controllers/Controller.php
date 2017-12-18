@@ -43,6 +43,8 @@ class Controller extends BaseController
 	    forEach($whereFields as $current){
 	    	// If the filter value is true then this field should be filtered with where clause
 	    	if($current['filter']){
+	    		// Special value means we want to filter based on a boolean (This lets us bypass some conditional checks)
+	    		if($current['value'] == 'false-bool') $current['value'] = 0;
 	    		// Add the dynamic where clause to the query array
 	    		array_push($queryArray, [$current['field'], $current['conditional'], $current['value']]);
 	    	}
