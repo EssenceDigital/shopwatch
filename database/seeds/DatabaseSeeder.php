@@ -11,6 +11,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('bus_settings')->insert([
+            'shop_rate' => 89.99,
+            'gst_rate' => 0.05,
+            'shop_supply_rate' => 5.99,
+            'city' => 'Lethbridge',
+            'province' => 'Alberta',
+            'address' => '145 35 St. North',
+            'postal_code' => 'T3T U8Y',
+            'phone' => '403-942-0200'
+        ]);    	
     }
 }
