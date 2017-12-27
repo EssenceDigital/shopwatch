@@ -28,7 +28,8 @@ class UpdateJob extends FormRequest
             'tech' => 'required|numeric',
             'title' => 'required|string|max:100',
             'description' => 'string|max:255|nullable',
-            'hours' => 'required|numeric|between:0,1000000000000.9'
+            'hours' => 'required|numeric|between:0,1000000000000.9',
+            'is_complete' => 'nullable'
         ];
     }
 }

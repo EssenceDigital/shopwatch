@@ -6,12 +6,18 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Log;
 
 Use App\WorkOrder;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected $woGuardResponse = [
+	    'result' => 'error',
+	    'message' => "This work order is either closed (invoiced), or the requested job has been marked complete. It cannot be modified. If the job must me modified try changing it's status to active"
+    ];
 
     protected function genericSave($model, $request = false, $beforeSave = null, $afterSave = null)
     {
@@ -33,7 +39,7 @@ class Controller extends BaseController
 	        return response()->json([
 	            'result' => 'error',
 	            'message' => 'Problem storing record.'
-	        ], 422);      		
+	        ], 422)->send();      		
     	}
 
     	return $model;
@@ -81,7 +87,7 @@ class Controller extends BaseController
 	        return response()->json([
 	            'result' => 'error',
 	            'message' => 'Problem removing record.'
-	        ], 422);      		
+	        ], 422)->send();      		
     	}
 
     	// Check if the after remove function should run
@@ -92,6 +98,19 @@ class Controller extends BaseController
 
     	return $id;
     }
+
+    protected function guardWorkOrder($work_order_id, $job_is_complete)
+    {
+    	if($this->ensureWorkOrderIsOpen($work_order_id)){
+    		if($this->ensureJobIsNotComplete($job_is_complete)){
+
+    			return true;
+
+    		} 
+    	} 
+
+    	return false;
+    } 
 
 	/** 
 	 * Returns and error if the work order is closed (invoiced) and true if the work order is open (not invoiced)
@@ -107,12 +126,19 @@ class Controller extends BaseController
 		// If work order is closed (invoiced) then stop here
 		if($wo->is_invoiced){
     		// Failed response
-	        return response()->json([
-	            'result' => 'error',
-	            'message' => 'Cannot create, update, or remove a job on a closed work order (invoiced).'
-	        ], 422);			
-		}
+	        return false;
+	    } else {
+	    	return true;
+	    }
+	}  
 
-		return true;		
-	}    
+	protected function ensureJobIsNotComplete($is_complete)
+	{
+		if($is_complete){
+    		// Failed response
+	        return false;
+		} else {
+			return true;
+		}		
+	}  
 }

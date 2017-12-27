@@ -20,16 +20,22 @@ class JobsController extends Controller
 	 * @param $request - The job request
 	 * @return The merged request
 	*/
-	private function calculateJobTotals($request)
+	private function calculateJobTotals($request, $job = false)
 	{
 		// Get the tech (user) first
 		$tech = User::findOrFail($request->tech);
 		// Get the current shop rate
 		$shop_rate = BusSetting::findOrFail(1)->shop_rate;
 		// Calculate the current labour total 
-		$labour_total = round(($request->hours * $shop_rate), 3);
+		$labour_total = round((floatval($request->hours) * floatval($shop_rate)), 3);
 		// Calculate the current tech pay total
-		$tech_pay_total = round(($request->hours * $tech->hourly_wage), 3);
+		$tech_pay_total = round(floatval($request->hours) * floatval($tech->hourly_wage), 3);
+		// Determine if the grand total should be calculated, or assinged the labour total (first time creation only)
+		if(! $job){
+			$grand_total = $labour_total;
+		} else {
+			$grand_total = (floatval($job->job_grand_total) - floatval($job->job_labour_total) + floatval($labour_total);
+		}
 
 		// Merge the calculated data with the request
 		$request->merge([
@@ -71,6 +77,9 @@ class JobsController extends Controller
 			$request = $this->calculateJobTotals($request);
 
 			return $this->genericSave(new Job, $request);			
+		} else {
+    		// Failed response
+	        return response()->json($this->woGuardResponse, 422);			
 		}
 	}
 
@@ -86,12 +95,16 @@ class JobsController extends Controller
 		// Get the job
 		$job = Job::findOrFail($request->id);
 
-		// Check if parent work order is still open
-		if($this->ensureWorkOrderIsOpen($job->work_order_id)){
+		// Check if parent work order is still open (can only modify a part on an open (not invoiced) work order)
+		// Check if parent job is marked as complete (cannot modify a part on a job marked complete)
+		if($this->guardWorkOrder($job->work_order_id, $job->is_complete)){
 			// Calculate totals before saving
-			$request = $this->calculateJobTotals($request);
+			$request = $this->calculateJobTotals($request, $job);
 
 			return $this->genericSave($job, $request);			
+		} else {
+    		// Failed response
+	        return response()->json($this->woGuardResponse, 422);			
 		}
 	}
 
@@ -107,14 +120,14 @@ class JobsController extends Controller
 		// Find the job
 		$job = Job::findOrFail($id);
 
-		// Check if parent work order is still open (can only remove a job from an open (not invoiced) work order)
-		if($this->ensureWorkOrderIsOpen($job->work_order_id)){
-			// Check if job is marked as complete (cannot remove a job marked complete)
-			if(! $job->is_complete){
-
-				// Job is allowed to be removed
-				return $this->genericRemove($job);
-			}
+		// Check if parent work order is still open (can only modify a part on an open (not invoiced) work order)
+		// Check if parent job is marked as complete (cannot modify a part on a job marked complete)
+		if($this->guardWorkOrder($job->work_order_id, $job->is_complete)){
+			// Job is allowed to be removed
+			return $this->genericRemove($job);
+		} else {
+    		// Failed response
+	        return response()->json($this->woGuardResponse, 422);			
 		}
 	}
 }
