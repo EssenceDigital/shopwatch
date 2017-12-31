@@ -40,7 +40,7 @@ class WorkOrdersController extends Controller
 	}
 
 	/** 
-	 * Get all work orders associated with the supplied customer ID (associated through the related vehicle)
+	 * Get all work orders associated with the supplied customer ID
 	 *
 	 * @param $id - The ID of the customer
 	 * @return Json Collection - The work orders associated with the customer
@@ -48,7 +48,7 @@ class WorkOrdersController extends Controller
 	public function getCustomers($id)
 	{
 		// Get all work orders first
-		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->where('customer_id', $id)->get();;		
+		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->where('customer_id', $id)->get();		
 	}
 
 	/** 

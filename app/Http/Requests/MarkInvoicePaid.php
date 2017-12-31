@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveJob extends FormRequest
+class MarkInvoicePaid extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,13 +24,8 @@ class SaveJob extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'numeric|nullable',
-            'work_order_id' => 'required|numeric',
-            'tech' => 'required|numeric',
-            'title' => 'required|string|max:100',
-            'description' => 'string|max:255|nullable',
-            'hours' => 'required|numeric|between:0,1000000000000.9',
-            'shop_rate' => 'numeric|between:0,1000000000000.99|nullable'
+            'id' => 'required|numeric',
+            'payment_method' => 'required|string|max:10'
         ];
     }
 }

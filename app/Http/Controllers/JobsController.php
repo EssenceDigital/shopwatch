@@ -26,8 +26,16 @@ class JobsController extends Controller
 	{
 		// Get the tech (user) first
 		$tech = User::findOrFail($request->tech);
-		// Get the current shop rate
-		$shop_rate = BusSetting::findOrFail(1)->shop_rate;
+
+		// If a shop rate was with the request then assign that
+		if($request->has('shop_rate')){
+			// Set custom shop rate for job
+			$shop_rate = $request->shop_rate;
+		} else {
+			// No shop rate present in request then get the current shop rate from business settings
+			$shop_rate = BusSetting::findOrFail(1)->shop_rate;			
+		}
+
 		// Calculate the current labour total 
 		$labour_total = round((floatval($request->hours) * floatval($shop_rate)), 3);
 		// Calculate the current tech pay total

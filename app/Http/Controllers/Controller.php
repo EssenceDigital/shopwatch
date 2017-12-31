@@ -111,9 +111,7 @@ class Controller extends BaseController
     {
     	if($this->ensureWorkOrderIsOpen($work_order_id)){
     		if($this->ensureJobIsNotComplete($job_is_complete)){
-
     			return true;
-
     		} 
     	} 
 

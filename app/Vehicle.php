@@ -29,5 +29,13 @@ class Vehicle extends Model
     public function work_orders()
     {
         return $this->hasMany('App\WorkOrder');
-    }      
+    } 
+
+    /**
+     * Get the invoices belonging to the vehicle
+     */
+    public function invoices()
+    {
+        return $this->hasMany('App\Invoice');
+    }         
 }

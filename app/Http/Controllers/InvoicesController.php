@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\SaveInvoice;
+use App\Http\Requests\MarkInvoicePaid;
 use App\Invoice;
 use App\WorkOrder;
 use App\Job;
@@ -14,11 +15,11 @@ use App\BusSetting;
 
 class InvoicesController extends Controller
 {
-    public function get($id)
-    {
-    	return Invoice::findOrFail($id);
-    }
-
+	/** 
+	 * Filters the invoice table based on passed params.
+	 * 
+	 * @return Json Collection
+	*/	
     public function filter($from_date = false, $to_date = false, $is_paid = false, $customer_id = false)
     {
     	// Default state for date (single date)
@@ -48,49 +49,176 @@ class InvoicesController extends Controller
 		return $this->genericFilter(Invoice::orderBy('created_at', 'asc'), $whereFields, $whereBetweenFields);    	
     }
 
+	/** 
+	 * Get an invoice based on ID.
+	 *
+	 * @param $id - The ID of the invoice
+	 * @return Json App\Invoice - The requested invoice
+	*/    
+    public function get($id)
+    {
+    	return Invoice::findOrFail($id);
+    }
+
+	/** 
+	 * Create a new invoice in the db associated with a work order. Updates the work order status.
+	 *
+	 * @param $request - SaveInvoice custom request 
+	 * @return Json App\Invoice - The created Invoice
+	*/
     public function create(SaveInvoice $request)
     {
     	// Get the work order first because we need the customer ID
     	$wo = WorkOrder::with(['vehicle', 'customer', 'jobs', 'jobs.parts'])->findOrFail($request->work_order_id);
-    	// Get the current business settings
-    	$bus_settings = BusSetting::find(1);
-    	// Start the invoice
-    	$invoice = new Invoice;
-    	// Assign basic invoice values
-    	$invoice->created_by = 'Matt';//Auth::name();
-    	$invoice->work_order_id = $wo->id;
-    	$invoice->customer_id = $wo->customer_id;
-    	$invoice->gst_rate = $bus_settings->gst_rate;
-    	$invoice->shop_supply_rate = $bus_settings->shop_supply_rate;
 
-    	// Start totals
-    	$total_labour = 0;
-    	$total_labour_cost = 0;
-    	$total_parts = 0;
-    	$total_parts_cost = 0;
+    	// Ensure the work order has jobs (cannot create an invoice from a work order with no jobs)
+    	if($wo->jobs->isNotEmpty()){
+	    	// Get the current business settings
+	    	$bus_settings = BusSetting::find(1);
+	    	// Start the invoice
+	    	$invoice = new Invoice;
+	    	// Assign basic invoice values
+	    	$invoice->created_by = 'Matt';//Auth::name();
+	    	$invoice->work_order_id = $wo->id;
+	    	$invoice->vehicle_id = $wo->vehicle_id;
+	    	$invoice->customer_id = $wo->customer_id;
+	    	$invoice->gst_rate = $bus_settings->gst_rate;
+	    	$invoice->shop_supply_rate = $bus_settings->shop_supply_rate;
 
-    	// Calculate labour / parts totals
-    	forEach($wo->jobs as $job){
-    		$total_labour += floatval($job->job_labour_total);
-    		$total_labour_cost += floatval($job->tech_pay_total);
-    		$total_parts += floatval($job->parts_total_billed);
-    		$total_parts_cost += floatval($job->parts_total_cost);
+	    	// Start totals
+	    	$total_labour = 0;
+	    	$total_labour_cost = 0;
+	    	$total_parts = 0;
+	    	$total_parts_cost = 0;
+
+	    	// Calculate labour / parts totals
+	    	forEach($wo->jobs as $job){
+	    		$total_labour += floatval($job->job_labour_total);
+	    		$total_labour_cost += floatval($job->tech_pay_total);
+	    		$total_parts += floatval($job->parts_total_billed);
+	    		$total_parts_cost += floatval($job->parts_total_cost);
+	    	}
+
+	    	// Calculate final totals
+	    	$sub_total = floatval($total_labour) + floatval($total_parts);
+	    	$gst_total = floatval($sub_total) * floatval($invoice->gst_rate);
+	    	$grand_total = floatval($sub_total) + floatval($gst_total);
+
+	    	// Cache totals in invoice
+	    	$invoice->total_labour = round($total_labour, 3);
+	    	$invoice->total_labour_cost = round($total_labour_cost, 3);
+	    	$invoice->total_parts = round($total_parts, 3);
+	    	$invoice->total_parts_cost = round($total_parts_cost, 3);
+	    	$invoice->sub_total = round($sub_total, 3);
+	    	$invoice->gst_total = round($gst_total, 3);
+	    	$invoice->grand_total = round($grand_total, 3);
+
+	    	// Save invoice
+	    	$invoice = $this->genericSave($invoice);
+
+	    	// Mark all jobs on work order as complete
+	    	forEach($wo->jobs as $job){
+	    		// Only mark job as complete if it's not already marked as such
+	    		if($job->is_complete != 1){
+	    			// Mark complete
+		    		$job->is_complete = 1;
+		    		// Save job
+		    		$this->genericSave($job);	    			
+	    		}
+	    	}
+
+	    	// Update invoice info on work order 
+	    	$wo->is_invoiced = 1;
+	    	$wo->invoice_id = $invoice->id;
+	    	// Save updated work order
+	    	$this->genericSave($wo);
+
+	    	return $invoice;    		
+    	} else {
+    		// Work order has not jobs. Failed response
+    		return response()->json([
+    			'result' => 'error',
+    			'message' => 'This work order has not jobs and an invoice cannot be created'
+    		]);
     	}
 
-    	// Calculate final totals
-    	$sub_total = floatval($total_labour) + floatval($total_parts);
-    	$gst_total = floatval($sub_total) * floatval($invoice->gst_rate);
-    	$grand_total = floatval($sub_total) + floatval($gst_total);
+    }
 
-    	// Cache totals in invoice
-    	$invoice->total_labour = $total_labour;
-    	$invoice->total_labour_cost = $total_labour_cost;
-    	$invoice->total_parts = $total_parts;
-    	$invoice->total_parts_cost = $total_parts_cost;
-    	$invoice->sub_total = $sub_total;
-    	$invoice->gst_total = $gst_total;
-    	$invoice->grand_total = $grand_total;
+	/** 
+	 * Marks an invoice as paid and sets the payment method and date.
+	 * Once the invoice is marked paid the related work order and the invoice become permanent and cannot be removed or modified.
+	 *
+	 * @param $request - MakrInvoicePaid custom request 
+	 * @return Json App\Invoice - The updated invoice
+	*/
+    public function markPaid(MarkInvoicePaid $request)
+    {
+    	// Find invoice
+    	$invoice = Invoice::findOrFail($request->id);
+    	// Setup payment info 
+    	$invoice->is_paid = 1;
+    	$invoice->payment_method = $request->payment_method;
+    	// For timestamp
+		$date = new \DateTime();
+		// Set timestamp
+    	$invoice->paid_on = $date->format('Y-m-d H:i:s');
 
     	return $this->genericSave($invoice);
+    }
+
+	/** 
+	 * Get all invoices associated with the supplied customer ID
+	 *
+	 * @param $id - The ID of the customer
+	 * @return Json Collection - The invoices associated with the customer
+	*/
+    public function getCustomers($id)
+    {
+    	return Invoice::where('customer_id', '=', $id)->get();
+    }
+
+	/** 
+	 * Get all invoices associated with the supplied vehicle ID
+	 *
+	 * @param $id - The ID of the vehicle
+	 * @return Json Collection - The invoices associated with the vehicle
+	*/
+    public function getVehicles($id)
+    {
+    	return Invoice::where('vehicle_id', '=', $id)->get();
+    }
+
+	/** 
+	 * Removes an invoice from the db. Can only remove an invoice not marked as paid.
+	 *
+	 * @param $id The id of the invoice to remove 
+	 * @return Int - The id of the removed invoice
+	*/
+    public function remove($id)
+    {
+    	// Find invoice
+    	$invoice = Invoice::findOrFail($id);
+
+    	// Can only remove an invoice that has not been paid
+    	if(! $invoice->is_paid){
+    		// Now find the related work order so we can reset the is_invoiced values
+    		$wo = WorkOrder::findOrFail($invoice->work_order_id);
+
+    		// Update work order
+    		$wo->is_invoiced = 0;
+    		$wo->invoice_id = null;
+    		// Save the work order
+    		$this->genericSave($wo);
+
+    		// Delete the invoice
+    		return $this->genericRemove($invoice);
+
+    	} else {
+    		// Invoice IS PAID. Cannot remove
+    		return response()->json([
+    			'result' => 'error',
+    			'message' => 'This invoice has been paid and cannot be removed.'
+    		]);    		
+    	}
     }
 }
