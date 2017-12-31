@@ -12,7 +12,7 @@ class JobPart extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'job_id', 'supplier', 'part_invoice_number', 'title', 'total_cost', 'billing_price'
+        'id', 'job_id', 'supplier_id', 'part_invoice_number', 'title', 'total_cost', 'billing_price'
     ];
 
     /**
@@ -21,5 +21,13 @@ class JobPart extends Model
     public function job()
     {
         return $this->belongsTo('App\Job');
-    }     
+    }    
+
+    /**
+     * Get the supplier the part belongs to
+     */
+    public function supplier()
+    {
+        return $this->belongsTo('App\Supplier');
+    }      
 }

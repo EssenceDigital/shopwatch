@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveJobPart extends FormRequest
+class SaveSupplier extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +25,7 @@ class SaveJobPart extends FormRequest
     {
         return [
             'id' => 'numeric|nullable',
-            'job_id' => 'required|numeric',
-            'supplier_id' => 'required|numeric',
-            'title' => 'required|string|max:255',
-            'part_invoice_number' => 'required|string|max:255',
-            'total_cost' => 'required|numeric|between:0,1000000000000.99',
-            'billing_price' => 'required|numeric|between:0,1000000000000.99'
+            'name' => 'string|max:65'
         ];
     }
 }

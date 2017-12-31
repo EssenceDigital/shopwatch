@@ -28,6 +28,13 @@ Route::delete('/users/{id}/remove', 'UsersController@remove');
 Route::get('/users/{id}', 'UsersController@get');
 
 /*
+ * Supplier routes
+*/
+Route::get('/suppliers', 'SuppliersController@all');
+Route::post('/suppliers/create', 'SuppliersController@create');
+Route::post('/suppliers/update', 'SuppliersController@update');
+
+/*
  * Customer routes
 */
 Route::get('/customers/{id}/work-orders', 'WorkOrdersController@getCustomers');

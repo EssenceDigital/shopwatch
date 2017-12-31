@@ -17,7 +17,8 @@ class CreateJobPartsTable extends Migration
             $table->increments('id');
             $table->integer('job_id')->unsigned();
             $table->foreign('job_id')->references('id')->on('jobs');
-            $table->string('supplier', 50);
+            $table->integer('supplier_id')->unsigned();
+            $table->foreign('supplier_id')->references('id')->on('suppliers');
             $table->string('title');
             $table->string('part_invoice_number')->nullable();
             $table->decimal('total_cost', 13, 3);

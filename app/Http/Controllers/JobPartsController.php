@@ -124,6 +124,17 @@ class JobPartsController extends Controller
     }
 
 	/** 
+	 * Finds all parts associated with a supplier
+	 *
+	 * @param $id - The ID of the supplier
+	 * @return Json Collection - The parts
+	*/
+    public function getSuppliers($id)
+    {
+    	return JobPart::where('supplier_id', '=', $id)->get();
+    }
+
+	/** 
 	 * Removes a part from the db
 	 * - Only removes the part if the job is NOT complete and the work order is open (not invoiced).
 	 * - After removing the part the parent job is loaded and it's totals are updated with the newly created part totals.
