@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests\SaveWorkOrder;
 use App\WorkOrder;
+use App\Vehicle;
 
 class WorkOrdersController extends Controller
 {
@@ -47,15 +48,7 @@ class WorkOrdersController extends Controller
 	public function getCustomers($id)
 	{
 		// Get all work orders first
-		$wos = WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->get();
-
-		// Filter the collection of work orders so we only have those that match the given customer ID
-		$filtered = $wos->filter(function ($value, $key) use ($id) {
-			// Filter for customer ID
-		    return $value['vehicle']['customer_id'] == $id;
-		});
-
-		return $filtered->all();		
+		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->where('customer_id', $id)->get();;		
 	}
 
 	/** 
@@ -77,6 +70,11 @@ class WorkOrdersController extends Controller
 	*/
     public function create(SaveWorkOrder $request)
     {
+    	// Get the vehicle so we have the customer ID
+    	$vehicle = Vehicle::findOrFail($request->vehicle_id);
+    	// Merge the customer ID into the request
+    	$request->merge(['customer_id' => $vehicle->customer_id]);
+
     	return $this->genericSave(New WorkOrder, $request);
     }
 
@@ -92,11 +90,11 @@ class WorkOrdersController extends Controller
     	$wo = WorkOrder::with(['jobs'])->findOrFail($id);
 
     	// If the work order has jobs it cannot be removed
-    	if(count($wo->jobs) > 0){
+    	if(count($wo->jobs) > 0 || $wo->invoice_id != null){
     		// Failed response
 	        return response()->json([
 	            'result' => 'error',
-	            'message' => 'A work order with jobs cannot be removed.'
+	            'message' => 'This work order has been closed (invoiced) or there are jobs associated with it and cannot be removed.'
 	        ], 422);      		
     	}
 

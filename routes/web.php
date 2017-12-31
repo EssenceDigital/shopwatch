@@ -75,7 +75,7 @@ Route::delete('/job-parts/{id}/remove', 'JobPartsController@remove');
 /*
  * Invoice routes
 */
-Route::get('/invoices/{date}/{is_paid}/{customer_id}', 'InvoicesController@filter');
+Route::get('/invoices/{from_date}/{to_date}/{is_paid}/{customer_id}', 'InvoicesController@filter');
 Route::post('/invoices/create', 'InvoicesController@create');
 Route::post('/invoices/mark-paid', 'InvoicesController@markPaid');
 Route::delete('/invoices/{id}/remove', 'InvoicesController@remove');

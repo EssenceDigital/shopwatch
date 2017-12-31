@@ -40,7 +40,8 @@ class DatabaseSeeder extends Seeder
 
         DB::table('work_orders')->insert([
             "vehicle_id" => 1,
-            "created_by" => "Matt"
+            "created_by" => "Matt",
+            "customer_id" => 1
         ]);                       	
     }
 }

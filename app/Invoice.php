@@ -12,7 +12,7 @@ class Invoice extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'work_order_id', 'created_by', 'date', 'is_paid', 'payment_method', 'paid_on', 'gst_rate', 'shop_supply_rate', 'total_labour', 'total_parts', 'sub_total', 'gst_total', 'grand_total' 
+        'id', 'work_order_id', 'customer_id', 'created_by', 'date', 'is_paid', 'payment_method', 'paid_on', 'gst_rate', 'shop_supply_rate', 'total_labour', 'total_labour_cost', 'total_parts', 'total_parts_cost', 'sub_total', 'gst_total', 'grand_total' 
     ];
 
     /**
@@ -21,5 +21,13 @@ class Invoice extends Model
     public function work_order()
     {
         return $this->belongsTo('App\WorkOrder');
+    }    
+
+    /**
+     * Get the customer the invoice belongs to
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
     }    
 }

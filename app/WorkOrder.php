@@ -12,7 +12,7 @@ class WorkOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'vehicle_id', 'invoice_id', 'created_by', 'is_invoiced'
+        'id', 'vehicle_id', 'customer_id', 'invoice_id', 'created_by', 'is_invoiced'
     ];
 
     /**
@@ -21,6 +21,14 @@ class WorkOrder extends Model
     public function vehicle()
     {
         return $this->belongsTo('App\Vehicle');
+    }
+
+    /**
+     * Get the customer the word order belongs to
+     */
+    public function customer()
+    {
+        return $this->belongsTo('App\Customer');
     }
      
     /**

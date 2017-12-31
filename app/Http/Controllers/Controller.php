@@ -45,7 +45,7 @@ class Controller extends BaseController
     	return $model;
     }
 
-    protected function genericFilter($query, $whereFields)
+    protected function genericFilter($query, $whereFields, $whereBetweenFields = false)
     {
 	    // Array to hold where clauses
 	    $queryArray = [];
@@ -63,6 +63,14 @@ class Controller extends BaseController
 
 	    // Add where clauses to query
 	    $query->where($queryArray);
+
+	    // If there are where between fields to be added to the query
+	    if($whereBetweenFields){
+	    	$query->whereBetween(
+	    		$whereBetweenFields['first']['field'], 
+	    		[$whereBetweenFields['first']['value'], $whereBetweenFields['second']['value']]
+	    	);
+	    }
 
 	    // Now find the collection
 	    $collection = $query->get();  
