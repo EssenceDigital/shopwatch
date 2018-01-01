@@ -11,7 +11,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 /*
  * General app routes
 */
-Route::get('/app', 'AppController@dashboard');
+Route::get('/app', function () {
+    return view('dashboard');
+});
+
 Route::get('/bus-config', 'BusConfigController@get');
 Route::post('/bus-config/update', 'BusConfigController@update');
 

@@ -22,6 +22,22 @@ class DatabaseSeeder extends Seeder
             'phone' => '403-942-0200'
         ]);    
 
+        DB::table('users')->insert([
+            "name"=> "Matt",
+            "email"=> "matt@admin.ca",
+            "password"=> bcrypt(env('AUTH_CRED')),
+            "role"=> "admin",
+            "hourly_wage"=> 28.50
+        ]);
+
+        DB::table('users')->insert([
+            "name"=> "Timmy",
+            "email"=> "timmy@email.com",
+            "password"=> bcrypt("password"),
+            "role"=> "tech",
+            "hourly_wage"=> 28.50
+        ]);
+
         DB::table('customers')->insert([
             "first" => "Antonio",
             "last" => "Romeo",
