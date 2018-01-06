@@ -15,19 +15,24 @@ export const store = new Vuex.Store({
 	state: {
 		users: [],
 		selectedUser: {},
+
 		customers: [],
 		selectedCustomer: {},
 		customersFilter: {
 
 		},
 		selectedVehicle: {},
+
 		workOrders: [],
 		workOrdersFilter: {
 
 		},
 		selectedWorkOrder: {},
+
 		invoices: [],
 		selectedInvoice: {},
+
+		suppliers: [],
 		busConfig: {},
 		authUser: {}
 	},
@@ -40,6 +45,146 @@ export const store = new Vuex.Store({
 	mutations: {
 		updateBusConfig (state, payload){
 			return state.busConfig = payload;
+		},
+
+		updateUsers (state, payload){
+			return state.users = payload;
+		},
+		addUser (state, payload){
+			return state.users.push(payload);
+		},		
+		updateSelectedUser (state, payload){
+			return state.selectedUser = payload;
+		},
+		updateUser (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.users, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.users.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.users.splice(index, 0, payload);			
+		},
+		removeUser (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.users, 'id', payload);
+			// Have to remove to trigger computed prop in components
+			return state.users.splice(index, 1);			
+		},
+
+		updateCustomers (state, payload){
+			return state.customers = payload;
+		},
+		addCustomer (state, payload){
+			return state.customers.unshift(payload);
+		},		
+		updateSelectedCustomer (state, payload){
+			return state.selectedCustomer = payload;
+		},
+		updateCustomer (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.customers, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.customers.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.customers.splice(index, 0, payload);			
+		},
+		removeCustomer (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.customers, 'id', payload);
+			// Have to remove to trigger computed prop in components
+			return state.customers.splice(index, 1);			
+		},		
+
+		updateVehicles (state, payload){
+			return state.vehicles = payload;
+		},
+		addVehicle (state, payload){
+			return state.vehicles.unshift(payload);
+		},		
+		updateSelectedVehicle (state, payload){
+			return state.selectedVehicle = payload;
+		},
+		updateVehicle (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.vehicles, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.vehicles.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.vehicles.splice(index, 0, payload);			
+		},
+		removeVehicle (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.vehicles, 'id', payload);
+			// Have to remove to trigger computed prop in components
+			return state.vehicles.splice(index, 1);			
+		},
+
+		updateWorkOrders (state, payload){
+			return state.workOrders = payload;
+		},
+		addWorkOrder (state, payload){
+			return state.workOrders.unshift(payload);
+		},		
+		updateSelectedWorkOrder (state, payload){
+			return state.selectedWorkOrder = payload;
+		},
+		updateWorkOrder (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.workOrders, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.workOrders.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.workOrders.splice(index, 0, payload);			
+		},
+		removeWorkOrder (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.workOrders, 'id', payload);
+			// Have to remove to trigger computed prop in components
+			return state.workOrders.splice(index, 1);			
+		},		
+
+
+		updateSelectedJob (state, payload){
+			return state.updateSelectedJob = payload;
+		},
+
+		updateInvoices (state, payload){
+			return state.invoices = payload;
+		},
+		updateSelectedInvoice (state, payload){
+			return state.selectedInvoice = payload;
+		},		
+		addInvoice (state, payload){
+			return state.invoices.unshift(payload);
+		},
+		updateInvoice(state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.invoices, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.invoices.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.invoices.splice(index, 0, payload);			
+		},
+		removeInvoice (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.invoices, 'id', payload);
+			// Have to remove to trigger computed prop in components
+			return state.invoices.splice(index, 1);			
+		},
+
+		updateSuppliers (state, payload){
+			return state.suppliers = payload;
+		},
+		addSupplier (state, payload){
+			return state.suppliers.unshift(payload);
+		},
+		updateSupplier (state, payload){
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.suppliers, 'id', payload.id);
+			// Have to remove to trigger computed prop in components
+			state.suppliers.splice(index, 1);
+			// Re-add updated payload at same index
+			return state.suppliers.splice(index, 0, payload);			
 		}
 	},
 
@@ -175,23 +320,23 @@ export const store = new Vuex.Store({
 			return ApiHelper.getAction(context, '/jobs/'+payload, 'updateSelectedJob');
 		},		
 		createJob (context, payload){
-			return ApiHelper.postAction(context, payload, '/jobs/create', 'addJob');
+			return ApiHelper.postAction(context, payload, '/jobs/create', 'updateWorkOrder');
 		},		
 		updateJob (context, payload){
-			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateJob');
+			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateWorkOrder');
 		},
 		removeJob (context, payload){
-			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'removeJob');
+			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'updateWorkOrder');
 		},
 
 		createJobPart (context, payload){
-			return ApiHelper.postAction(context, payload, '/job-parts/create', 'addJobPart');
+			return ApiHelper.postAction(context, payload, '/job-parts/create', 'updateWorkOrder');
 		},		
 		updateJobPart (context, payload){
-			return ApiHelper.postAction(context, payload, '/job-parts/update', 'updateJobPart');
+			return ApiHelper.postAction(context, payload, '/job-parts/update', 'updateWorkOrder');
 		},
 		removeJobPart (context, payload){
-			return ApiHelper.removeAction(context, '/job-parts/'+payload+'/remove', 'removeJobPart');
+			return ApiHelper.removeAction(context, '/job-parts/'+payload+'/remove', 'updateWorkOrder');
 		},
 
 		filterInvoices (context, payload){
@@ -224,6 +369,16 @@ export const store = new Vuex.Store({
 		},
 		removeInvoice (context, payload){
 			return ApiHelper.removeAction(context, '/invoices/'+payload+'/remove', 'removeInvoice');
+		},
+
+		getSuppliers (context, payload){
+			return ApiHelper.getAction(context, '/suppliers', 'updateSuppliers');
+		},
+		createSupplier (context, payload){
+			return ApiHelper.postAction(context, payload, '/suppliers/create', 'addSupplier');
+		},
+		updateSupplier(context, payload){
+			return ApiHelper.postAction(context, payload, '/suppliers/update', 'updateSupplier');
 		}
 
 	},
@@ -234,7 +389,47 @@ export const store = new Vuex.Store({
 	 * Method names are self descriptive so comments are only added where clarity is needed.	 
 	*/
 	getters: {
+		users (state){
+			return state.users;
+		},
+		selectedUser (state){
+			return state.selectedUser
+		},
 
+		customers (state){
+			return state.customers;
+		},
+		selectedCustomer (state){
+			return state.selectedCustomer;
+		},
+
+		selectedVehicle (state){
+			return state.selctedVehicle;
+		},
+
+		workOrders (state){
+			return state.workOrders
+		},
+		selectedWorkOrder (state){
+			return state.selectedWorkOrder;
+		},
+
+		invoices (state){
+			return state.invoices;
+		},
+		selectedInvoice (state){
+			return state.selectedInvoice;
+		},
+
+		suppliers (state){
+			return state.suppliers;
+		},
+		busConfig (state){
+			return state.busConfig;
+		},
+		authUser (state){
+			return state.authUser;
+		}		
 	}
 
 });

@@ -88,8 +88,11 @@ class JobsController extends Controller
 		if($this->ensureWorkOrderIsOpen($request->work_order_id)){
 			// Calculate totals before saving
 			$request = $this->calculateJobTotals($request);
+			// Save job
+			$job = $this->genericSave(new Job, $request);
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);
 
-			return $this->genericSave(new Job, $request);			
 		} else {
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			
@@ -113,8 +116,10 @@ class JobsController extends Controller
 		if($this->guardWorkOrder($job->work_order_id, $job->is_complete)){
 			// Calculate totals before saving
 			$request = $this->calculateJobTotals($request, $job);
-
-			return $this->genericSave($job, $request);			
+			// Save job
+			$job = $this->genericSave($job, $request);		
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
 		} else {
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			
@@ -136,8 +141,12 @@ class JobsController extends Controller
 		// Check if parent work order is still open (can only modify a part on an open (not invoiced) work order)
 		// Check if parent job is marked as complete (cannot modify a part on a job marked complete)
 		if($this->guardWorkOrder($job->work_order_id, $job->is_complete)){
+			// Get wo ID
+			$wo_id = $job->work_order_id;
 			// Job is allowed to be removed
-			return $this->genericRemove($job);
+			$id =  $this->genericRemove($job);
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($wo_id);				
 		} else {
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			

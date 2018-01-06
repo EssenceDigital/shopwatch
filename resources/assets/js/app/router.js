@@ -21,6 +21,10 @@ Vue.use(VueRouter);
 export default new VueRouter({
 	routes: [
 		{
+			path: '/',
+			name: 'Dashboard'
+		},	
+		{
 			path: '/users',
 			name: 'Users',
 			component: UsersView

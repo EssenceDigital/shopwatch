@@ -20,14 +20,16 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar
-      color="blue-grey"
+      color="red darken-4"
       dark
       fixed
       app
       clipped-right
     >
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Una Auto | {{ currentRoute }}</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" class="white--text headline">Una Auto</router-link>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-side-icon @click.stop="drawerRight = !drawerRight"></v-toolbar-side-icon>
     </v-toolbar>
@@ -130,7 +132,7 @@
       v-model="right"
       fixed
     ></v-navigation-drawer>
-    <v-footer color="blue-grey" class="white--text" app>
+    <v-footer color="red darken-4" class="white--text" app>
       <span>ShopWatch V0.5</span>
       <v-spacer></v-spacer>
       <span>&copy; 2017</span>
@@ -140,22 +142,24 @@
 
 <script>
   export default {
-    data: () => ({
-      snackbar: false,
-      mode: '',
-      timeout: 6000,
-      snackBarText: '',      
-      drawer: null,
-      drawerRight: null,
-      right: null,
-      left: null,
-      currentRoute: $router.currentRoute.name,
-      menuItems: [
-        { icon: 'person', title: 'Users', link: '/users' }
-      ],
-      token: window.Laravel.csrfToken,
-      authEmail: AUTH_EMAIL  
-    }),
+    data: function(){
+      return {
+        snackbar: false,
+        mode: '',
+        timeout: 6000,
+        snackBarText: '',      
+        drawer: null,
+        drawerRight: null,
+        right: null,
+        left: null,
+        menuItems: [
+          { icon: 'android', title: 'Users', link: '/users' },
+          { icon: 'account_box', title: 'Customers', link: '/customers' }
+        ],
+        token: window.Laravel.csrfToken,
+        authEmail: AUTH_EMAIL         
+      }
+    },
 
     props: {
       source: String

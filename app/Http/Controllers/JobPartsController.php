@@ -74,11 +74,11 @@ class JobPartsController extends Controller
 		if($this->guardWorkOrder($job->work_order_id, $job->is_complete)){
 	    	// Save the part
 	    	$part = $this->genericSave(new JobPart, $request);
-
 	    	// Update the parent job with new totals based on added part
 	    	$job = $this->calcAndSaveJobTotals($part, $job);	
 	    	
-	    	return $job;			
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	
@@ -116,7 +116,8 @@ class JobPartsController extends Controller
 	    		['cost'=> $part_cost, 'billing'=> $part_billing]
 	    	);
 
-	    	return $job;			
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	
@@ -166,7 +167,8 @@ class JobPartsController extends Controller
 	    	// Save job
 	    	$job = $this->genericSave($job);
 
-			return $job;
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);	
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	
