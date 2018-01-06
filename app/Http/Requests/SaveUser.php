@@ -29,7 +29,7 @@ class SaveUser extends FormRequest
             'email' => 'required|string|max:100',
             'password' => 'required|string|min:6|max:20|confirmed',
             'role' => 'required|string|max:5',
-            'hourly_wage' => 'required|numeric|between:0,1000000000000.99'
+            'hourly_wage' => 'numeric|between:0,1000000000000.99|nullable'
         ];
     }
 }

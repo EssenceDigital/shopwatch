@@ -12,8 +12,10 @@
 		</div>
 
 		<div slot="content">
+			<!-- Users table -->
 			<users-table></users-table>
 
+			<!-- Form dialog -->
 			<v-dialog v-model="addDialog" persistent max-width="500px">
         <v-card>
 				 	<v-system-bar window class="blue darken-4">
@@ -26,7 +28,7 @@
 				    </v-tooltip>			      
 			    </v-system-bar>
           <v-card-text>
-
+          	<user-form action="createUser" @saved="addDialog = false"></user-form>
           </v-card-text>
         </v-card>
       </v-dialog>			
@@ -39,6 +41,7 @@
 <script>
 	import Layout from './_Layout';
 	import UsersTable from './../components/tables/User-table';
+	import UserForm from './../components/forms/User-form';
 
 	export default{
 		data () {
@@ -49,7 +52,8 @@
 
 		components: {
 			'layout': Layout,
-			'users-table': UsersTable
+			'users-table': UsersTable,
+			'user-form': UserForm
 		}	
 	}
 </script>

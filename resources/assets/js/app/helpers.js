@@ -44,13 +44,10 @@ export default {
 	 * @return Promise - Resolves a function with the populated form.
 	*/
 	populateForm (form, data) {
-		return new Promise((resolve, reject) => {
-			// Populate form
-			for(var key in form) {
-				form[key] = data[key];
-			}
-			resolve(form);
-		});
+		// Populate form
+		for(var key in form) {
+			form[key].value = data[key];
+		}
 	},
 
 	/** 
@@ -59,15 +56,11 @@ export default {
 	 * @param Obj form - An object that contains objects for each form field. { val: , error: , errorMsg: , dflt: }.
 	 * @return Promise - Resolves a function with the now cleared form.
 	*/
-	resetForm (form) {
-		return new Promise((resolve, reject) => {
-			// Populate form
-			for(let key in form) {
-				form[key] = '';
-			}
-			// Resolve promise
-			resolve(form);
-		});		
+	clearForm (fields) {
+		// Clear all form fields
+		for(var key in fields) {
+			fields[key].value = ''; 
+		}		
 	},
 
 	/** 
@@ -77,15 +70,11 @@ export default {
 	 * @param Obj errors - Each field in error state will have an object here. Returned by Laravel validate method.
 	 * @param Promise - Resolves a function
 	*/
-	populateFormErrors (form, errors) {
-		return new Promise((resolve, reject) => {
-			// Populate form errors
-			for(var key in errors) {
-				form[key].err = true;
-				form[key].errMsg = errors[key][0]; 
-			}
-			resolve();
-		});
+	populateFormErrors (fields, errors){
+		// Populate form errors
+		for(var key in errors) {
+			fields[key].errors = errors[key]; 
+		}
 	},
 
 	/**
@@ -93,15 +82,11 @@ export default {
 	 *
 	 * @param Obj form - An object that contains objects for each form field. { val: , error: , errorMsg: , dflt: }.	 
 	*/
-	clearFormErrors (form) {
-		return new Promise((resolve, reject) => {
-			// Clear form errors
-			for(var key in form) {
-				form[key].err = false;
-				form[key].errMsg = '';
-			}
-			resolve(form);			
-		});
+	clearFormErrors (fields) {
+		// Clear are form error fields
+		for(var key in fields) {
+			fields[key].errors = []; 
+		}
 	},
 
 	/**

@@ -28,7 +28,7 @@ class UpdateUser extends FormRequest
             'name' => 'required|string|max:35',
             'email' => 'required|string|max:100',
             'role' => 'required|string|max:5',
-            'hourly_wage' => 'required|numeric|between:0,1000000000000.99'
+            'hourly_wage' => 'numeric|between:0,1000000000000.99|nullable'
         ];
     }
 }

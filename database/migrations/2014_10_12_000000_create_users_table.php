@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email', 100)->unique();
             $table->string('role', 5);
             $table->string('password');
-            $table->decimal('hourly_wage', 13, 3)->default(0.000);
+            $table->decimal('hourly_wage', 13, 3)->default(0.000)->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
