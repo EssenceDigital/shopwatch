@@ -3,6 +3,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import UsersView from './../views/Users';
+import CustomersView from './../views/Customers';
+import CustomerWorkOrdersView from './../views/Customer-work-orders';
+import CustomerInvoicesView from './../views/Customer-invoices';
+import VehicleWorkOrdersView from './../views/Vehicle-work-orders';
+import VehicleInvoicesView from './../views/Vehicle-invoices';
+import WorkOrdersView from './../views/Work-orders';
+import WorkOrderView from './../views/Work-order';
+import InvoicesView from './../views/Invoices';
+import InvoiceView from './../views/Invoice';
+import BusConfigView from './../views/Bus-config';
+import UserSettingsView from './../views/User-settings';
 
 // Register router with Vue
 Vue.use(VueRouter);
@@ -62,7 +73,8 @@ export default new VueRouter({
 		{
 			path: '/invoices/:id',
 			name: 'Invoice',
-			component: InvoicesView,
+			component: InvoiceView,
+			component: InvoiceView,
 			props: true
 		},	
 		{
