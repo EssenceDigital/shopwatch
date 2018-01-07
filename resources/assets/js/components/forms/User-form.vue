@@ -1,8 +1,9 @@
 <template>
 	<base-form 
 		:action="action" 
+		remove-action="removeUser"
+		:edit-state="editState"
 		:fields="form" 
-		:editState="editState"
 		@saved="saved"
 		@error="failed"
 	>
@@ -103,17 +104,13 @@
 				// Clear form 
 				Helpers.clearForm(this.form);
 				Helpers.clearFormErrors(this.form);
-
+				// Notify parent component
 				this.$emit('saved');
 			},
 
 			failed (errors){
 				Helpers.populateFormErrors(this.form, errors);
 			}
-		},
-
-		created (){
-			console.log(this.editState);
 		}
 	}
 </script>

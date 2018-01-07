@@ -42,7 +42,7 @@ Route::post('/suppliers/update', 'SuppliersController@update');
 */
 Route::get('/customers/{id}/work-orders', 'WorkOrdersController@getCustomers');
 Route::get('/customers/{id}/invoices', 'InvoicesController@getCustomers');
-Route::get('/customers/{first}/{last}', 'CustomersController@filter');
+Route::get('/customers/{first?}/{last?}', 'CustomersController@filter');
 Route::post('/customers/create', 'CustomersController@create');
 Route::post('/customers/update', 'CustomersController@update');
 Route::delete('/customers/{id}/remove', 'CustomersController@remove');

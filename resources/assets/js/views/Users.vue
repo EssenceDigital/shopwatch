@@ -40,7 +40,7 @@
 
 <script>
 	import Layout from './_Layout';
-	import UsersTable from './../components/tables/User-table';
+	import UsersTable from './../components/tables/Users-table';
 	import UserForm from './../components/forms/User-form';
 
 	export default{

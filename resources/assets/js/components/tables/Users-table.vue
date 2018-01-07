@@ -21,7 +21,7 @@
           <td class="text-xs-left">{{ props.item.name }}</td>
           <td class="text-xs-left">{{ props.item.email }}</td>
           <td class="text-xs-left">{{ props.item.role }}</td>
-          <td class="text-xs-left">{{ props.item.hourly_wage }}</td>
+          <td class="text-xs-left">{{ props.item.hourly_wage | money }}</td>
           <td class="text-xs-right">
             <v-menu offset-y >
               <v-btn slot="activator" icon>
@@ -58,7 +58,7 @@
           </v-tooltip>            
         </v-system-bar>
         <v-card-text>
-          <user-form action="updateUser" :user="selectedUser" @saved="closeDialog('editDialog')"></user-form>
+          <user-form action="updateUser" :user="selectedUser" edit-state="true" @saved="closeDialog('editDialog')"></user-form>
         </v-card-text>
       </v-card>
     </v-dialog> 
@@ -77,9 +77,9 @@
         </v-system-bar>
         <v-card-text>
           <user-password-form 
-            action="changeUserPassword" 
+            action="changeUserPassword"
+            editState="true"
             :user="selectedUser" 
-            :editState="true"
             @saved="closeDialog('passwordDialog')"
           ></user-password-form>
         </v-card-text>

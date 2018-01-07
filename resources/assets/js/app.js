@@ -11,6 +11,10 @@ Vue.use(Vuetify);
 // Set up Router
 import Router from './app/router';
 
+/** Register Vue filters */
+import MoneyFilter from './filters/money';
+Vue.filter('money', MoneyFilter);
+
 // Register Vue components
 Vue.component('dashboard', require('./Dashboard.vue'));
 

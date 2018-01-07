@@ -71,7 +71,7 @@ class CustomersController extends Controller
     public function remove($id)
     {
     	// Get the customer
-    	$customer = Customer::findOrFail($id);
+    	$customer = Customer::with(['vehicles'])->findOrFail($id);
 
     	// If the customer has related vehicles it may not be removed
     	if(count($customer->vehicles) > 0){

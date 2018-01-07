@@ -89,10 +89,11 @@ export const store = new Vuex.Store({
 			return state.customers.splice(index, 0, payload);			
 		},
 		removeCustomer (state, payload){
+			console.log(payload);
 			// Get index of updated payload
 			let index = Helpers.pluckObjectById(state.customers, 'id', payload);
 			// Have to remove to trigger computed prop in components
-			return state.customers.splice(index, 1);			
+			return state.customers.splice(index, 1);		
 		},		
 
 		updateVehicles (state, payload){
