@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 Use App\Http\Requests\SaveVehicle;
 
 Use App\Vehicle;
+Use App\Customer;
 
 class VehiclesController extends Controller
 {
@@ -47,7 +48,9 @@ class VehiclesController extends Controller
 	*/
     public function create(SaveVehicle $request)
     {
-    	return $this->genericSave(new Vehicle, $request);
+    	$vehicle = $this->genericSave(new Vehicle, $request);
+
+    	return Customer::with(['vehicles'])->findOrFail($vehicle->customer_id);
     }
 
 	/** 
@@ -58,7 +61,9 @@ class VehiclesController extends Controller
 	*/
     public function update(SaveVehicle $request)
     {
-    	return $this->genericSave(Vehicle::findOrFail($request->id), $request);
+    	$vehicle = $this->genericSave(Vehicle::findOrFail($request->id), $request);
+
+    	return Customer::with(['vehicles'])->findOrFail($vehicle->customer_id);
     }
 
 	/** 
@@ -72,6 +77,9 @@ class VehiclesController extends Controller
     	// Find the vehicle
     	$vehicle = Vehicle::with(['work_orders'])->findOrFail($id);
 
+    	// Cache customer ID
+    	$customer_id = $vehicle->customer_id;
+
     	// If the vehicle has work orders it cannot be removed
     	if(count($vehicle->work_orders) > 0){
     		// Failed response
@@ -81,6 +89,8 @@ class VehiclesController extends Controller
 	        ], 422);      		
     	}
 
-    	return $this->genericRemove($vehicle);
+    	$id = $this->genericRemove($vehicle);
+
+		return Customer::with(['vehicles'])->findOrFail($customer_id);    	
     }
 }

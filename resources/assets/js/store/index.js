@@ -85,11 +85,12 @@ export const store = new Vuex.Store({
 			let index = Helpers.pluckObjectById(state.customers, 'id', payload.id);
 			// Have to remove to trigger computed prop in components
 			state.customers.splice(index, 1);
+			//Update selectec customer
+			state.selectedCustomer = payload;
 			// Re-add updated payload at same index
 			return state.customers.splice(index, 0, payload);			
 		},
 		removeCustomer (state, payload){
-			console.log(payload);
 			// Get index of updated payload
 			let index = Helpers.pluckObjectById(state.customers, 'id', payload);
 			// Have to remove to trigger computed prop in components
@@ -100,14 +101,17 @@ export const store = new Vuex.Store({
 			return state.vehicles = payload;
 		},
 		addVehicle (state, payload){
-			return state.vehicles.unshift(payload);
+			// Get index of updated payload
+			let index = Helpers.pluckObjectById(state.customers, 'id', payload.customer_id);	
+					
+			return state.customers[index].vehicles.unshift(payload);
 		},		
-		updateSelectedVehicle (state, payload){
+		/*updateSelectedVehicle (state, payload){
 			return state.selectedVehicle = payload;
 		},
 		updateVehicle (state, payload){
 			// Get index of updated payload
-			let index = Helpers.pluckObjectById(state.vehicles, 'id', payload.id);
+			let index = Helpers.pluckObjectById(state.customers, 'id', payload.customer_id);	
 			// Have to remove to trigger computed prop in components
 			state.vehicles.splice(index, 1);
 			// Re-add updated payload at same index
@@ -118,7 +122,7 @@ export const store = new Vuex.Store({
 			let index = Helpers.pluckObjectById(state.vehicles, 'id', payload);
 			// Have to remove to trigger computed prop in components
 			return state.vehicles.splice(index, 1);			
-		},
+		},*/
 
 		updateWorkOrders (state, payload){
 			return state.workOrders = payload;
@@ -285,13 +289,13 @@ export const store = new Vuex.Store({
 			return ApiHelper.getAction(context, '/vehicles/'+payload+'/invoices', 'updateInvoices');
 		},		
 		createVehicle (context, payload){
-			return ApiHelper.postAction(context, payload, '/vehicles/create', 'addVehicle');
+			return ApiHelper.postAction(context, payload, '/vehicles/create', 'updateCustomer');
 		},		
 		updateVehicle (context, payload){
-			return ApiHelper.postAction(context, payload, '/vehicles/update', 'updateVehicle');
+			return ApiHelper.postAction(context, payload, '/vehicles/update', 'updateCustomer');
 		},
 		removeVehicle (context, payload){
-			return ApiHelper.removeAction(context, '/vehicles/'+payload+'/remove', 'removeVehicle');
+			return ApiHelper.removeAction(context, '/vehicles/'+payload+'/remove', 'updateCustomer');
 		},
 
 		filterWorkOrders (context, payload){

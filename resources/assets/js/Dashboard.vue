@@ -173,3 +173,9 @@
     }     
   }
 </script>
+
+<style scoped>
+  .absolute-center{
+    top: 40%;
+  }
+</style>

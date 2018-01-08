@@ -7,7 +7,8 @@
 */
 <template>
 	
-	<div>
+	<div>	
+
 		<slot name="form-fields"></slot>
 
 		<v-divider class="mt-3 mb-3"></v-divider>
@@ -92,6 +93,8 @@
 				isSaving: false,
 				removeDialog: false,
 				isRemoving: false,
+				serverError: false,
+				errorMsg: ''
 			}
 		},
 
@@ -114,16 +117,31 @@
     				this.$emit('saved');
       		})
       		.catch((error) => {
+      			console.log(error);
       			// Toggle loader
       			this.isSaving = false;
-      			// Form validation errors
-      			if(error.response.data){
-	      			// Cache errors
-	      			let errors = error.response.data.errors;
-	      			// Send errors to calling form
-	      			this.$emit('error', errors);      				
-      			}
 
+      			if(error.response){
+	      			// Form validation errors
+	      			if(error.response.data){
+
+								// Check for error response from Laravel controller
+								if(error.response.data.result == 'error'){
+									this.$router.app.$emit('snackbar', {
+										text: error.response.data.message
+									});
+								}
+
+								// Form errors
+								if(error.response.data.errors){
+			      			// Cache errors
+			      			let errors = error.response.data.errors;
+			      			// Send errors to calling form
+			      			this.$emit('error', errors);  									
+								}	      				
+    				
+	      			}      				
+      			}
       		});
 			},
 
@@ -145,10 +163,23 @@
       			this.removeDialog = false;
       			this.isRemoving = false;
 
+		  			if(error.response){
+		    			// Form validation errors
+		    			if(error.response.data){
+								// Check for error response from Laravel controller
+								if(error.response.data.result == 'error'){
+									this.$router.app.$emit('snackbar', {
+										text: error.response.data.message
+									});
+								}
+							}
+						}
 
       		});
+				}
 			}
-		}
+
+
 
 	}
 </script>

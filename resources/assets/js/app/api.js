@@ -90,7 +90,7 @@ export default {
 	*/
 	remove (url) {
 		return axios.delete(url)
-			.then((response) => Promise.resolve(response.data.payload))
+			.then((response) => Promise.resolve(response.data))
 			.catch((error) => Promise.reject(error));
 	},
 
