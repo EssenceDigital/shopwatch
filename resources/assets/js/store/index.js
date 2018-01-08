@@ -100,13 +100,13 @@ export const store = new Vuex.Store({
 		updateVehicles (state, payload){
 			return state.vehicles = payload;
 		},
-		addVehicle (state, payload){
+		/*addVehicle (state, payload){
 			// Get index of updated payload
 			let index = Helpers.pluckObjectById(state.customers, 'id', payload.customer_id);	
 					
 			return state.customers[index].vehicles.unshift(payload);
 		},		
-		/*updateSelectedVehicle (state, payload){
+		updateSelectedVehicle (state, payload){
 			return state.selectedVehicle = payload;
 		},
 		updateVehicle (state, payload){
@@ -315,7 +315,7 @@ export const store = new Vuex.Store({
 			return ApiHelper.getAction(context, '/work-orders/'+payload, 'updateSelectedWorkOrder');
 		},
 		createWorkOrder (context, payload){
-			return ApiHelper.postAction(context, payload, '/work-orders/create', 'addWorkOrder');
+			return ApiHelper.postAction(context, payload, '/work-orders/create', 'updateSelectedWorkOrder');
 		},						
 		removeWorkOrder (context, payload){
 			return ApiHelper.removeAction(context, '/work-orders/'+payload+'/remove', 'removeWorkOrder');
@@ -325,10 +325,10 @@ export const store = new Vuex.Store({
 			return ApiHelper.getAction(context, '/jobs/'+payload, 'updateSelectedJob');
 		},		
 		createJob (context, payload){
-			return ApiHelper.postAction(context, payload, '/jobs/create', 'updateWorkOrder');
+			return ApiHelper.postAction(context, payload, '/jobs/create', 'updateSelectedWorkOrder');
 		},		
 		updateJob (context, payload){
-			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateWorkOrder');
+			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateSelectedWorkOrder');
 		},
 		removeJob (context, payload){
 			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'updateWorkOrder');
@@ -406,7 +406,7 @@ export const store = new Vuex.Store({
 		},
 		customersSelect (state){
 			var customers = state.customers,
-          select = [{ text: "Customer...", value: "*" }];
+          select = [{ text: "Customer...", value: "" }];
       // Create select array
       customers.forEach(function(customer){
         select.push({ text: customer.first+' '+customer.last, value: customer.id });      		
@@ -416,7 +416,20 @@ export const store = new Vuex.Store({
 		selectedCustomer (state){
 			return state.selectedCustomer;
 		},
+		selectedCustomerVehiclesSelect (state){
+			var customer = state.selectedCustomer,
+          select = [{ text: "Vehicle...", value: "" }];
 
+      if(customer){
+	      if(customer.vehicles){
+		      // Create select array
+		      customer.vehicles.forEach(function(vehicle){
+		        select.push({ text: vehicle.year+' '+vehicle.make+' '+vehicle.model, value: vehicle.id });      		
+		      });		      	
+	      }      	
+      }
+      return select;	
+		},
 		selectedVehicle (state){
 			return state.selctedVehicle;
 		},
@@ -443,6 +456,18 @@ export const store = new Vuex.Store({
 		},
 		authUser (state){
 			return state.authUser;
+		},
+		techSelect (state){
+			var users = state.users,
+          select = [{ text: "Tech...", value: "" }];
+      // Create select array
+      users.forEach(function(user){
+      	if(user.role == 'tech'){
+      		select.push({ text: user.name, value: user.id });    
+      	}          		
+      });		
+      return select;	
+
 		}		
 	}
 

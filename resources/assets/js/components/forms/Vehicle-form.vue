@@ -93,6 +93,12 @@
 			failed (errors){
 				Helpers.populateFormErrors(this.form, errors);
 			}
+		},
+
+		created (){
+			if(this.customer){
+				this.form.customer_id.value = this.customer;
+			}
 		}
 	}
 </script>

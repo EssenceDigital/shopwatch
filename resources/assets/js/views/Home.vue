@@ -4,8 +4,8 @@
 
 		<div slot="tools">
 			<v-tooltip top>
-		    <v-btn icon left slot="activator" @click="addWoDialog = true">
-		      <v-icon>note_add</v-icon>
+		    <v-btn flat color="green" left slot="activator" @click="addWoDialog = true">
+		      <v-icon left>note_add</v-icon> WO
 		    </v-btn>				
 	      <span>Start WO</span>
 	    </v-tooltip>			
@@ -27,7 +27,7 @@
 				    </v-tooltip>			      
 			    </v-system-bar>
           <v-card-text>
-          	<work-order-form action="createWorkOrder" @saved="addWoDialog = false"></work-order-form>
+          	<work-order-form action="createWorkOrder" @saved="workOrderSaved"></work-order-form>
           </v-card-text>
         </v-card>
       </v-dialog>
@@ -50,6 +50,15 @@
 		components: {
 			'layout': Layout,
 			'work-order-form': WorkOrderForm
-		}	
+		},
+
+		methods: {
+			workOrderSaved (id){
+				// Toggle digalog
+				this.addWoDialog = false;
+				// Redirect view
+				this.$router.push('/work-orders/'+id);   
+			}
+		}
 	}
 </script>

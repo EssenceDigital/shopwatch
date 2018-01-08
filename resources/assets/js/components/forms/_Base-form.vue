@@ -114,7 +114,7 @@
       			// Toggle loader
       			this.isSaving = false;
     				// The form was saved
-    				this.$emit('saved');
+    				this.$emit('saved', response.id);
       		})
       		.catch((error) => {
       			console.log(error);

@@ -7,13 +7,13 @@
 		@error="failed"
 	>
 		<template slot="form-fields">
+			<!-- Customer input row -->
 			<v-layout row class="pa-0">
 				<v-flex xs10>
 					<!-- Customer -->
 					<v-select
-		        :items="customers"
-		        v-model="form.vehicle_id.value"
-		        :error-messages="form.vehicle_id.errors"
+		        :items="customersSelect"
+		        v-model="customer"
 		        label="Customer"
 		        single-line
 		        bottom
@@ -21,14 +21,37 @@
 				</v-flex>
 				<v-flex xs2>
 					<v-tooltip top>
-				    <v-btn icon left slot="activator" class="ml-4 mt-3" @click="addCustomerDialog = true">
-				      <v-icon>add_circle_outline</v-icon>
+				    <v-btn icon slot="activator" class="ml-4 mt-3" @click="addCustomerDialog = true">
+				      <v-icon color="green">add_circle_outline</v-icon>
 				    </v-btn>				
 			      <span>New customer</span>
 			    </v-tooltip>				
 				</v-flex>				
 			</v-layout>
 
+			<!-- Vehicle input row -->
+			<v-layout row class="pa-0">
+				<v-flex xs10>
+					<!-- Vehicle -->
+					<v-select
+		        :items="vehiclesSelect"
+		        v-model="form.vehicle_id.value"
+		        :error-messages="form.vehicle_id.errors"
+		        label="Vehicle"
+		        single-line
+		        bottom
+		      ></v-select>				
+				</v-flex>
+				<v-flex xs2>
+					<v-tooltip top v-if="customer">
+				    <v-btn icon slot="activator" class="ml-4 mt-3" @click="addVehicleDialog = true">
+				      <v-icon color="green">add_circle_outline</v-icon>
+				    </v-btn>				
+			      <span>New vehicle</span>
+			    </v-tooltip>				
+				</v-flex>				
+			</v-layout>
+			
 			<!-- Add customer dialog -->
 			<v-dialog v-model="addCustomerDialog" persistent max-width="500px">
 		    <v-card>
@@ -46,8 +69,25 @@
 		      </v-card-text>
 		    </v-card>
 		  </v-dialog>				 	    	    		    		
-		</template>
 
+			<!-- Add vehicle dialog -->
+			<v-dialog v-if="selectedCustomer" v-model="addVehicleDialog" persistent max-width="500px">
+		    <v-card>
+				 	<v-system-bar window class="blue darken-4">
+			      <v-spacer></v-spacer>
+						<v-tooltip top>
+				      <v-btn icon class="mr-0" slot="activator" @click="addVehicleDialog = false">
+				      	<v-icon class="white--text mr-0">close</v-icon>
+				      </v-btn>											
+				      <span>Close dialog</span>
+				    </v-tooltip>			      
+			    </v-system-bar>
+		      <v-card-text>
+		      	<vehicle-form action="createVehicle" :customer="selectedCustomer.id" @saved="addVehicleDialog = false"></vehicle-form>
+		      </v-card-text>
+		    </v-card>
+		  </v-dialog>				 	    	    		    		
+		</template>
 
     	
 	</base-form>
@@ -57,6 +97,7 @@
 	import BaseForm from './_Base-form';
 	import Helpers from './../../app/helpers';	
 	import CustomerForm from './Customer-form';
+	import VehicleForm from './Vehicle-form';
 
 	export default{
 		props: ['action'],
@@ -67,29 +108,52 @@
 					id: {value: '', errors: []},
 					vehicle_id: {value: '', errors: []}
 				},
-				addCustomerDialog: false
+				customer: '',
+				addCustomerDialog: false,
+				addVehicleDialog: false
 			}
 		},
 
 		computed: {
 			customers (){
+				return this.$store.getters.customers;
+			},
+			customersSelect (){
 				return this.$store.getters.customersSelect;
+			},
+			selectedCustomer (){
+				return this.$store.getters.selectedCustomer;
+			},
+			vehiclesSelect (){
+				return this.$store.getters.selectedCustomerVehiclesSelect;
+			}
+		},
+
+		watch: {
+			/* 
+			 * When the customer is selected we should update the selected customer in the store. 
+			 * Allows the use of a computed property for the vehicle select list.
+			*/
+			customer (id){
+				let index = Helpers.pluckObjectById(this.customers, 'id', id);
+				this.$store.commit('updateSelectedCustomer', this.customers[index]);
 			}
 		},
 
 
 		components: {
 			'base-form': BaseForm,
-			'customer-form': CustomerForm
+			'customer-form': CustomerForm,
+			'vehicle-form': VehicleForm
 		},
 
 		methods: {
-			saved (){
+			saved (id){
 				// Clear form 
 				Helpers.clearForm(this.form);
 				Helpers.clearFormErrors(this.form);
 				// Notify parent component
-				this.$emit('saved');
+				this.$emit('saved', id);
 			},
 
 			failed (errors){

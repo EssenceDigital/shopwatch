@@ -4,8 +4,8 @@
 
 		<div slot="tools">
 			<v-tooltip top>
-		    <v-btn icon left slot="activator" @click="addDialog = true">
-		      <v-icon>add_circle_outline</v-icon>
+		    <v-btn flat color="green" slot="activator" @click="addDialog = true">
+		      <v-icon left>add_circle_outline</v-icon> User
 		    </v-btn>				
 	      <span>Add user</span>
 	    </v-tooltip>			
