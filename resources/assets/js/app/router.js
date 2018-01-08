@@ -2,6 +2,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 
+import HomeView from './../views/Home';
 import UsersView from './../views/Users';
 import CustomersView from './../views/Customers';
 import CustomerWorkOrdersView from './../views/Customer-work-orders';
@@ -22,7 +23,8 @@ export default new VueRouter({
 	routes: [
 		{
 			path: '/',
-			name: 'Dashboard'
+			name: 'Dashboard',
+			component: HomeView
 		},	
 		{
 			path: '/users',

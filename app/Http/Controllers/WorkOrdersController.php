@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SaveWorkOrder;
 use App\WorkOrder;
 use App\Vehicle;
+Use Auth;
 
 class WorkOrdersController extends Controller
 {
@@ -74,6 +75,8 @@ class WorkOrdersController extends Controller
     	$vehicle = Vehicle::findOrFail($request->vehicle_id);
     	// Merge the customer ID into the request
     	$request->merge(['customer_id' => $vehicle->customer_id]);
+    	// Merge authenticated user with request
+    	$request->merge(['created_by' => Auth::user()->name]);
 
     	return $this->genericSave(New WorkOrder, $request);
     }

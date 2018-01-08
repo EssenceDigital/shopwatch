@@ -404,6 +404,15 @@ export const store = new Vuex.Store({
 		customers (state){
 			return state.customers;
 		},
+		customersSelect (state){
+			var customers = state.customers,
+          select = [{ text: "Customer...", value: "*" }];
+      // Create select array
+      customers.forEach(function(customer){
+        select.push({ text: customer.first+' '+customer.last, value: customer.id });      		
+      });		
+      return select;	
+		},
 		selectedCustomer (state){
 			return state.selectedCustomer;
 		},
