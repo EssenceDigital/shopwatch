@@ -20,7 +20,7 @@
 		        bottom
       		></v-select>						
 				</v-flex>
-				<v-flex xs2>
+				<v-flex xs2 class="text-xs-right">
 					<v-tooltip top>
 				    <v-btn icon slot="activator" class="ml-4 mt-3" @click="addSupplierDialog = true">
 				      <v-icon color="green">add_circle_outline</v-icon>
@@ -107,7 +107,7 @@
 		},
 
 		watch: {
-			job (part){
+			part (part){
 				// Populate the form for editing
 				if(part){
 					Helpers.populateForm(this.form, part);

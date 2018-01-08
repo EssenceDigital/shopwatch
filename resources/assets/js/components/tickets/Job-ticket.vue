@@ -1,51 +1,70 @@
 <template v-if="job">
 	<v-flex xs12>
 		<v-card flat>
-			<v-card-title class="pb-0">
-        <v-flex xs10>
-        	<span class="grey--text"><strong>{{ job.title }}</strong></span>
-        </v-flex>
+			<v-card-actions>
+				<v-spacer></v-spacer>
       	<v-flex xs2 class="text-xs-right">
 					<v-tooltip top>
 	      		<v-btn icon slot="activator" @click="addPartsDialog = true">
-	      			<v-icon>library_add</v-icon>
+	      			<v-icon class="title">library_add</v-icon>
 	      		</v-btn>				    			
 			      <span>Add parts</span>
 			    </v-tooltip>
 					<v-tooltip top>
 	      		<v-btn icon slot="activator" @click="editJobDialog = true">
-	      			<v-icon>edit</v-icon>
+	      			<v-icon class="title">edit</v-icon>
 	      		</v-btn>				    			
 			      <span>Edit job</span>
 			    </v-tooltip>      		
-      	</v-flex>
+      	</v-flex>				
+			</v-card-actions>
+			<v-card-title class="pb-0">
+        <v-flex xs12>
+        	<span class="grey--text"><strong>{{ job.title }}</strong></span>
+        </v-flex>
       </v-card-title>
 			<v-card-text class="pt-0">
 				<v-layout row>
-					<p>
+					<p class="pl-1">
 						{{ job.description }}
 					</p>
 				</v-layout>
-				<v-divider class="mb-2"></v-divider>
-				<v-layout row>
 
-					<v-flex xs4 class="text-xs-right">
-						<p>
-							<strong>Labour total:</strong><br>{{ job.job_labour_total | money }}
-						</p>						
-					</v-flex>
-					<v-flex xs4 class="text-xs-right">
+				<v-divider v-if="job.parts.length > 0" class="mb-2"></v-divider>
+
+				<v-container fluid v-if="job.parts.length > 0" class="pb-0">
+					<em><strong>Parts</strong></em>
+				</v-container>
+
+				<v-container fluid v-if="job.parts.length > 0" class="pt-0">
+					<part-ticket v-for="part in job.parts" :key="part.id" :part="part"></part-ticket>
+				</v-container>	
+
+				<v-divider class="mb-2"></v-divider>
+
+				<v-layout row>
+					<v-spacer></v-spacer>
+					<v-flex xs3 class="text-xs-right">
 						<p>
 							<strong>Parts total:</strong><br>{{ job.parts_total_billed | money }}
 						</p>						
 					</v-flex>
-					<v-flex xs4 class="text-xs-right">
+					<v-flex xs3 class="text-xs-right">
+						<p>
+							<strong>Labour total:</strong><br>{{ job.job_labour_total | money }}
+						</p>						
+					</v-flex>															
+				</v-layout>
+
+				<v-layout row>
+					<v-spacer></v-spacer>
+					<v-flex xs2 class="text-xs-right">
 						<p>							
 							<strong>Job total:</strong><br>{{ job.job_grand_total | money }}
 						</p>						
-					</v-flex>										
+					</v-flex>					
 				</v-layout>
-				</v-layout>
+
 			</v-card-text>
 		</v-card>
 
@@ -92,6 +111,7 @@
 <script>
 	import JobForm from './../forms/Job-form';
 	import PartsForm from './../forms/Job-parts-form';
+	import PartTicket from './../tickets/Part-ticket';
 
 	export default{
 		props: ['job'],
@@ -105,7 +125,8 @@
 
 		components: {
 			'job-form': JobForm,
-			'parts-form': PartsForm
+			'parts-form': PartsForm,
+			'part-ticket': PartTicket
 		}
 	}
 </script>

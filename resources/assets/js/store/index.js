@@ -331,17 +331,17 @@ export const store = new Vuex.Store({
 			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateSelectedWorkOrder');
 		},
 		removeJob (context, payload){
-			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'updateWorkOrder');
+			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'updateSelectedWorkOrder');
 		},
 
 		createJobPart (context, payload){
-			return ApiHelper.postAction(context, payload, '/job-parts/create', 'updateWorkOrder');
+			return ApiHelper.postAction(context, payload, '/job-parts/create', 'updateSelectedWorkOrder');
 		},		
 		updateJobPart (context, payload){
-			return ApiHelper.postAction(context, payload, '/job-parts/update', 'updateWorkOrder');
+			return ApiHelper.postAction(context, payload, '/job-parts/update', 'updateSelectedWorkOrder');
 		},
 		removeJobPart (context, payload){
-			return ApiHelper.removeAction(context, '/job-parts/'+payload+'/remove', 'updateWorkOrder');
+			return ApiHelper.removeAction(context, '/job-parts/'+payload+'/remove', 'updateSelectedWorkOrder');
 		},
 
 		filterInvoices (context, payload){

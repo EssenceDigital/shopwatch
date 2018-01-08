@@ -79,7 +79,7 @@ class JobPartsController extends Controller
 	    	$job = $this->calcAndSaveJobTotals($part, $job);	
 	    	
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);				
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	
@@ -118,7 +118,7 @@ class JobPartsController extends Controller
 	    	);
 
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);				
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	
@@ -169,7 +169,7 @@ class JobPartsController extends Controller
 	    	$job = $this->genericSave($job);
 
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);	
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);	
 		} else {
 			// Failed response. Work order is closed or job is complete
 			return response()->json($this->woGuardResponse, 422);	

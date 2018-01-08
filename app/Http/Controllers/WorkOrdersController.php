@@ -26,7 +26,7 @@ class WorkOrdersController extends Controller
 			['filter' => $is_invoiced, 'field' => 'is_invoiced', 'value' => $is_invoiced, 'conditional' => '=']
 		];
 
-		return $this->genericFilter(WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->orderBy('created_at', 'asc'), $whereFields);			
+		return $this->genericFilter(WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->orderBy('created_at', 'asc'), $whereFields);			
 	}
 
 	/** 
@@ -37,7 +37,7 @@ class WorkOrdersController extends Controller
 	*/
 	public function get($id)
 	{
-		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($id);
+		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($id);
 	}
 
 	/** 
@@ -49,7 +49,7 @@ class WorkOrdersController extends Controller
 	public function getCustomers($id)
 	{
 		// Get all work orders first
-		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->where('customer_id', $id)->get();		
+		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->where('customer_id', $id)->get();		
 	}
 
 	/** 
@@ -60,7 +60,7 @@ class WorkOrdersController extends Controller
 	*/
 	public function getVehicles($id)
 	{
-		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->where('vehicle_id', $id)->get();
+		return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->where('vehicle_id', $id)->get();
 	}
 
 	/** 

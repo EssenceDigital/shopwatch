@@ -91,7 +91,7 @@ class JobsController extends Controller
 			// Save job
 			$job = $this->genericSave(new Job, $request);
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);
 
 		} else {
     		// Failed response
@@ -119,7 +119,7 @@ class JobsController extends Controller
 			// Save job
 			$job = $this->genericSave($job, $request);		
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($job->work_order_id);				
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);				
 		} else {
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			
@@ -146,7 +146,7 @@ class JobsController extends Controller
 			// Job is allowed to be removed
 			$id =  $this->genericRemove($job);
 			// Find and return parent work order
-			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts'])->findOrFail($wo_id);				
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($wo_id);				
 		} else {
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			
