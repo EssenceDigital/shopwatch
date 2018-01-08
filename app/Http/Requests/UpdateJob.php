@@ -25,7 +25,7 @@ class UpdateJob extends FormRequest
     {
         return [
             'id' => 'numeric|nullable',
-            'tech' => 'required|numeric',
+            'tech' => 'required|string|max:50',
             'title' => 'required|string|max:100',
             'description' => 'string|max:255|nullable',
             'hours' => 'required|numeric|between:0,1000000000000.9',

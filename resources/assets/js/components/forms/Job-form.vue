@@ -93,8 +93,11 @@
 
 		methods: {
 			saved (){
-				// Clear form 
-				Helpers.clearForm(this.form);
+				if(! this.editState){
+					// Clear form 
+					Helpers.clearForm(this.form);
+				}
+				// Clear form errors
 				Helpers.clearFormErrors(this.form);
 				// Notify parent component
 				this.$emit('saved');
@@ -107,11 +110,17 @@
 
 		created (){
 			// Get users. Will be used in the tech select input
-			this.$store.dispatch('getUsers');
-			// Set WO ID
-			if(this.workOrder){
-				this.form.work_order_id.value = this.workOrder;
-			}
+			this.$store.dispatch('getUsers')
+				.then(() => {
+					// Populate form with supplied job, if needed
+					if(this.job){
+						Helpers.populateForm(this.form, this.job);
+					}			
+					// Set WO ID
+					if(this.workOrder){
+						this.form.work_order_id.value = this.workOrder;
+					}					
+				});
 		}
 	}
 </script>

@@ -25,7 +25,7 @@ class JobsController extends Controller
 	private function calculateJobTotals($request, $job = false)
 	{
 		// Get the tech (user) first
-		$tech = User::findOrFail($request->tech);
+		$tech = User::where('name', $request->tech)->first();
 
 		// If a shop rate was with the request then assign that
 		if($request->has('shop_rate')){

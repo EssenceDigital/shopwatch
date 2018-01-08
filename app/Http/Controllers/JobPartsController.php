@@ -9,6 +9,7 @@ use App\Http\Requests\SaveJobPart;
 
 use App\JobPart;
 use App\Job;
+use App\WorkOrder;
 
 class JobPartsController extends Controller
 {

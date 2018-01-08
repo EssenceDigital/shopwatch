@@ -448,8 +448,14 @@ export const store = new Vuex.Store({
 			return state.selectedInvoice;
 		},
 
-		suppliers (state){
-			return state.suppliers;
+		suppliersSelect (state){
+			var suppliers = state.suppliers,
+          select = [{ text: "Supplier...", value: "" }];
+      // Create select array
+      suppliers.forEach(function(supplier){
+        select.push({ text: supplier.name, value: supplier.id });      		
+      });		
+      return select;	
 		},
 		busConfig (state){
 			return state.busConfig;
@@ -463,7 +469,7 @@ export const store = new Vuex.Store({
       // Create select array
       users.forEach(function(user){
       	if(user.role == 'tech'){
-      		select.push({ text: user.name, value: user.id });    
+      		select.push({ text: user.name, value: user.name });    
       	}          		
       });		
       return select;	

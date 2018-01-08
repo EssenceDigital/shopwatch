@@ -14,7 +14,7 @@
 		<div slot="content">
 
 			<v-layout row wrap>
-					<job-ticket v-for="job in workOrder.jobs" :job="job" :key="job.id"></job-ticket>
+					<job-ticket v-for="job in workOrder.jobs" :job="job" :key="job.id" class="mt-4"></job-ticket>
 			</v-layout>
 
 			<!-- Add job dialog -->
