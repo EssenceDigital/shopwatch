@@ -57,7 +57,14 @@ class InvoicesController extends Controller
 	*/    
     public function get($id)
     {
-    	return Invoice::findOrFail($id);
+    	return Invoice::with(
+    		'customer', 
+    		'vehicle',
+    		'work_order', 
+    		'work_order.jobs', 
+    		'work_order.jobs.parts', 
+    		'work_order.jobs.parts.supplier'
+    	)->findOrFail($id);
     }
 
 	/** 

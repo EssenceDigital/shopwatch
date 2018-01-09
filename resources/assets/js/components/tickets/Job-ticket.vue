@@ -1,7 +1,7 @@
 <template v-if="job">
 	<v-flex xs12>
 		<v-card flat>
-			<v-card-actions>
+			<v-card-actions v-if="!invoiceState">
 				<v-toolbar card color="white" prominent>
 					<v-tooltip top v-if="job.is_complete" class="ml-0">
 	      		<v-btn 	      		
@@ -45,11 +45,13 @@
         </v-toolbar>			
 			</v-card-actions>
 			<v-card-title class="pb-0">
-        <v-flex xs11>
+        <v-flex xs10>
         	<span class="grey--text"><strong>{{ job.title }}</strong></span>
         </v-flex>
-        <v-flex xs1 class="text-xs-right">
-        	{{ job.hours }} hrs
+        <v-flex xs2 class="text-xs-right">
+        	{{ job.hours }} hrs x
+        	<br>
+        	<span>({{ job.shop_rate | money }})</span>
         </v-flex>
       </v-card-title>
 			<v-card-text class="pt-0">

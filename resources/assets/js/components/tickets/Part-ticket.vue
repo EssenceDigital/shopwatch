@@ -1,7 +1,7 @@
 <template v-if="part">
 	<v-layout row class="mt-3">
 		<!-- Edit button container  -->
-		<v-flex xs1 class="text-xs-left">
+		<v-flex xs1 v-if="invoiceState" class="text-xs-left">
 			<v-tooltip top>
 	  		<v-btn icon slot="activator" class="mt-0 ml-0" @click="editDialog = true">
 	  			<v-icon class="body-1">edit</v-icon>
@@ -9,6 +9,7 @@
 	      <span>Edit part</span>
 	    </v-tooltip>			
 		</v-flex>
+		
 		<!-- Part info  -->		
 		<v-flex xs6>
 			<span class="primary--text">
@@ -17,6 +18,7 @@
 			<br>
 			<span>{{ part.title }}</span> 
 		</v-flex>
+		<v-flex xs1 v-if="!invoiceState"></v-flex>
 		<!-- Part costs (Invoice state only) -->
 		<v-flex xs2 class="text-xs-right">
 			<span>
