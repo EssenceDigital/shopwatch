@@ -1,12 +1,14 @@
 <template>
 	<base-form 
-		:action="action" 
+		:action="action"
+		:edit-state="editState"
+		:hide-button="editState"
 		remove-action="removeWorkOrder"
 		:fields="form" 
 		@saved="saved"
 		@error="failed"
 	>
-		<template slot="form-fields">
+		<template v-if="!editState" slot="form-fields">
 			<!-- Customer input row -->
 			<v-layout row class="pa-0">
 				<v-flex xs10>
@@ -100,7 +102,7 @@
 	import VehicleForm from './Vehicle-form';
 
 	export default{
-		props: ['action'],
+		props: ['action', 'wo', 'editState'],
 
 		data (){
 			return {
@@ -130,6 +132,12 @@
 		},
 
 		watch: {
+			wo (wo){
+				// Populate the form for editing
+				if(wo){
+					Helpers.populateForm(this.form, wo);
+				}
+			},			
 			/* 
 			 * When the customer is selected we should update the selected customer in the store. 
 			 * Allows the use of a computed property for the vehicle select list.
@@ -162,7 +170,13 @@
 		},
 
 		created (){
-			this.$store.dispatch('filterCustomers');			
+			this.$store.dispatch('filterCustomers');	
+
+			// Populate the form for editing
+			if(this.wo){
+				Helpers.populateForm(this.form, this.wo);
+				console.log(this.form.id);
+			}					
 		}
 	}
 </script>

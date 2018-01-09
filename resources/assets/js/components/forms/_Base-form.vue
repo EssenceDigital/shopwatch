@@ -13,7 +13,8 @@
 
 		<v-divider class="mt-3 mb-3"></v-divider>
 
-		<v-btn 
+		<v-btn
+			v-if="!hideButton" 
 			type="submit" 
 			color="primary" 
 			:loading="isSaving" 
@@ -84,6 +85,10 @@
 			},
 
 			editState: {
+				default: false
+			},
+
+			hideButton: {
 				default: false
 			}
 		},

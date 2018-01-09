@@ -1,5 +1,6 @@
 <template v-if="part">
 	<v-layout row class="mt-3">
+		<!-- Edit button container  -->
 		<v-flex xs1 class="text-xs-left">
 			<v-tooltip top>
 	  		<v-btn icon slot="activator" class="mt-0 ml-0" @click="editDialog = true">
@@ -7,16 +8,24 @@
 	  		</v-btn>				    			
 	      <span>Edit part</span>
 	    </v-tooltip>			
-		</v-flex>		
+		</v-flex>
+		<!-- Part info  -->		
 		<v-flex xs6>
 			<span class="primary--text">
 				{{ part.supplier.name }} <em>({{ part.part_invoice_number }})</em>
-			</span><br>
+			</span>
+			<br>
 			<span>{{ part.title }}</span> 
 		</v-flex>
+		<!-- Part costs (Invoice state only) -->
 		<v-flex xs2 class="text-xs-right">
-			<span>{{ part.billing_price | money }}</span><br>
-			<span><em>({{ part.total_cost | money }}</em>)</span>
+			<span>
+				{{ part.billing_price | money }}
+			</span>
+			<br>
+			<span v-if="invoiceState" class="error--text">
+				<em>({{ part.total_cost | money }}</em>)
+			</span>
 		</v-flex>
 
 		<!-- Edit part dialog -->
@@ -36,7 +45,6 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-
 	</v-layout>
 </template>
 
@@ -44,7 +52,14 @@
 	import PartForm from './../forms/Job-parts-form';
 
 	export default{
-		props: ['part'],
+		props: {
+			part: {
+				required: true
+			},
+			invoiceState: {
+				default: false
+			}
+		},
 
 		data (){
 			return {

@@ -52432,6 +52432,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -52439,7 +52441,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['action'],
+	props: ['action', 'wo', 'editState'],
 
 	data: function data() {
 		return {
@@ -52470,6 +52472,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	watch: {
+		wo: function wo(_wo) {
+			// Populate the form for editing
+			if (_wo) {
+				__WEBPACK_IMPORTED_MODULE_1__app_helpers__["a" /* default */].populateForm(this.form, _wo);
+			}
+		},
+
 		/* 
    * When the customer is selected we should update the selected customer in the store. 
    * Allows the use of a computed property for the vehicle select list.
@@ -52501,6 +52510,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	created: function created() {
 		this.$store.dispatch('filterCustomers');
+
+		// Populate the form for editing
+		if (this.wo) {
+			__WEBPACK_IMPORTED_MODULE_1__app_helpers__["a" /* default */].populateForm(this.form, this.wo);
+			console.log(this.form.id);
+		}
 	}
 });
 
@@ -52510,6 +52525,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
 //
 //
 //
@@ -52596,6 +52612,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 
 		editState: {
+			default: false
+		},
+
+		hideButton: {
 			default: false
 		}
 	},
@@ -52706,29 +52726,31 @@ var render = function() {
       _vm._v(" "),
       _c("v-divider", { staticClass: "mt-3 mb-3" }),
       _vm._v(" "),
-      _c(
-        "v-btn",
-        {
-          attrs: {
-            type: "submit",
-            color: "primary",
-            loading: _vm.isSaving,
-            flat: "",
-            block: ""
-          },
-          nativeOn: {
-            click: function($event) {
-              $event.stopPropagation()
-              _vm.save($event)
-            }
-          }
-        },
-        [
-          _c("v-icon", { attrs: { left: "" } }, [_vm._v("input")]),
-          _vm._v(" Save\n\t\t")
-        ],
-        1
-      ),
+      !_vm.hideButton
+        ? _c(
+            "v-btn",
+            {
+              attrs: {
+                type: "submit",
+                color: "primary",
+                loading: _vm.isSaving,
+                flat: "",
+                block: ""
+              },
+              nativeOn: {
+                click: function($event) {
+                  $event.stopPropagation()
+                  _vm.save($event)
+                }
+              }
+            },
+            [
+              _c("v-icon", { attrs: { left: "" } }, [_vm._v("input")]),
+              _vm._v(" Save\n\t\t")
+            ],
+            1
+          )
+        : _vm._e(),
       _vm._v(" "),
       _vm.editState
         ? _c(
@@ -53289,116 +53311,51 @@ var render = function() {
     {
       attrs: {
         action: _vm.action,
+        "edit-state": _vm.editState,
+        "hide-button": _vm.editState,
         "remove-action": "removeWorkOrder",
         fields: _vm.form
       },
       on: { saved: _vm.saved, error: _vm.failed }
     },
     [
-      _c(
-        "template",
-        { slot: "form-fields" },
-        [
-          _c(
-            "v-layout",
-            { staticClass: "pa-0", attrs: { row: "" } },
+      !_vm.editState
+        ? _c(
+            "template",
+            { slot: "form-fields" },
             [
               _c(
-                "v-flex",
-                { attrs: { xs10: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.customersSelect,
-                      label: "Customer",
-                      "single-line": "",
-                      bottom: ""
-                    },
-                    model: {
-                      value: _vm.customer,
-                      callback: function($$v) {
-                        _vm.customer = $$v
-                      },
-                      expression: "customer"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs2: "" } },
+                "v-layout",
+                { staticClass: "pa-0", attrs: { row: "" } },
                 [
                   _c(
-                    "v-tooltip",
-                    { attrs: { top: "" } },
+                    "v-flex",
+                    { attrs: { xs10: "" } },
                     [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "ml-4 mt-3",
-                          attrs: { slot: "activator", icon: "" },
-                          on: {
-                            click: function($event) {
-                              _vm.addCustomerDialog = true
-                            }
-                          },
-                          slot: "activator"
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.customersSelect,
+                          label: "Customer",
+                          "single-line": "",
+                          bottom: ""
                         },
-                        [
-                          _c("v-icon", { attrs: { color: "green" } }, [
-                            _vm._v("add_circle_outline")
-                          ])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c("span", [_vm._v("New customer")])
+                        model: {
+                          value: _vm.customer,
+                          callback: function($$v) {
+                            _vm.customer = $$v
+                          },
+                          expression: "customer"
+                        }
+                      })
                     ],
                     1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { staticClass: "pa-0", attrs: { row: "" } },
-            [
-              _c(
-                "v-flex",
-                { attrs: { xs10: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.vehiclesSelect,
-                      "error-messages": _vm.form.vehicle_id.errors,
-                      label: "Vehicle",
-                      "single-line": "",
-                      bottom: ""
-                    },
-                    model: {
-                      value: _vm.form.vehicle_id.value,
-                      callback: function($$v) {
-                        _vm.$set(_vm.form.vehicle_id, "value", $$v)
-                      },
-                      expression: "form.vehicle_id.value"
-                    }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs2: "" } },
-                [
-                  _vm.customer
-                    ? _c(
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs2: "" } },
+                    [
+                      _c(
                         "v-tooltip",
                         { attrs: { top: "" } },
                         [
@@ -53409,7 +53366,7 @@ var render = function() {
                               attrs: { slot: "activator", icon: "" },
                               on: {
                                 click: function($event) {
-                                  _vm.addVehicleDialog = true
+                                  _vm.addCustomerDialog = true
                                 }
                               },
                               slot: "activator"
@@ -53422,106 +53379,96 @@ var render = function() {
                             1
                           ),
                           _vm._v(" "),
-                          _c("span", [_vm._v("New vehicle")])
+                          _c("span", [_vm._v("New customer")])
                         ],
                         1
                       )
-                    : _vm._e()
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-dialog",
-            {
-              attrs: { persistent: "", "max-width": "500px" },
-              model: {
-                value: _vm.addCustomerDialog,
-                callback: function($$v) {
-                  _vm.addCustomerDialog = $$v
-                },
-                expression: "addCustomerDialog"
-              }
-            },
-            [
-              _c(
-                "v-card",
-                [
-                  _c(
-                    "v-system-bar",
-                    { staticClass: "blue darken-4", attrs: { window: "" } },
-                    [
-                      _c("v-spacer"),
-                      _vm._v(" "),
-                      _c(
-                        "v-tooltip",
-                        { attrs: { top: "" } },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              staticClass: "mr-0",
-                              attrs: { slot: "activator", icon: "" },
-                              on: {
-                                click: function($event) {
-                                  _vm.addCustomerDialog = false
-                                }
-                              },
-                              slot: "activator"
-                            },
-                            [
-                              _c(
-                                "v-icon",
-                                { staticClass: "white--text mr-0" },
-                                [_vm._v("close")]
-                              )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("Close dialog")])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-text",
-                    [
-                      _c("customer-form", {
-                        attrs: { action: "createCustomer" },
-                        on: {
-                          saved: function($event) {
-                            _vm.addCustomerDialog = false
-                          }
-                        }
-                      })
                     ],
                     1
                   )
                 ],
                 1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _vm.selectedCustomer
-            ? _c(
+              ),
+              _vm._v(" "),
+              _c(
+                "v-layout",
+                { staticClass: "pa-0", attrs: { row: "" } },
+                [
+                  _c(
+                    "v-flex",
+                    { attrs: { xs10: "" } },
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.vehiclesSelect,
+                          "error-messages": _vm.form.vehicle_id.errors,
+                          label: "Vehicle",
+                          "single-line": "",
+                          bottom: ""
+                        },
+                        model: {
+                          value: _vm.form.vehicle_id.value,
+                          callback: function($$v) {
+                            _vm.$set(_vm.form.vehicle_id, "value", $$v)
+                          },
+                          expression: "form.vehicle_id.value"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-flex",
+                    { attrs: { xs2: "" } },
+                    [
+                      _vm.customer
+                        ? _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  staticClass: "ml-4 mt-3",
+                                  attrs: { slot: "activator", icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addVehicleDialog = true
+                                    }
+                                  },
+                                  slot: "activator"
+                                },
+                                [
+                                  _c("v-icon", { attrs: { color: "green" } }, [
+                                    _vm._v("add_circle_outline")
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("New vehicle")])
+                            ],
+                            1
+                          )
+                        : _vm._e()
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
                 "v-dialog",
                 {
                   attrs: { persistent: "", "max-width": "500px" },
                   model: {
-                    value: _vm.addVehicleDialog,
+                    value: _vm.addCustomerDialog,
                     callback: function($$v) {
-                      _vm.addVehicleDialog = $$v
+                      _vm.addCustomerDialog = $$v
                     },
-                    expression: "addVehicleDialog"
+                    expression: "addCustomerDialog"
                   }
                 },
                 [
@@ -53545,7 +53492,7 @@ var render = function() {
                                   attrs: { slot: "activator", icon: "" },
                                   on: {
                                     click: function($event) {
-                                      _vm.addVehicleDialog = false
+                                      _vm.addCustomerDialog = false
                                     }
                                   },
                                   slot: "activator"
@@ -53571,14 +53518,11 @@ var render = function() {
                       _c(
                         "v-card-text",
                         [
-                          _c("vehicle-form", {
-                            attrs: {
-                              action: "createVehicle",
-                              customer: _vm.selectedCustomer.id
-                            },
+                          _c("customer-form", {
+                            attrs: { action: "createCustomer" },
                             on: {
                               saved: function($event) {
-                                _vm.addVehicleDialog = false
+                                _vm.addCustomerDialog = false
                               }
                             }
                           })
@@ -53590,11 +53534,96 @@ var render = function() {
                   )
                 ],
                 1
-              )
-            : _vm._e()
-        ],
-        1
-      )
+              ),
+              _vm._v(" "),
+              _vm.selectedCustomer
+                ? _c(
+                    "v-dialog",
+                    {
+                      attrs: { persistent: "", "max-width": "500px" },
+                      model: {
+                        value: _vm.addVehicleDialog,
+                        callback: function($$v) {
+                          _vm.addVehicleDialog = $$v
+                        },
+                        expression: "addVehicleDialog"
+                      }
+                    },
+                    [
+                      _c(
+                        "v-card",
+                        [
+                          _c(
+                            "v-system-bar",
+                            {
+                              staticClass: "blue darken-4",
+                              attrs: { window: "" }
+                            },
+                            [
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-tooltip",
+                                { attrs: { top: "" } },
+                                [
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      staticClass: "mr-0",
+                                      attrs: { slot: "activator", icon: "" },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.addVehicleDialog = false
+                                        }
+                                      },
+                                      slot: "activator"
+                                    },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { staticClass: "white--text mr-0" },
+                                        [_vm._v("close")]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Close dialog")])
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-card-text",
+                            [
+                              _c("vehicle-form", {
+                                attrs: {
+                                  action: "createVehicle",
+                                  customer: _vm.selectedCustomer.id
+                                },
+                                on: {
+                                  saved: function($event) {
+                                    _vm.addVehicleDialog = false
+                                  }
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e()
+            ],
+            1
+          )
+        : _vm._e()
     ],
     2
   )
@@ -56800,10 +56829,12 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Layout__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Layout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Layout__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_tickets_Job_ticket__ = __webpack_require__(104);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_tickets_Job_ticket___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_tickets_Job_ticket__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Work_order_form__ = __webpack_require__(55);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Work_order_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_forms_Work_order_form__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_forms_Job_form__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_forms_Job_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_forms_Job_form__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_ticket__ = __webpack_require__(104);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_ticket___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_ticket__);
 //
 //
 //
@@ -56864,6 +56895,58 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -56875,7 +56958,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	data: function data() {
 		return {
 			addJobDialog: false,
-			removeWoDialog: false
+			removeWoDialog: false,
+			woOptionsDialog: false,
+			confirmInvoiceDialog: false,
+			invoiceCreating: false
 		};
 	},
 
@@ -56883,6 +56969,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	computed: {
 		workOrder: function workOrder() {
 			return this.$store.getters.selectedWorkOrder;
+		},
+		estGrandTotal: function estGrandTotal() {
+			if (this.workOrder.jobs) {
+				var total = 0;
+
+				this.workOrder.jobs.forEach(function (job) {
+					total += parseFloat(job.job_grand_total);
+				});
+
+				return total;
+			}
 		}
 	},
 
@@ -56898,8 +56995,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	components: {
 		'layout': __WEBPACK_IMPORTED_MODULE_0__Layout___default.a,
-		'job-form': __WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form___default.a,
-		'job-ticket': __WEBPACK_IMPORTED_MODULE_2__components_tickets_Job_ticket___default.a
+		'job-form': __WEBPACK_IMPORTED_MODULE_2__components_forms_Job_form___default.a,
+		'job-ticket': __WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_ticket___default.a,
+		'wo-form': __WEBPACK_IMPORTED_MODULE_1__components_forms_Work_order_form___default.a
+	},
+
+	methods: {
+		createInvoice: function createInvoice() {
+			var _this = this;
+
+			// Toggle loader
+			this.invoiceCreating = true;
+			// Dispatch action
+			this.$store.dispatch('createInvoice', {
+				work_order_id: this.id
+			}).then(function () {
+				// Toggle loader
+				_this.invoiceCreating = false;
+				// Toggle dialog
+				_this.confirmInvoiceDialog = false;
+			});
+		}
 	},
 
 	created: function created() {
@@ -57349,13 +57465,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['job'],
+	props: {
+		job: {
+			required: true
+		},
+		invoiceState: {
+			default: false
+		}
+	},
 
 	data: function data() {
 		return {
@@ -57385,6 +57513,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).then(function () {
 				// Toggle loader
 				_this.markingComplete = false;
+			}).catch(function (error) {
+				// Toggle loader
+				_this.markingComplete = false;
+				// Handle errors					
+				if (error.response) {
+					// Form validation errors
+					if (error.response.data) {
+						// Check for error response from Laravel controller
+						if (error.response.data.result == 'error') {
+							_this.$router.app.$emit('snackbar', {
+								text: error.response.data.message
+							});
+						}
+					}
+				}
 			});
 		}
 	}
@@ -58079,11 +58222,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['part'],
+	props: {
+		part: {
+			required: true
+		},
+		invoiceState: {
+			default: false
+		}
+	},
 
 	data: function data() {
 		return {
@@ -58147,21 +58305,31 @@ var render = function() {
           _vm._v("\n\t\t\t\t" + _vm._s(_vm.part.supplier.name) + " "),
           _c("em", [_vm._v("(" + _vm._s(_vm.part.part_invoice_number) + ")")])
         ]),
+        _vm._v(" "),
         _c("br"),
         _vm._v(" "),
         _c("span", [_vm._v(_vm._s(_vm.part.title))])
       ]),
       _vm._v(" "),
       _c("v-flex", { staticClass: "text-xs-right", attrs: { xs2: "" } }, [
-        _c("span", [_vm._v(_vm._s(_vm._f("money")(_vm.part.billing_price)))]),
+        _c("span", [
+          _vm._v(
+            "\n\t\t\t\t" +
+              _vm._s(_vm._f("money")(_vm.part.billing_price)) +
+              "\n\t\t\t"
+          )
+        ]),
+        _vm._v(" "),
         _c("br"),
         _vm._v(" "),
-        _c("span", [
-          _c("em", [
-            _vm._v("(" + _vm._s(_vm._f("money")(_vm.part.total_cost)))
-          ]),
-          _vm._v(")")
-        ])
+        _vm.invoiceState
+          ? _c("span", { staticClass: "error--text" }, [
+              _c("em", [
+                _vm._v("(" + _vm._s(_vm._f("money")(_vm.part.total_cost)))
+              ]),
+              _vm._v(")\n\t\t\t")
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c(
@@ -58282,7 +58450,7 @@ var render = function() {
                   _vm.job.is_complete
                     ? _c(
                         "v-tooltip",
-                        { attrs: { top: "" } },
+                        { staticClass: "ml-0", attrs: { top: "" } },
                         [
                           _c(
                             "v-btn",
@@ -58319,7 +58487,7 @@ var render = function() {
                   !_vm.job.is_complete
                     ? _c(
                         "v-tooltip",
-                        { attrs: { top: "" } },
+                        { staticClass: "ml-0", attrs: { top: "" } },
                         [
                           _c(
                             "v-btn",
@@ -58421,11 +58589,21 @@ var render = function() {
             "v-card-title",
             { staticClass: "pb-0" },
             [
-              _c("v-flex", { attrs: { xs12: "" } }, [
+              _c("v-flex", { attrs: { xs11: "" } }, [
                 _c("span", { staticClass: "grey--text" }, [
                   _c("strong", [_vm._v(_vm._s(_vm.job.title))])
                 ])
-              ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { staticClass: "text-xs-right", attrs: { xs1: "" } },
+                [
+                  _vm._v(
+                    "\n        \t" + _vm._s(_vm.job.hours) + " hrs\n        "
+                  )
+                ]
+              )
             ],
             1
           ),
@@ -58471,68 +58649,89 @@ var render = function() {
               _vm._v(" "),
               _c("v-divider", { staticClass: "mb-2" }),
               _vm._v(" "),
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { staticClass: "text-xs-right", attrs: { xs3: "" } },
+              _vm.invoiceState
+                ? _c(
+                    "v-container",
+                    { attrs: { fluid: "" } },
                     [
-                      _c("p", [
-                        _c("strong", [_vm._v("Parts total:")]),
-                        _c("br"),
-                        _vm._v(
-                          _vm._s(_vm._f("money")(_vm.job.parts_total_billed)) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { staticClass: "text-xs-right", attrs: { xs3: "" } },
-                    [
-                      _c("p", [
-                        _c("strong", [_vm._v("Labour total:")]),
-                        _c("br"),
-                        _vm._v(
-                          _vm._s(_vm._f("money")(_vm.job.job_labour_total)) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ])
-                    ]
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "" } },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              staticClass: "text-xs-right",
+                              attrs: { xs3: "" }
+                            },
+                            [
+                              _c("p", [
+                                _c("strong", [_vm._v("Parts total:")]),
+                                _c("br"),
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("money")(_vm.job.parts_total_billed)
+                                  ) + "\n\t\t\t\t\t\t\t"
+                                )
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              staticClass: "text-xs-right",
+                              attrs: { xs3: "" }
+                            },
+                            [
+                              _c("p", [
+                                _c("strong", [_vm._v("Labour total:")]),
+                                _c("br"),
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("money")(_vm.job.job_labour_total)
+                                  ) + "\n\t\t\t\t\t\t\t"
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-layout",
+                        { attrs: { row: "" } },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-flex",
+                            {
+                              staticClass: "text-xs-right",
+                              attrs: { xs2: "" }
+                            },
+                            [
+                              _c("p", [
+                                _c("strong", [_vm._v("Job total:")]),
+                                _c("br"),
+                                _vm._v(
+                                  _vm._s(
+                                    _vm._f("money")(_vm.job.job_grand_total)
+                                  ) + "\n\t\t\t\t\t\t\t"
+                                )
+                              ])
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
                   )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-layout",
-                { attrs: { row: "" } },
-                [
-                  _c("v-spacer"),
-                  _vm._v(" "),
-                  _c(
-                    "v-flex",
-                    { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                    [
-                      _c("p", [
-                        _c("strong", [_vm._v("Job total:")]),
-                        _c("br"),
-                        _vm._v(
-                          _vm._s(_vm._f("money")(_vm.job.job_grand_total)) +
-                            "\n\t\t\t\t\t\t"
-                        )
-                      ])
-                    ]
-                  )
-                ],
-                1
-              )
+                : _vm._e()
             ],
             1
           )
@@ -58715,70 +58914,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("layout", [
-    _c("div", { attrs: { slot: "title" }, slot: "title" }, [
-      _vm._v("Work Order")
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      { attrs: { slot: "tools" }, slot: "tools" },
-      [
-        _c(
-          "v-tooltip",
-          { attrs: { top: "" } },
-          [
-            _c(
-              "v-btn",
-              {
-                attrs: { slot: "activator", color: "primary", left: "" },
-                on: {
-                  click: function($event) {
-                    _vm.addJobDialog = true
-                  }
-                },
-                slot: "activator"
-              },
-              [
-                _c("v-icon", { attrs: { left: "" } }, [
-                  _vm._v("add_circle_outline")
-                ]),
-                _vm._v(" Job\n\t\t    ")
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("span", [_vm._v("Add job")])
-          ],
-          1
-        )
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { attrs: { slot: "content" }, slot: "content" },
-      [
-        _c(
-          "v-layout",
-          { attrs: { row: "", wrap: "" } },
-          _vm._l(_vm.workOrder.jobs, function(job) {
-            return _c("job-ticket", {
-              key: job.id,
-              staticClass: "mt-4",
-              attrs: { job: job }
-            })
-          })
-        ),
+  return _vm.workOrder
+    ? _c("layout", [
+        _c("div", { attrs: { slot: "title" }, slot: "title" }, [
+          _vm._v("Work Order")
+        ]),
         _vm._v(" "),
-        _c(
-          "v-layout",
-          { staticClass: "mt-5", attrs: { row: "" } },
-          [
-            _c(
-              "v-flex",
-              { attrs: { xs3: "" } },
+        !_vm.workOrder.is_invoiced
+          ? _c(
+              "div",
+              { attrs: { slot: "tools" }, slot: "tools" },
               [
                 _c(
                   "v-tooltip",
@@ -58787,24 +58932,164 @@ var render = function() {
                     _c(
                       "v-btn",
                       {
-                        attrs: { slot: "activator", color: "error", left: "" },
+                        attrs: {
+                          slot: "activator",
+                          color: "primary",
+                          left: ""
+                        },
                         on: {
                           click: function($event) {
-                            _vm.removeWoDialog = true
+                            _vm.woOptionsDialog = true
+                          }
+                        },
+                        slot: "activator"
+                      },
+                      [
+                        _c("v-icon", { attrs: { left: "" } }, [_vm._v("info")]),
+                        _vm._v(" Options\n\t\t    ")
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Options")])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-tooltip",
+                  { attrs: { top: "" } },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          slot: "activator",
+                          color: "primary",
+                          left: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.addJobDialog = true
                           }
                         },
                         slot: "activator"
                       },
                       [
                         _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("delete_forever")
+                          _vm._v("add_circle_outline")
                         ]),
-                        _vm._v(" Remove\n\t\t\t\t    ")
+                        _vm._v(" Job\n\t\t    ")
                       ],
                       1
                     ),
                     _vm._v(" "),
-                    _c("span", [_vm._v("Remove WO")])
+                    _c("span", [_vm._v("Add job")])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "v-tooltip",
+                  { attrs: { top: "" } },
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          slot: "activator",
+                          color: "teal",
+                          dark: "",
+                          left: ""
+                        },
+                        on: {
+                          click: function($event) {
+                            _vm.confirmInvoiceDialog = true
+                          }
+                        },
+                        slot: "activator"
+                      },
+                      [
+                        _c("v-icon", { attrs: { left: "" } }, [
+                          _vm._v("credit_card")
+                        ]),
+                        _vm._v(" Invoice\n\t\t    ")
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("Create Invoice")])
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          : _c(
+              "div",
+              { attrs: { slot: "tools" }, slot: "tools" },
+              [
+                _c(
+                  "v-alert",
+                  {
+                    staticClass: "mt-3",
+                    attrs: {
+                      outline: "",
+                      color: "success",
+                      icon: "check_circle",
+                      value: true
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n\t      This work order has been invoiced.\n\t    "
+                    )
+                  ]
+                )
+              ],
+              1
+            ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { attrs: { slot: "content" }, slot: "content" },
+          [
+            _c(
+              "v-layout",
+              { attrs: { row: "", wrap: "" } },
+              _vm._l(_vm.workOrder.jobs, function(job) {
+                return _c("job-ticket", {
+                  key: job.id,
+                  staticClass: "mt-4",
+                  attrs: { job: job }
+                })
+              })
+            ),
+            _vm._v(" "),
+            _c(
+              "v-layout",
+              { staticClass: "mt-3", attrs: { row: "" } },
+              [
+                _c("v-spacer"),
+                _vm._v(" "),
+                _c(
+                  "v-flex",
+                  { attrs: { xs3: "" } },
+                  [
+                    _c(
+                      "v-card",
+                      { staticClass: "text-xs-right pt-3 pb-3 pr-3" },
+                      [
+                        _c("span", { staticClass: "subheading" }, [
+                          _c("strong", [_vm._v("Total:")]),
+                          _vm._v(
+                            " " +
+                              _vm._s(_vm._f("money")(_vm.estGrandTotal)) +
+                              "\n\t\t\t\t\t\t"
+                          )
+                        ])
+                      ]
+                    )
                   ],
                   1
                 )
@@ -58812,90 +59097,262 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c("v-spacer"),
-            _vm._v(" "),
             _c(
-              "v-flex",
-              { staticClass: "text-xs-right", attrs: { xs6: "" } },
-              [
-                _c("v-card", { attrs: { flat: "" } }, [
-                  _c("h3", { staticClass: "title" }, [_vm._v("Totals")])
-                ])
-              ],
-              1
-            )
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _c(
-          "v-dialog",
-          {
-            attrs: { persistent: "", "max-width": "500px" },
-            model: {
-              value: _vm.addJobDialog,
-              callback: function($$v) {
-                _vm.addJobDialog = $$v
+              "v-dialog",
+              {
+                attrs: { persistent: "", "max-width": "500px" },
+                model: {
+                  value: _vm.addJobDialog,
+                  callback: function($$v) {
+                    _vm.addJobDialog = $$v
+                  },
+                  expression: "addJobDialog"
+                }
               },
-              expression: "addJobDialog"
-            }
-          },
-          [
-            _c(
-              "v-card",
               [
                 _c(
-                  "v-system-bar",
-                  { staticClass: "blue darken-4", attrs: { window: "" } },
+                  "v-card",
                   [
-                    _c("v-spacer"),
-                    _vm._v(" "),
                     _c(
-                      "v-tooltip",
-                      { attrs: { top: "" } },
+                      "v-system-bar",
+                      { staticClass: "blue darken-4", attrs: { window: "" } },
                       [
+                        _c("v-spacer"),
+                        _vm._v(" "),
                         _c(
-                          "v-btn",
-                          {
-                            staticClass: "mr-0",
-                            attrs: { slot: "activator", icon: "" },
-                            on: {
-                              click: function($event) {
-                                _vm.addJobDialog = false
-                              }
-                            },
-                            slot: "activator"
-                          },
+                          "v-tooltip",
+                          { attrs: { top: "" } },
                           [
-                            _c("v-icon", { staticClass: "white--text mr-0" }, [
-                              _vm._v("close")
-                            ])
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "mr-0",
+                                attrs: { slot: "activator", icon: "" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.addJobDialog = false
+                                  }
+                                },
+                                slot: "activator"
+                              },
+                              [
+                                _c(
+                                  "v-icon",
+                                  { staticClass: "white--text mr-0" },
+                                  [_vm._v("close")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Close dialog")])
                           ],
                           1
-                        ),
-                        _vm._v(" "),
-                        _c("span", [_vm._v("Close dialog")])
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c("job-form", {
+                          attrs: {
+                            action: "createJob",
+                            "work-order": _vm.workOrder.id
+                          },
+                          on: {
+                            saved: function($event) {
+                              _vm.addJobDialog = false
+                            }
+                          }
+                        })
                       ],
                       1
                     )
                   ],
                   1
-                ),
-                _vm._v(" "),
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-dialog",
+              {
+                attrs: { persistent: "", "max-width": "500px" },
+                model: {
+                  value: _vm.woOptionsDialog,
+                  callback: function($$v) {
+                    _vm.woOptionsDialog = $$v
+                  },
+                  expression: "woOptionsDialog"
+                }
+              },
+              [
                 _c(
-                  "v-card-text",
+                  "v-card",
                   [
-                    _c("job-form", {
-                      attrs: {
-                        action: "createJob",
-                        "work-order": _vm.workOrder.id
-                      },
-                      on: {
-                        saved: function($event) {
-                          _vm.addJobDialog = false
-                        }
-                      }
-                    })
+                    _c(
+                      "v-system-bar",
+                      { staticClass: "blue darken-4", attrs: { window: "" } },
+                      [
+                        _c("v-spacer"),
+                        _vm._v(" "),
+                        _c(
+                          "v-tooltip",
+                          { attrs: { top: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "mr-0",
+                                attrs: { slot: "activator", icon: "" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.woOptionsDialog = false
+                                  }
+                                },
+                                slot: "activator"
+                              },
+                              [
+                                _c(
+                                  "v-icon",
+                                  { staticClass: "white--text mr-0" },
+                                  [_vm._v("close")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Close dialog")])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-text",
+                      [
+                        _c("wo-form", {
+                          attrs: { wo: _vm.workOrder, "edit-state": true },
+                          on: {
+                            saved: function($event) {
+                              _vm.woOptionsDialog = false
+                            }
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "v-dialog",
+              {
+                attrs: { persistent: "", "max-width": "300px" },
+                model: {
+                  value: _vm.confirmInvoiceDialog,
+                  callback: function($$v) {
+                    _vm.confirmInvoiceDialog = $$v
+                  },
+                  expression: "confirmInvoiceDialog"
+                }
+              },
+              [
+                _c(
+                  "v-card",
+                  [
+                    _c(
+                      "v-system-bar",
+                      { staticClass: "teal", attrs: { window: "" } },
+                      [
+                        _c("v-spacer"),
+                        _vm._v(" "),
+                        _c(
+                          "v-tooltip",
+                          { attrs: { top: "" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "mr-0",
+                                attrs: { slot: "activator", icon: "" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.confirmInvoiceDialog = false
+                                  }
+                                },
+                                slot: "activator"
+                              },
+                              [
+                                _c(
+                                  "v-icon",
+                                  { staticClass: "white--text mr-0" },
+                                  [_vm._v("close")]
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Close dialog")])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c("v-card-text", [
+                      _vm._v("\n\t          Create invoice?\n\t        ")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "v-card-actions",
+                      [
+                        _c("v-spacer"),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { color: "red darken-1", flat: "" },
+                            nativeOn: {
+                              click: function($event) {
+                                _vm.confirmInvoiceDialog = false
+                              }
+                            }
+                          },
+                          [_vm._v("Cancel")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: {
+                              color: "green darken-1",
+                              flat: "",
+                              loading: _vm.invoiceCreating
+                            },
+                            nativeOn: {
+                              click: function($event) {
+                                _vm.createInvoice($event)
+                              }
+                            }
+                          },
+                          [_vm._v("Yes")]
+                        ),
+                        _vm._v(" "),
+                        _c("v-spacer")
+                      ],
+                      1
+                    )
                   ],
                   1
                 )
@@ -58905,10 +59362,8 @@ var render = function() {
           ],
           1
         )
-      ],
-      1
-    )
-  ])
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

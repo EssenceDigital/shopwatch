@@ -3,8 +3,8 @@
 		<v-card flat>
 			<v-card-actions>
 				<v-toolbar card color="white" prominent>
-					<v-tooltip top v-if="job.is_complete">
-	      		<v-btn 
+					<v-tooltip top v-if="job.is_complete" class="ml-0">
+	      		<v-btn 	      		
 	      			color="green"
 	      			flat 
 	      			slot="activator" 
@@ -16,7 +16,7 @@
 	      		</v-btn>				    			
 			      <span>Mark pending</span>
 			    </v-tooltip>
-					<v-tooltip top v-if="!job.is_complete">
+					<v-tooltip top v-if="!job.is_complete" class="ml-0">
 	      		<v-btn 
 	      			color="primary"
 	      			flat 
@@ -45,8 +45,11 @@
         </v-toolbar>			
 			</v-card-actions>
 			<v-card-title class="pb-0">
-        <v-flex xs12>
+        <v-flex xs11>
         	<span class="grey--text"><strong>{{ job.title }}</strong></span>
+        </v-flex>
+        <v-flex xs1 class="text-xs-right">
+        	{{ job.hours }} hrs
         </v-flex>
       </v-card-title>
 			<v-card-text class="pt-0">
@@ -68,28 +71,30 @@
 
 				<v-divider class="mb-2"></v-divider>
 
-				<v-layout row>
-					<v-spacer></v-spacer>
-					<v-flex xs3 class="text-xs-right">
-						<p>
-							<strong>Parts total:</strong><br>{{ job.parts_total_billed | money }}
-						</p>						
-					</v-flex>
-					<v-flex xs3 class="text-xs-right">
-						<p>
-							<strong>Labour total:</strong><br>{{ job.job_labour_total | money }}
-						</p>						
-					</v-flex>															
-				</v-layout>
+				<v-container v-if="invoiceState" fluid>
+					<v-layout row>
+						<v-spacer></v-spacer>
+						<v-flex xs3 class="text-xs-right">
+							<p>
+								<strong>Parts total:</strong><br>{{ job.parts_total_billed | money }}
+							</p>						
+						</v-flex>
+						<v-flex xs3 class="text-xs-right">
+							<p>
+								<strong>Labour total:</strong><br>{{ job.job_labour_total | money }}
+							</p>						
+						</v-flex>															
+					</v-layout>
+					<v-layout row>
+						<v-spacer></v-spacer>
+						<v-flex xs2 class="text-xs-right">
+							<p>							
+								<strong>Job total:</strong><br>{{ job.job_grand_total | money }}
+							</p>						
+						</v-flex>					
+					</v-layout>					
+				</v-container>
 
-				<v-layout row>
-					<v-spacer></v-spacer>
-					<v-flex xs2 class="text-xs-right">
-						<p>							
-							<strong>Job total:</strong><br>{{ job.job_grand_total | money }}
-						</p>						
-					</v-flex>					
-				</v-layout>
 
 			</v-card-text>
 		</v-card>
@@ -140,7 +145,14 @@
 	import PartTicket from './../tickets/Part-ticket';
 
 	export default{
-		props: ['job'],
+		props: {
+			job: {
+				required: true
+			},
+			invoiceState: {
+				default: false
+			}
+		},
 
 		data (){
 			return {
@@ -168,6 +180,22 @@
 					.then(() => {
 						// Toggle loader
 						this.markingComplete = false;
+					})
+					.catch((error) => {
+						// Toggle loader
+						this.markingComplete = false;	
+						// Handle errors					
+		  			if(error.response){
+		    			// Form validation errors
+		    			if(error.response.data){
+								// Check for error response from Laravel controller
+								if(error.response.data.result == 'error'){
+									this.$router.app.$emit('snackbar', {
+										text: error.response.data.message
+									});
+								}
+							}
+						}
 					});
 			}
 		}
