@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 Use App\Http\Requests\SaveJob;
 Use App\Http\Requests\UpdateJob;
+Use App\Http\Requests\CompleteJob;
 Use App\WorkOrder;
 Use App\Job;
 Use App\User;
@@ -124,6 +125,25 @@ class JobsController extends Controller
     		// Failed response
 	        return response()->json($this->woGuardResponse, 422);			
 		}
+	}
+
+	public function markComplete(CompleteJob $request)
+	{
+		// Get the job
+		$job = Job::with(['parts'])->findOrFail($request->id);
+
+		// Check if parent work order is still open (can only modify a part on an open (not invoiced) work order)
+		if($this->ensureWorkOrderIsOpen($job->work_order_id)){
+			// Update job
+			$job->is_complete = $request->is_complete;
+			// Save job
+			$job = $this->genericSave($job);		
+			// Find and return parent work order
+			return WorkOrder::with(['vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($job->work_order_id);				
+		} else {
+    		// Failed response
+	        return response()->json($this->woGuardResponse, 422);			
+		}		
 	}
 
 	/** 

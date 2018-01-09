@@ -146,7 +146,7 @@
       return {
         snackbar: false,
         mode: '',
-        timeout: 6000,
+        timeout: 10000,
         snackBarText: '',      
         drawer: null,
         drawerRight: null,

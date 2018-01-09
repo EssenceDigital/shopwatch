@@ -2,8 +2,34 @@
 	<v-flex xs12>
 		<v-card flat>
 			<v-card-actions>
-				<v-spacer></v-spacer>
-      	<v-flex xs2 class="text-xs-right">
+				<v-toolbar card color="white" prominent>
+					<v-tooltip top v-if="job.is_complete">
+	      		<v-btn 
+	      			color="green"
+	      			flat 
+	      			slot="activator" 
+	      			@click="markComplete(false)" 
+	      			:loading="markingComplete"
+	      		>
+							<v-icon left>check_circle</v-icon> 
+							<small>Done</small>
+	      		</v-btn>				    			
+			      <span>Mark pending</span>
+			    </v-tooltip>
+					<v-tooltip top v-if="!job.is_complete">
+	      		<v-btn 
+	      			color="primary"
+	      			flat 
+	      			slot="activator" 
+	      			@click="markComplete(true)" 
+	      			:loading="markingComplete"
+	      		>
+							<v-icon left>feedback</v-icon> 
+							<small>Pending</small>
+	      		</v-btn>				    			
+			      <span>Mark complete</span>
+			    </v-tooltip>			    
+          <v-spacer></v-spacer>
 					<v-tooltip top>
 	      		<v-btn icon slot="activator" @click="addPartsDialog = true">
 	      			<v-icon class="title">library_add</v-icon>
@@ -15,8 +41,8 @@
 	      			<v-icon class="title">edit</v-icon>
 	      		</v-btn>				    			
 			      <span>Edit job</span>
-			    </v-tooltip>      		
-      	</v-flex>				
+			    </v-tooltip>
+        </v-toolbar>			
 			</v-card-actions>
 			<v-card-title class="pb-0">
         <v-flex xs12>
@@ -119,7 +145,8 @@
 		data (){
 			return {
 				editJobDialog: false,
-				addPartsDialog: false
+				addPartsDialog: false,
+				markingComplete: false
 			}
 		},
 
@@ -127,6 +154,22 @@
 			'job-form': JobForm,
 			'parts-form': PartsForm,
 			'part-ticket': PartTicket
+		},
+
+		methods: {
+			markComplete (is_complete){
+				// Toggle loader
+				this.markingComplete = true;
+				// Dispatch action
+				this.$store.dispatch('markJobComplete', {
+					id: this.job.id,
+					is_complete: is_complete
+				})
+					.then(() => {
+						// Toggle loader
+						this.markingComplete = false;
+					});
+			}
 		}
 	}
 </script>

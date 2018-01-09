@@ -330,6 +330,9 @@ export const store = new Vuex.Store({
 		updateJob (context, payload){
 			return ApiHelper.postAction(context, payload, '/jobs/update', 'updateSelectedWorkOrder');
 		},
+		markJobComplete (context, payload){
+			return ApiHelper.postAction(context, payload, '/jobs/mark-complete', 'updateSelectedWorkOrder');
+		},		
 		removeJob (context, payload){
 			return ApiHelper.removeAction(context, '/jobs/'+payload+'/remove', 'updateSelectedWorkOrder');
 		},

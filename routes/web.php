@@ -72,6 +72,7 @@ Route::get('/work-orders/{id}', 'WorkOrdersController@get');
 */
 Route::post('/jobs/create', 'JobsController@create');
 Route::post('/jobs/update', 'JobsController@update');
+Route::post('/jobs/mark-complete', 'JobsController@markComplete');
 Route::delete('/jobs/{id}/remove', 'JobsController@remove');
 Route::get('/jobs/{id}', 'JobsController@get');
 

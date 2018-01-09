@@ -4,17 +4,35 @@
 
 		<div slot="tools">
 			<v-tooltip top>
-		    <v-btn flat color="green" left slot="activator" @click="addJobDialog = true">
+		    <v-btn color="primary" left slot="activator" @click="addJobDialog = true">
 		      <v-icon left>add_circle_outline</v-icon> Job
 		    </v-btn>				
 	      <span>Add job</span>
-	    </v-tooltip>			
+	    </v-tooltip>								
 		</div>
 
 		<div slot="content">
 
 			<v-layout row wrap>
-					<job-ticket v-for="job in workOrder.jobs" :job="job" :key="job.id" class="mt-4"></job-ticket>
+				<job-ticket v-for="job in workOrder.jobs" :job="job" :key="job.id" class="mt-4"></job-ticket>
+			</v-layout>
+
+			<v-layout row class="mt-5">
+				<v-flex xs3>
+					<v-tooltip top>
+				    <v-btn color="error" left slot="activator" @click="removeWoDialog = true">
+				      <v-icon left>delete_forever</v-icon> Remove
+				    </v-btn>				
+			      <span>Remove WO</span>
+			    </v-tooltip>					
+				</v-flex>
+				<v-spacer></v-spacer>
+				<v-flex xs6 class="text-xs-right">
+					<v-card flat>
+						<h3 class="title">Totals</h3>
+					</v-card>
+				</v-flex>
+				
 			</v-layout>
 
 			<!-- Add job dialog -->
@@ -50,7 +68,8 @@
 
 		data () {
 			return {
-				addJobDialog: false
+				addJobDialog: false,
+				removeWoDialog: false
 			}
 		},
 

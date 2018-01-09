@@ -40,7 +40,7 @@
         label="Tech"
         single-line
         bottom
-      ></v-select>	    	    	    	    		    		
+      ></v-select>	         	    	    	    		    		
 		</template>
 	</base-form>
 </template>
@@ -60,8 +60,12 @@
 					title: {value: '', errors: []},
 					description: {value: '', errors: []},
 					hours: {value: '', errors: []},
-					tech: {value: '', errors: []}			
-				}
+					tech: {value: '', errors: []}
+				},
+				completeSelect: [
+					{ text: 'No', value: 0 },
+					{ text: 'Yes', value: 1 }
+				]
 			}
 		},
 
