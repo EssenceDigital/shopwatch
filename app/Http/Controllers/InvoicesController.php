@@ -109,7 +109,7 @@ class InvoicesController extends Controller
 	    	// Calculate final totals
 	    	$sub_total = floatval($total_labour) + floatval($total_parts);
 	    	$gst_total = floatval($sub_total) * floatval($invoice->gst_rate);
-	    	$grand_total = floatval($sub_total) + floatval($gst_total);
+	    	$grand_total = floatval($sub_total) + floatval($gst_total) + floatval($invoice->shop_supply_rate);
 
 	    	// Cache totals in invoice
 	    	$invoice->total_labour = round($total_labour, 3);
@@ -142,11 +142,11 @@ class InvoicesController extends Controller
 
 	    	return $invoice;    		
     	} else {
-    		// Work order has not jobs. Failed response
+    		// Work order has no jobs. Failed response
     		return response()->json([
     			'result' => 'error',
-    			'message' => 'This work order has not jobs and an invoice cannot be created'
-    		]);
+    			'message' => 'This work order has no jobs so an invoiced cannot be created'
+    		], 422);
     	}
 
     }
@@ -225,7 +225,7 @@ class InvoicesController extends Controller
     		return response()->json([
     			'result' => 'error',
     			'message' => 'This invoice has been paid and cannot be removed.'
-    		]);    		
+    		], 422);    		
     	}
     }
 }

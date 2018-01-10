@@ -22,27 +22,181 @@
 	      <span>Create Invoice</span>
 	    </v-tooltip>		
 		</div>
-		<div v-else slot="tools">
-			<v-alert outline color="success" icon="check_circle" class="mt-3" :value="true">
-	      This work order has been invoiced.
-	    </v-alert>				
-		</div>
 
 		<div slot="content">
-			<v-layout row wrap>
-				<job-ticket v-for="job in workOrder.jobs" :job="job" :key="job.id" class="mt-4"></job-ticket>
-			</v-layout>
 
-			<v-layout row class="mt-3">
-				<v-spacer></v-spacer>
-				<v-flex xs3>
-					<v-card class="text-xs-right pt-3 pb-3 pr-3">
-						<span class="subheading">
-							<strong>Total:</strong> {{ estGrandTotal | money }}
-						</span>
-					</v-card>
-				</v-flex>
-			</v-layout>
+			<v-card flat>
+				<!-- Top overview container -->
+				<v-container fluid>
+					<!-- WO status row -->
+					<v-layout row class="mb-3">
+						<v-spacer></v-spacer>
+						<v-tooltip top>
+					    <v-icon color="info" slot="activator">info</v-icon>				
+				      <span>WO is open</span>
+				    </v-tooltip>												
+					</v-layout>
+
+					<!--Business headline -->
+					<v-layout row>
+						<v-flex xs6>
+								<h1>UNA AUTO SERVICE</h1>
+								<h4 class="ml-1">Repairs, detailing, maintenance</h4>						
+						</v-flex>
+						<v-flex xs6 class="text-xs-right">
+								<h1 class="grey--text">WORK ORDER</h1>	
+								<small class="grey--text">(#{{ workOrder.id }})</small>					
+						</v-flex>							
+					</v-layout>
+
+					<v-divider class="mt-2 mb-2"></v-divider>
+
+					<!--WO date -->				
+					<v-layout row>						
+						<v-flex xs4>
+							<strong>WO DATE:</strong> {{ workOrder.created_at }}
+						</v-flex>					
+					</v-layout>
+				</v-container>
+
+				<!-- Customer and vehicle container -->
+				<v-container fluid class="pa-2">
+					<!-- Customer and vehicle headings -->
+					<v-layout row class="red darken-4 mt-2">
+						<v-flex xs6>
+							<h3 class="white--text pa-2">CUSTOMER</h3>
+						</v-flex>
+						<v-flex xs6>
+							<h3 class="white--text pa-2">VEHICLE</h3>
+						</v-flex>						
+					</v-layout>
+
+					<v-layout row class="red lighten-4 pt-2">
+						<!-- Customer info -->
+						<v-flex xs6>
+							<v-container fluid>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>NAME:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.customer.first }} {{ workOrder.customer.last }}
+									</v-flex>
+								</v-layout>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>PRIMARY:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.customer.phone_one }}
+									</v-flex>
+								</v-layout>
+								<v-layout row v-if="workOrder.customer.phone_two">
+									<v-flex xs4>
+										<strong>SECONDARY:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.customer.phone_two }}
+									</v-flex>
+								</v-layout>									
+							</v-container>														
+						</v-flex>
+						<!-- Vehicle info -->
+						<v-flex xs6>
+							<v-container fluid>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>YEAR:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.vehicle.year }}
+									</v-flex>
+								</v-layout>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>MAKE:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.vehicle.make }}
+									</v-flex>
+								</v-layout>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>MODEL:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.vehicle.model }}
+									</v-flex>
+								</v-layout>
+								<v-layout row>
+									<v-flex xs4>
+										<strong>VIN:</strong>
+									</v-flex>
+									<v-flex xs6>
+										{{ workOrder.vehicle.vin }}
+									</v-flex>
+								</v-layout>									
+							</v-container>																										
+						</v-flex>						
+					</v-layout>					
+				</v-container>
+
+				<!-- Jobs heading container -->
+				<v-container fluid class="pa-2">
+					<!-- Job headings -->
+					<v-layout v-if="workOrder.jobs.length > 0" row class="red darken-4 mt-2">						
+						<v-flex xs8>
+							<h3 class="white--text pa-2">JOB REQUESTED</h3>
+						</v-flex>
+						<v-spacer></v-spacer>
+						<v-flex xs1 class="text-xs-right">
+							<h3 class="white--text pa-2">HOURS</h3>
+						</v-flex>
+						<v-flex xs1></v-flex>																				
+					</v-layout>	
+
+					<!-- If no jobs yet show alert -->
+					<v-container v-else fluid class="pa-0 mt-5">
+						<v-alert outline color="info" icon="info" value="true">
+							No jobs have been added to this work order yet
+						</v-alert>
+					</v-container>
+
+					<!-- All jobs -->
+					<job-row v-for="job in workOrder.jobs" :job="job" :key="job.id"></job-row>
+				</v-container>
+
+				<!-- Parts heading container -->
+				<v-container v-if="parts.length > 0" fluid class="pa-2">
+					<!-- Parts headings -->
+					<v-layout row class="red darken-4 mt-2">
+						<v-flex xs3>
+							<h3 class="white--text pa-2">PART INVOICE #</h3>
+						</v-flex>
+						<v-flex xs7>
+							<h3 class="white--text pa-2">PARTS</h3>
+						</v-flex>																				
+					</v-layout>		
+
+
+					<part-row v-for="part in parts" :part="part" :key="part.id"></part-row>
+													
+				</v-container>				
+
+				<v-container fluid class="mt-5">
+					<v-layout row>
+						<v-flex xs12 class="text-xs-center">
+							<small>
+								If you have any questions or concerns regarding this invoice please contact us.
+							</small>
+						</v-flex>
+					</v-layout>
+				</v-container>
+
+			</v-card>		
+
+
+			<!-- Dialogs triggered by tool buttons -->
 
 			<!-- Add job dialog -->
 			<v-dialog v-model="addJobDialog" persistent max-width="500px">
@@ -113,7 +267,8 @@
 	import Layout from './_Layout';
 	import WoForm from './../components/forms/Work-order-form';
 	import JobForm from './../components/forms/Job-form';
-	import JobTicket from './../components/tickets/Job-ticket';
+	import JobRow from './../components/tickets/Job-row';
+	import PartRow from './../components/tickets/Part-row';
 
 	export default{
 		props: ['id'],
@@ -131,6 +286,20 @@
 		computed: {
 			workOrder (){
 				return this.$store.getters.selectedWorkOrder;
+			},
+
+			parts (){
+				let parts = [];
+
+				this.workOrder.jobs.forEach((job) => {
+					if(job.parts.length > 0){
+						job.parts.forEach((part) => {
+							parts.push(part);
+						})
+					}
+				});		
+
+				return parts;		
 			},
 
 			estGrandTotal (){
@@ -159,7 +328,8 @@
 		components: {
 			'layout': Layout,
 			'job-form': JobForm,
-			'job-ticket': JobTicket,
+			'job-row': JobRow,
+			'part-row': PartRow,
 			'wo-form': WoForm
 		},
 
@@ -176,6 +346,23 @@
 						this.invoiceCreating = false;
 						// Toggle dialog
 						this.confirmInvoiceDialog = false;
+					})
+					.catch((error) => {
+						this.invoiceCreating = false;
+						// Toggle dialog
+						this.confirmInvoiceDialog = false;
+						// Error response
+		  			if(error.response){
+		    			// Form validation errors
+		    			if(error.response.data){
+								// Check for error response from Laravel controller
+								if(error.response.data.result == 'error'){
+									this.$router.app.$emit('snackbar', {
+										text: error.response.data.message
+									});
+								}
+							}
+						}
 					});
 			}
 		},

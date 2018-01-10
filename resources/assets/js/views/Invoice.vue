@@ -297,20 +297,6 @@
 				</v-container>
 
 			</v-card>
-			<!--
-			<v-layout row>
-				<v-flex xs12>
-					<v-card flat>
-						
-					</v-card>
-				</v-flex>
-			</v-layout>	-->
-
-
-			<!-- Jobs -->
-			<!--<v-layout row wrap>
-				<job-ticket v-for="job in invoice.work_order.jobs" :job="job" :key="job.id" :invoice-state="true" class="mt-4"></job-ticket>
-			</v-layout>-->
 		</div><!--/ Content slot -->
 
 	</layout>
