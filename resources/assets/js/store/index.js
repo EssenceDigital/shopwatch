@@ -370,13 +370,13 @@ export const store = new Vuex.Store({
 			return ApiHelper.getAction(context, '/invoices/'+payload, 'updateSelectedInvoice');
 		},			
 		createInvoice (context, payload){
-			return ApiHelper.postAction(context, payload, '/invoices/create', 'addInvoice');
+			return ApiHelper.postAction(context, payload, '/invoices/create', 'updateSelectedInvoice');
 		},
 		markInvoicePaid (context, payload){
-			return ApiHelper.postAction(context, payload, '/invoices/mark-paid', 'updateInvoice');
+			return ApiHelper.postAction(context, payload, '/invoices/mark-paid', 'updateSelectedInvoice');
 		},
 		removeInvoice (context, payload){
-			return ApiHelper.removeAction(context, '/invoices/'+payload+'/remove', 'removeInvoice');
+			return ApiHelper.removeAction(context, '/invoices/'+payload+'/remove', 'updateSelectedWorkOrder');
 		},
 
 		getSuppliers (context, payload){

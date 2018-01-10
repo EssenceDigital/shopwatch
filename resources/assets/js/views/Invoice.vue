@@ -2,8 +2,19 @@
 	<layout v-if="invoice">
 		<div slot="title">Invoice</div>
 
-		<div slot="tools">	
-		
+		<div slot="tools" v-if="!invoice.is_paid">	
+			<v-tooltip top>
+		    <v-btn color="warning" left slot="activator" @click="rollbackDialog = true">
+		      <v-icon left>restore</v-icon> Rollback
+		    </v-btn>				
+	      <span>Rollback to WO</span>
+	    </v-tooltip>
+			<v-tooltip top>
+		    <v-btn color="success" left slot="activator" @click="paymentMethodDialog = true">
+		      <v-icon left>check_circle</v-icon> Mark Paid
+		    </v-btn>				
+	      <span>Complete payment</span>
+	    </v-tooltip>	    		
 		</div>
 
 
@@ -11,6 +22,19 @@
 			<v-card flat>
 				<!-- Top overview container -->
 				<v-container fluid>
+					<!-- Invoice status row -->
+					<v-layout row class="mb-3">
+						<v-spacer></v-spacer>
+						<v-tooltip v-if="invoice.is_paid" top>
+					    <v-icon color="success" slot="activator">check_circle</v-icon>				
+				      <span>Invoice is paid</span>
+				    </v-tooltip>						
+						<v-tooltip v-else top>
+					    <v-icon color="error" slot="activator">cancel</v-icon>				
+				      <span>Invoice not paid</span>
+				    </v-tooltip>												
+					</v-layout>
+
 					<!--Business headline -->
 					<v-layout row>
 						<v-flex xs6>
@@ -295,8 +319,49 @@
 						</v-flex>
 					</v-layout>
 				</v-container>
-
 			</v-card>
+
+	    <!-- Create invoice dialog -->
+	    <v-dialog v-model="paymentMethodDialog" persistent max-width="500px">
+	      <v-card>
+	        <v-system-bar window class="success">
+	          <v-spacer></v-spacer>
+	          <v-tooltip top>
+	            <v-btn icon class="mr-0" slot="activator" @click="paymentMethodDialog = false">
+	              <v-icon class="white--text mr-0">close</v-icon>
+	            </v-btn>                      
+	            <span>Close dialog</span>
+	          </v-tooltip>            
+	        </v-system-bar>
+	        <v-card-text>
+	          <payment-method-form action="markInvoicePaid" :invoice="id" @saved="paymentMethodDialog = false"></payment-method-form>
+	        </v-card-text>
+	      </v-card>
+	    </v-dialog>			
+
+    <!-- Remove dialog -->
+    <v-dialog v-model="rollbackDialog" persistent max-width="300px">
+      <v-card>
+        <v-system-bar window class="warning">
+          <v-spacer></v-spacer>
+          <v-tooltip top>
+            <v-btn icon class="mr-0" slot="activator" @click="rollbackDialog = false">
+              <v-icon class="white--text mr-0">close</v-icon>
+            </v-btn>                      
+            <span>Close dialog</span>
+          </v-tooltip>            
+        </v-system-bar>
+        <v-card-text>
+          Roll this invoice back to work order state?
+        </v-card-text>
+        <v-card-actions>
+        	<v-spacer></v-spacer>
+					<v-btn color="green darken-1" flat @click.native="rollbackDialog = false">Cancel</v-btn>
+          <v-btn color="warning" flat :loading="isRemoving" @click.native="rollback">Yes</v-btn>    
+          <v-spacer></v-spacer>    	
+        </v-card-actions>
+      </v-card>
+    </v-dialog> 	    
 		</div><!--/ Content slot -->
 
 	</layout>
@@ -305,6 +370,7 @@
 <script>
 	import Layout from './_Layout';
 	import JobForm from './../components/forms/Job-form';
+	import PaymentMethodForm from './../components/forms/Payment-method-form';
 	import JobRow from './../components/tickets/Job-row';
 	import PartRow from './../components/tickets/Part-row';
 
@@ -313,7 +379,9 @@
 
 		data () {
 			return {
-
+				paymentMethodDialog: false,
+				rollbackDialog: false,
+				isRemoving: false
 			}
 		},
 
@@ -336,12 +404,43 @@
 		components: {
 			'layout': Layout,
 			'job-form': JobForm,
+			'payment-method-form': PaymentMethodForm,
 			'job-row': JobRow,
 			'part-row': PartRow
 		},
 
 		methods: {
+			rollback (){
+      	// Toggle loader
+      	this.isRemoving = true;
+      	// Dispatch event to store
+      	this.$store.dispatch('removeInvoice', this.id)
+      		.then((response) => {
+      			// Toggle loader and dialog
+      			this.rollbackDialog = false;
+      			this.isRemoving = false;
+    				// The form was saved
+    				this.$router.push('/work-orders/' + response.id);
+      		})
+      		.catch((error) => {
+      			// Toggle loader and dialog
+      			this.rollbackDialog = false;
+      			this.isRemoving = false;
 
+		  			if(error.response){
+		    			// Form validation errors
+		    			if(error.response.data){
+								// Check for error response from Laravel controller
+								if(error.response.data.result == 'error'){
+									this.$router.app.$emit('snackbar', {
+										text: error.response.data.message
+									});
+								}
+							}
+						}
+
+      		});
+			}
 		},
 
 		created (){

@@ -1,4 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons);.text-center {
+@import url(https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons);a {
+  text-decoration: none;
+}
+.text-center {
   text-align: center;
 }
 .black {

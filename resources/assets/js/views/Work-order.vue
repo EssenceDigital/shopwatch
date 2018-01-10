@@ -31,7 +31,17 @@
 					<!-- WO status row -->
 					<v-layout row class="mb-3">
 						<v-spacer></v-spacer>
-						<v-tooltip top>
+						<router-link v-if="workOrder.is_invoiced" :to="'/invoices/' + workOrder.invoice_id" class="mt-1">
+							<em class="success--text mr-1">
+								Invoiced
+							</em>							
+						</router-link>
+
+						<v-tooltip v-if="workOrder.is_invoiced" top>
+					    <v-icon color="success" slot="activator">check_circle</v-icon>				
+				      <span>WO has been invoiced</span>
+				    </v-tooltip>						
+						<v-tooltip v-else top>
 					    <v-icon color="info" slot="activator">info</v-icon>				
 				      <span>WO is open</span>
 				    </v-tooltip>												
@@ -187,7 +197,7 @@
 					<v-layout row>
 						<v-flex xs12 class="text-xs-center">
 							<small>
-								If you have any questions or concerns regarding this invoice please contact us.
+								This is only a work order.
 							</small>
 						</v-flex>
 					</v-layout>

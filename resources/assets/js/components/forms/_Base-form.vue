@@ -31,7 +31,7 @@
       <span>Remove</span>
     </v-tooltip>
 
-    <!-- Edit user dialog -->
+    <!-- Remove dialog -->
     <v-dialog 
     	v-if="editState"
     	v-model="removeDialog" 

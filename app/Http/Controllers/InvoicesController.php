@@ -161,7 +161,14 @@ class InvoicesController extends Controller
     public function markPaid(MarkInvoicePaid $request)
     {
     	// Find invoice
-    	$invoice = Invoice::findOrFail($request->id);
+    	$invoice = Invoice::with(
+    		'customer', 
+    		'vehicle',
+    		'work_order', 
+    		'work_order.jobs', 
+    		'work_order.jobs.parts', 
+    		'work_order.jobs.parts.supplier'
+    	)->findOrFail($request->id);
     	// Setup payment info 
     	$invoice->is_paid = 1;
     	$invoice->payment_method = $request->payment_method;
@@ -209,16 +216,17 @@ class InvoicesController extends Controller
     	// Can only remove an invoice that has not been paid
     	if(! $invoice->is_paid){
     		// Now find the related work order so we can reset the is_invoiced values
-    		$wo = WorkOrder::findOrFail($invoice->work_order_id);
+    		$wo = WorkOrder::with(['customer', 'vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->findOrFail($invoice->work_order_id);
 
     		// Update work order
     		$wo->is_invoiced = 0;
     		$wo->invoice_id = null;
     		// Save the work order
-    		$this->genericSave($wo);
-
+    		$wo = $this->genericSave($wo);
     		// Delete the invoice
-    		return $this->genericRemove($invoice);
+    		$id = $this->genericRemove($invoice);
+    		
+    		return $wo;
 
     	} else {
     		// Invoice IS PAID. Cannot remove
