@@ -9,12 +9,14 @@
       app
     >
       <v-list dense>
-        <v-list-tile @click.stop="right = !right">
+        <v-list-tile @click.stop="openInvoiceDrawer">
           <v-list-tile-action>
-            <v-icon>exit_to_app</v-icon>
+            <v-btn :loading="rightLoading" icon>
+              <v-icon>exit_to_app</v-icon>
+            </v-btn>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Open Temporary Drawer</v-list-tile-title>
+            <v-list-tile-title><span class="grey--text">Show All Current Invoices</span></v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
@@ -107,6 +109,7 @@
       v-model="left"
       fixed
     ></v-navigation-drawer>
+
     <v-content>
       <!-- For showing user alerts and feedback -->
       <v-snackbar
@@ -126,12 +129,18 @@
 
       </v-container>
     </v-content>
+
     <v-navigation-drawer
       right
       temporary
       v-model="right"
       fixed
-    ></v-navigation-drawer>
+    >
+      <v-container fluid class="pb-0">
+        <span class="subheading"><strong>Open Invoices</strong></span>
+      </v-container>
+      <invoice-tickets-container></invoice-tickets-container>
+    </v-navigation-drawer>
     <v-footer color="red darken-4" class="white--text" app>
       <span>ShopWatch V0.5</span>
       <v-spacer></v-spacer>
@@ -141,6 +150,8 @@
 </template>
 
 <script>
+  import InvoiceTicketsContainer from './components/containers/Invoice-tickets-container';
+
   export default {
     data: function(){
       return {
@@ -151,10 +162,12 @@
         drawer: null,
         drawerRight: null,
         right: null,
+        rightLoading: false,
         left: null,
         menuItems: [
           { icon: 'android', title: 'Users', link: '/users' },
-          { icon: 'account_box', title: 'Customers', link: '/customers' }
+          { icon: 'account_box', title: 'Customers', link: '/customers' },
+          { icon: 'insert_drive_file', title: 'Work Orders', link: '/work-orders' }
         ],
         token: window.Laravel.csrfToken,
         authEmail: AUTH_EMAIL         
@@ -163,6 +176,27 @@
 
     props: {
       source: String
+    },
+
+    components: {
+      'invoice-tickets-container': InvoiceTicketsContainer
+    },
+
+    methods: {
+      openInvoiceDrawer (){
+        // Toggle loader
+        this.rightLoading = true;
+        // Get WOs
+        this.$store.dispatch('filterInvoices', {
+          is_paid: 'false-bool'
+        })
+          .then(() => {
+            // Toggle drawer
+            this.right = true;
+            // Toggle loader
+            this.rightLoading = false;
+          });     
+      }
     },
 
     created () {

@@ -40,13 +40,25 @@ class InvoicesController extends Controller
 			['filter' => $customer_id, 'field' => 'customer_id', 'value' => $customer_id, 'conditional' => '=']
 		];
 
-		// Possible where between fields for the filter
-		$whereBetweeeFields = [
-			'first' => ['field' => 'date', 'value' => $from_date],
-			'second' => ['field' => 'date', 'value' => $to_date]
-		];
+		// Default value for whereBetweenFields
+		$whereBetweenFields = false;
+		// Set where between values if dates present
+		if($from_date && $to_date){
+			// Possible where between fields for the filter
+			$whereBetweenFields = [
+				'first' => ['field' => 'date', 'value' => $from_date],
+				'second' => ['field' => 'date', 'value' => $to_date]
+			];			
+		}
 
-		return $this->genericFilter(Invoice::orderBy('created_at', 'asc'), $whereFields, $whereBetweenFields);    	
+		return $this->genericFilter(
+			Invoice::with(
+	    		'customer', 
+	    		'vehicle'
+	    	)->orderBy('created_at', 'asc'), 
+	    	$whereFields, 
+	    	$whereBetweenFields
+		);    	
     }
 
 	/** 

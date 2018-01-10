@@ -170,8 +170,11 @@
 		},
 
 		created (){
-			this.$store.dispatch('filterCustomers');	
-
+			// Get customers
+			if(! this.editState){
+				this.$store.dispatch('filterCustomers');	
+			}
+			
 			// Populate the form for editing
 			if(this.wo){
 				Helpers.populateForm(this.form, this.wo);

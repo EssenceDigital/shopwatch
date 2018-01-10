@@ -351,11 +351,13 @@
 				this.$store.dispatch('createInvoice', {
 					work_order_id: this.id
 				})
-					.then(() => {
+					.then((response) => {
 						// Toggle loader
 						this.invoiceCreating = false;
 						// Toggle dialog
 						this.confirmInvoiceDialog = false;
+						// Redirect
+						this.$router.push('/invoices/' + response.id);
 					})
 					.catch((error) => {
 						this.invoiceCreating = false;
@@ -383,6 +385,10 @@
 			if(! this.workOrder.id || this.workOrder.id != this.id) {
 				this.$store.dispatch('getWorkOrder', this.id)
 			}
+
+			// Work order 'children' forms need some resources. Load them
+			this.$store.dispatch('getSuppliers');
+			this.$store.dispatch('getUsers');
 		}	
 	}
 </script>

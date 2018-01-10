@@ -4,15 +4,16 @@
 
 		<div slot="tools">
 			<v-tooltip top>
-		    <v-btn flat color="green" left slot="activator" @click="addWoDialog = true">
-		      <v-icon left>note_add</v-icon> WO
+		    <v-btn color="info" left slot="activator" @click="addWoDialog = true">
+		      <v-icon left>note_add</v-icon> Work Order
 		    </v-btn>				
 	      <span>Start WO</span>
-	    </v-tooltip>			
+	    </v-tooltip>						
 		</div>
 
 		<div slot="content">
 	
+			<wo-container></wo-container>
 
 			<!-- Add WO dialog -->
 			<v-dialog v-model="addWoDialog" persistent max-width="500px">
@@ -39,6 +40,7 @@
 <script>
 	import Layout from './_Layout';
 	import WorkOrderForm from './../components/forms/Work-order-form';
+	import WorkOrdersContainer from './../components/containers/Wo-tickets-container';
 
 	export default{
 		data () {
@@ -49,7 +51,8 @@
 
 		components: {
 			'layout': Layout,
-			'work-order-form': WorkOrderForm
+			'work-order-form': WorkOrderForm,
+			'wo-container': WorkOrdersContainer
 		},
 
 		methods: {

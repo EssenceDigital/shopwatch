@@ -14,23 +14,23 @@ export const store = new Vuex.Store({
 	*/
 	state: {
 		users: [],
-		selectedUser: {},
+		selectedUser: false,
 
 		customers: [],
-		selectedCustomer: {},
+		selectedCustomer: false,
 		customersFilter: {
 
 		},
-		selectedVehicle: {},
+		selectedVehicle: false,
 
 		workOrders: [],
 		workOrdersFilter: {
 
 		},
-		selectedWorkOrder: {},
+		selectedWorkOrder: false,
 
 		invoices: [],
-		selectedInvoice: {},
+		selectedInvoice: false,
 
 		suppliers: [],
 		busConfig: {},
@@ -351,16 +351,16 @@ export const store = new Vuex.Store({
 			var url = '/invoices';
 			// Create payload 
 			if(payload){
-				if(payload.from_date != '') url += '/' + payload.from_date;
+				if(payload.from_date) url += '/' + payload.from_date;
 					else url += '/' + 0;
 
-				if(payload.to_date != '') url += '/' + payload.to_date;
+				if(payload.to_date) url += '/' + payload.to_date;
 					else url += '/' + 0;		
 
-				if(payload.is_paid != '') url += '/' + payload.is_paid;
+				if(payload.is_paid) url += '/' + payload.is_paid;
 					else url += '/' + 0;		
 																															
-				if(payload.customer_id != '') url += '/' + payload.customer_id;
+				if(payload.customer_id) url += '/' + payload.customer_id;
 					else url += '/' + 0;		
 			}
 			// Use api to send the request

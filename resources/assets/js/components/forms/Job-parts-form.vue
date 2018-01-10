@@ -145,18 +145,14 @@
 		},
 
 		created (){
-			// Get users. Will be used in the tech select input
-			this.$store.dispatch('getSuppliers')
-				.then(() => {
-					// Populate form with supplied part, if needed
-					if(this.part){
-						Helpers.populateForm(this.form, this.part);
-					}			
-					// Set job ID
-					if(this.job){
-						this.form.job_id.value = this.job;
-					}					
-				});
+			// Populate form with supplied part, if needed
+			if(this.part){
+				Helpers.populateForm(this.form, this.part);
+			}			
+			// Set job ID
+			if(this.job){
+				this.form.job_id.value = this.job;
+			}					
 		}
 	}
 </script>

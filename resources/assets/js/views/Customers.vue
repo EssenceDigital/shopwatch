@@ -4,11 +4,11 @@
 
 		<div slot="tools">
 			<v-tooltip top>
-		    <v-btn flat color="green" slot="activator" @click="addDialog = true">
+		    <v-btn color="info" left slot="activator" @click="addDialog = true">
 		      <v-icon left>add_circle_outline</v-icon> Customer
 		    </v-btn>				
-	      <span>Add customer</span>
-	    </v-tooltip>			
+	      <span>Add Customer</span>
+	    </v-tooltip>						
 		</div>
 
 		<div slot="content">
