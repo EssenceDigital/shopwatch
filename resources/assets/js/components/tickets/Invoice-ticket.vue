@@ -20,7 +20,7 @@
 						<span>{{ invoice.customer.first + ' ' + invoice.customer.last }}</span>							
 					</v-layout>	
 					<v-layout row class="mt-1">
-						<v-icon class="mr-2" color="success">payment</v-icon>
+						<v-icon class="mr-2" color="success">account_balance</v-icon>
 						<span class="success--text">{{ invoice.grand_total | money }}</span>							
 					</v-layout>						
 				</v-container>

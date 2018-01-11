@@ -62,7 +62,7 @@ Route::get('/vehicles/{id}', 'VehiclesController@get');
 /*
  * Work order routes
 */
-Route::get('/work-orders/{created_at}/{is_invoiced}', 'WorkOrdersController@filter');
+Route::get('/work-orders/filter/{created_at}/{is_invoiced}', 'WorkOrdersController@filter');
 Route::post('/work-orders/create', 'WorkOrdersController@create');
 Route::delete('/work-orders/{id}/remove', 'WorkOrdersController@remove');
 Route::get('/work-orders/{id}', 'WorkOrdersController@get');
@@ -86,7 +86,7 @@ Route::delete('/job-parts/{id}/remove', 'JobPartsController@remove');
 /*
  * Invoice routes
 */
-Route::get('/invoices/{from_date}/{to_date}/{is_paid}/{customer_id}', 'InvoicesController@filter');
+Route::get('/invoices/filter/{from_date?}/{to_date?}/{is_paid?}/{customer_id?}', 'InvoicesController@filter');
 Route::post('/invoices/create', 'InvoicesController@create');
 Route::post('/invoices/mark-paid', 'InvoicesController@markPaid');
 Route::delete('/invoices/{id}/remove', 'InvoicesController@remove');

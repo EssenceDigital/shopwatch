@@ -77,6 +77,8 @@ class WorkOrdersController extends Controller
     	$request->merge(['customer_id' => $vehicle->customer_id]);
     	// Merge authenticated user with request
     	$request->merge(['created_by' => Auth::user()->name]);
+    	// Merge date
+    	$request->merge(['date' => date('Y-m-d')]);
     	// Save WO
     	$wo = $this->genericSave(New WorkOrder, $request);
     	// Load relationships

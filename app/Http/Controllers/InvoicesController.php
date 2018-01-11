@@ -97,7 +97,8 @@ class InvoicesController extends Controller
 	    	// Start the invoice
 	    	$invoice = new Invoice;
 	    	// Assign basic invoice values
-	    	$invoice->created_by = 'Matt';//Auth::name();
+	    	$invoice->created_by = Auth::user()->name;
+	    	$invoice->date = date('Y-m-d');
 	    	$invoice->work_order_id = $wo->id;
 	    	$invoice->vehicle_id = $wo->vehicle_id;
 	    	$invoice->customer_id = $wo->customer_id;

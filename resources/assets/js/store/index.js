@@ -31,6 +31,12 @@ export const store = new Vuex.Store({
 
 		invoices: [],
 		selectedInvoice: false,
+		invoicesFilter: {
+			from_date: '',
+			to_date: '',
+			is_paid: '',
+			customer_id: ''
+		},
 
 		suppliers: [],
 		busConfig: {},
@@ -170,6 +176,18 @@ export const store = new Vuex.Store({
 			// Re-add updated payload at same index
 			return state.invoices.splice(index, 0, payload);			
 		},
+		updateInvoiceFromDateFilter (state, payload){
+			return state.invoicesFilter.from_date = payload;
+		},		
+		updateInvoiceToDateFilter (state, payload){
+			return state.invoicesFilter.to_date = payload;
+		},
+		updateInvoiceIsPaidFilter (state, payload){
+			return state.invoicesFilter.is_paid = payload;
+		},				
+		updateInvoiceCustomerIdFilter (state, payload){
+			return state.invoicesFilter.customer_id = payload;
+		},		
 		removeInvoice (state, payload){
 			// Get index of updated payload
 			let index = Helpers.pluckObjectById(state.invoices, 'id', payload);
@@ -299,7 +317,7 @@ export const store = new Vuex.Store({
 		},
 
 		filterWorkOrders (context, payload){
-			var url = '/work-orders';
+			var url = '/work-orders/filter';
 			// Create payload 
 			if(payload){
 				if(payload.created_at != '') url += '/' + payload.created_at;
@@ -348,19 +366,19 @@ export const store = new Vuex.Store({
 		},
 
 		filterInvoices (context, payload){
-			var url = '/invoices';
+			var url = '/invoices/filter';
 			// Create payload 
 			if(payload){
-				if(payload.from_date) url += '/' + payload.from_date;
+				if(payload.from_date && payload.from_date != '') url += '/' + payload.from_date;
 					else url += '/' + 0;
 
-				if(payload.to_date) url += '/' + payload.to_date;
+				if(payload.to_date && payload.to_date != '') url += '/' + payload.to_date;
 					else url += '/' + 0;		
 
-				if(payload.is_paid) url += '/' + payload.is_paid;
+				if(payload.is_paid && payload.is_paid != '') url += '/' + payload.is_paid;
 					else url += '/' + 0;		
 																															
-				if(payload.customer_id) url += '/' + payload.customer_id;
+				if(payload.customer_id && payload.customer_id != '') url += '/' + payload.customer_id;
 					else url += '/' + 0;		
 			}
 			// Use api to send the request
@@ -409,7 +427,7 @@ export const store = new Vuex.Store({
 		},
 		customersSelect (state){
 			var customers = state.customers,
-          select = [{ text: "Customer...", value: "" }];
+          select = [];
       // Create select array
       customers.forEach(function(customer){
         select.push({ text: customer.first+' '+customer.last, value: customer.id });      		
@@ -421,7 +439,7 @@ export const store = new Vuex.Store({
 		},
 		selectedCustomerVehiclesSelect (state){
 			var customer = state.selectedCustomer,
-          select = [{ text: "Vehicle...", value: "" }];
+          select = [];
 
       if(customer){
 	      if(customer.vehicles){
@@ -449,6 +467,9 @@ export const store = new Vuex.Store({
 		},
 		selectedInvoice (state){
 			return state.selectedInvoice;
+		},
+		invoicesFilter (state){
+			return state.invoicesFilter;
 		},
 
 		suppliersSelect (state){

@@ -14,8 +14,10 @@ import Router from './app/router';
 /** Register Vue filters */
 import MoneyFilter from './filters/money';
 import GstFilter from './filters/gst';
+import DateFilter from './filters/date';
 Vue.filter('money', MoneyFilter);
 Vue.filter('gst', GstFilter);
+Vue.filter('date', DateFilter);
 
 // Register Vue components
 Vue.component('dashboard', require('./Dashboard.vue'));

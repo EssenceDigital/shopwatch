@@ -2,11 +2,9 @@
 	<layout>
 		<div slot="title">Work Orders</div>
 
-
 		<div slot="content">
 			<work-orders-table></work-orders-table>
 		</div><!--/ Content slot -->
-
 	</layout>
 </template>
 

@@ -165,9 +165,11 @@
         rightLoading: false,
         left: null,
         menuItems: [
+          { icon: 'dashboard', title: 'Dashboard', link: '/' },
           { icon: 'android', title: 'Users', link: '/users' },
           { icon: 'account_box', title: 'Customers', link: '/customers' },
-          { icon: 'insert_drive_file', title: 'Work Orders', link: '/work-orders' }
+          { icon: 'insert_drive_file', title: 'Work Orders', link: '/work-orders' },
+          { icon: 'payment', title: 'Invoices', link: '/invoices' }
         ],
         token: window.Laravel.csrfToken,
         authEmail: AUTH_EMAIL         

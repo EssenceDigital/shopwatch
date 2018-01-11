@@ -24,7 +24,16 @@
           <td class="text-xs-left">{{ props.item.customer.first + ' ' + props.item.customer.last }}</td>
           <td class="text-xs-left">{{ props.item.vehicle.year + ' ' + props.item.vehicle.make + ' ' + props.item.vehicle.model }}</td>
           <td>
-            <span v-if="props.item.is_invoiced" class="success--text">Yes</span>
+            <span v-if="props.item.is_invoiced" class="success--text">
+              Yes 
+              <v-tooltip left>
+                <v-btn flat icon color="success" class="caption" slot="activator" @click="$router.push('/invoices/'+props.item.invoice_id)">
+                  <v-icon>launch</v-icon>
+                </v-btn>
+                <span>View invoice</span>
+              </v-tooltip>
+              
+            </span>
             <span v-else class="error--text">No</span>
           </td>
           <td>{{ props.item.jobs.length }}</td>
@@ -82,7 +91,9 @@
         ],
         editDialog: false,
         addVehicleDialog: false,
-        viewVehiclesDialog: false
+        viewVehiclesDialog: false,
+
+
 
 			}
 		},

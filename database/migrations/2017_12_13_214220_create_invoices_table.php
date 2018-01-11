@@ -22,10 +22,10 @@ class CreateInvoicesTable extends Migration
             $table->integer('vehicle_id')->unsigned();
             $table->foreign('vehicle_id')->references('id')->on('vehicles');                      
             $table->string('created_by', 50);
-            $table->timestamp('date');
+            $table->date('date')->nullable();
             $table->boolean('is_paid')->default(false);
             $table->string('payment_method', 10)->nullable();
-            $table->dateTime('paid_on')->nullable();
+            $table->date('paid_on')->nullable();
             $table->decimal('gst_rate', 13, 3)->default(0.000);
             $table->decimal('shop_supply_rate', 13, 3)->default(0.000);
             $table->decimal('total_labour', 13, 3)->default(0.000);

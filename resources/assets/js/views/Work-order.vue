@@ -64,7 +64,7 @@
 					<!--WO date -->				
 					<v-layout row>						
 						<v-flex xs4>
-							<strong>WO DATE:</strong> {{ workOrder.created_at }}
+							<strong>WO DATE:</strong> {{ workOrder.date }}
 						</v-flex>					
 					</v-layout>
 				</v-container>
