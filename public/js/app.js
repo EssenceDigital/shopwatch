@@ -58071,6 +58071,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -58139,6 +58153,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     closeDialog: function closeDialog(dialog) {
       // Toggle Dialog
       this[dialog] = false;
+    },
+    viewCustomerWorkOrders: function viewCustomerWorkOrders(id) {
+      // Update work orders filter with supplied ID
+      this.$store.commit('updateWorkOrderCustomerIdFilter', id);
+      // Forward to work orders table
+      this.$router.push('/work-orders');
+    },
+    viewCustomerInvoices: function viewCustomerInvoices(id) {
+      // Update work orders filter with supplied ID
+      this.$store.commit('updateInvoiceCustomerIdFilter', id);
+      // Forward to work orders table
+      this.$router.push('/invoices');
     }
   },
 
@@ -58620,19 +58646,7 @@ var render = function() {
                               "\n           "
                           )
                         ])
-                      : _c(
-                          "span",
-                          [
-                            _c(
-                              "v-chip",
-                              {
-                                attrs: { label: "", outline: "", color: "red" }
-                              },
-                              [_vm._v("None")]
-                            )
-                          ],
-                          1
-                        )
+                      : _c("span", [_c("em", [_vm._v("N/A")])])
                   ]),
                   _vm._v(" "),
                   _c(
@@ -58640,77 +58654,124 @@ var render = function() {
                     { staticClass: "text-xs-right" },
                     [
                       _c(
-                        "v-menu",
-                        { attrs: { "offset-y": "" } },
+                        "v-tooltip",
+                        { attrs: { left: "" } },
                         [
                           _c(
                             "v-btn",
                             {
                               attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.openDialog(props.item, "addVehicleDialog")
+                                }
+                              },
                               slot: "activator"
                             },
-                            [_c("v-icon", [_vm._v("settings")])],
+                            [_c("v-icon", [_vm._v("plus_one")])],
                             1
                           ),
                           _vm._v(" "),
+                          _c("span", [_vm._v("Add vehicle")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
                           _c(
-                            "v-list",
-                            [
-                              _c(
-                                "v-list-tile",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.openDialog(props.item, "editDialog")
-                                    }
-                                  }
-                                },
-                                [_c("v-list-tile-title", [_vm._v("Edit")])],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-tile",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.openDialog(
-                                        props.item,
-                                        "viewVehiclesDialog"
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-list-tile-title", [
-                                    _vm._v("View vehicles")
-                                  ])
-                                ],
-                                1
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-list-tile",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.openDialog(
-                                        props.item,
-                                        "addVehicleDialog"
-                                      )
-                                    }
-                                  }
-                                },
-                                [
-                                  _c("v-list-tile-title", [
-                                    _vm._v("Add vehicle")
-                                  ])
-                                ],
-                                1
-                              )
-                            ],
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.openDialog(
+                                    props.item,
+                                    "viewVehiclesDialog"
+                                  )
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("drive_eta")])],
                             1
-                          )
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("View vehicles")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.viewCustomerWorkOrders(props.item.id)
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("insert_drive_file")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("View WOs")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.viewCustomerInvoices(props.item.id)
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("payment")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("View invoices")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.openDialog(props.item, "editDialog")
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("edit")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("Edit customer")])
                         ],
                         1
                       )

@@ -29,27 +29,41 @@
               {{ props.item.phone_two }}
             </span>
             <span v-else>
-              <v-chip label outline color="red">None</v-chip>
+              <em>N/A</em>
             </span>
           </td>
           <td class="text-xs-right">
-            <v-menu offset-y >
-              <v-btn slot="activator" icon>
-                <v-icon>settings</v-icon>
-              </v-btn>              
-              <v-list>
-                <v-list-tile @click="openDialog(props.item, 'editDialog')">
-                  <v-list-tile-title>Edit</v-list-tile-title>
-                </v-list-tile>  
-                <v-list-tile @click="openDialog(props.item, 'viewVehiclesDialog')">
-                  <v-list-tile-title>View vehicles</v-list-tile-title>
-                </v-list-tile>                 
-                <v-list-tile @click="openDialog(props.item, 'addVehicleDialog')">
-                  <v-list-tile-title>Add vehicle</v-list-tile-title>
-                </v-list-tile>                               
-              </v-list>
-            </v-menu>            
 
+            <v-tooltip left>
+              <v-btn icon @click="openDialog(props.item, 'addVehicleDialog')" slot="activator">
+                <v-icon>plus_one</v-icon>
+              </v-btn>
+              <span>Add vehicle</span>
+            </v-tooltip>
+            <v-tooltip left>
+              <v-btn icon @click="openDialog(props.item, 'viewVehiclesDialog')" slot="activator">
+                <v-icon>drive_eta</v-icon>
+              </v-btn>
+              <span>View vehicles</span>
+            </v-tooltip>   
+            <v-tooltip left>
+              <v-btn icon @click="viewCustomerWorkOrders(props.item.id)" slot="activator">
+                <v-icon>insert_drive_file</v-icon>
+              </v-btn>
+              <span>View WOs</span>
+            </v-tooltip>  
+            <v-tooltip left>
+              <v-btn icon @click="viewCustomerInvoices(props.item.id)" slot="activator">
+                <v-icon>payment</v-icon>
+              </v-btn>
+              <span>View invoices</span>
+            </v-tooltip>                               
+            <v-tooltip left>
+              <v-btn icon @click="openDialog(props.item, 'editDialog')" slot="activator">
+                <v-icon>edit</v-icon>
+              </v-btn>
+              <span>Edit customer</span>
+            </v-tooltip>
           </td>
         </tr>
       </template>      
@@ -190,7 +204,21 @@
       closeDialog (dialog){
         // Toggle Dialog
         this[dialog] = false;        
-      }
+      },
+
+      viewCustomerWorkOrders (id){
+        // Update work orders filter with supplied ID
+        this.$store.commit('updateWorkOrderCustomerIdFilter', id);
+        // Forward to work orders table
+        this.$router.push('/work-orders')
+      },
+
+      viewCustomerInvoices (id){
+        // Update work orders filter with supplied ID
+        this.$store.commit('updateInvoiceCustomerIdFilter', id);
+        // Forward to work orders table
+        this.$router.push('/invoices')
+      },
       
     },
 
