@@ -12534,7 +12534,7 @@ module.exports = Component.exports
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(24);
-module.exports = __webpack_require__(156);
+module.exports = __webpack_require__(160);
 
 
 /***/ }),
@@ -12549,9 +12549,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vuetify___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vuetify__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__store_index__ = __webpack_require__(49);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_router__ = __webpack_require__(52);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__filters_money__ = __webpack_require__(140);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__filters_gst__ = __webpack_require__(141);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__filters_date__ = __webpack_require__(163);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__filters_money__ = __webpack_require__(143);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__filters_gst__ = __webpack_require__(144);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__filters_date__ = __webpack_require__(145);
 __webpack_require__(25);
 
 // Load Vue based dependencies
@@ -12574,7 +12574,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.filter('gst', __WEBPACK_IMPORTED_MOD
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.filter('date', __WEBPACK_IMPORTED_MODULE_6__filters_date__["a" /* default */]);
 
 // Register Vue components
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('dashboard', __webpack_require__(142));
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('dashboard', __webpack_require__(146));
 
 var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     el: '#app',
@@ -49995,7 +49995,12 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 		selectedVehicle: false,
 
 		workOrders: [],
-		workOrdersFilter: {},
+		workOrdersFilter: {
+			from_date: '',
+			to_date: '',
+			is_invoiced: '',
+			customer_id: ''
+		},
 		selectedWorkOrder: false,
 
 		invoices: [],
@@ -50113,6 +50118,18 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 			state.workOrders.splice(index, 1);
 			// Re-add updated payload at same index
 			return state.workOrders.splice(index, 0, payload);
+		},
+		updateWorkOrderFromDateFilter: function updateWorkOrderFromDateFilter(state, payload) {
+			return state.workOrdersFilter.from_date = payload;
+		},
+		updateWorkOrderToDateFilter: function updateWorkOrderToDateFilter(state, payload) {
+			return state.workOrdersFilter.to_date = payload;
+		},
+		updateWorkOrderIsInvoicedFilter: function updateWorkOrderIsInvoicedFilter(state, payload) {
+			return state.workOrdersFilter.is_invoiced = payload;
+		},
+		updateWorkOrderCustomerIdFilter: function updateWorkOrderCustomerIdFilter(state, payload) {
+			return state.workOrdersFilter.customer_id = payload;
 		},
 		removeWorkOrder: function removeWorkOrder(state, payload) {
 			// Get index of updated payload
@@ -50271,12 +50288,17 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 		},
 		filterWorkOrders: function filterWorkOrders(context, payload) {
 			var url = '/work-orders/filter';
-			// Create payload 
-			if (payload) {
-				if (payload.created_at != '') url += '/' + payload.created_at;else url += '/' + 0;
 
-				if (payload.is_invoiced != '') url += '/' + payload.is_invoiced;else url += '/' + 0;
+			if (payload) {
+				if (payload.from_date && payload.from_date != '') url += '/' + payload.from_date;else url += '/' + 0;
+
+				if (payload.to_date && payload.to_date != '') url += '/' + payload.to_date;else url += '/' + 0;
+
+				if (payload.is_invoiced && payload.is_invoiced != '') url += '/' + payload.is_invoiced;else url += '/' + 0;
+
+				if (payload.customer_id && payload.customer_id != '') url += '/' + payload.customer_id;else url += '/' + 0;
 			}
+
 			// Use api to send the request
 			return __WEBPACK_IMPORTED_MODULE_2__app_api__["a" /* default */].getAction(context, url, 'updateWorkOrders');
 		},
@@ -50400,6 +50422,9 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
 		},
 		selectedWorkOrder: function selectedWorkOrder(state) {
 			return state.selectedWorkOrder;
+		},
+		workOrdersFilter: function workOrdersFilter(state) {
+			return state.workOrdersFilter;
 		},
 		invoices: function invoices(state) {
 			return state.invoices;
@@ -51561,11 +51586,11 @@ var index_esm = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__views_Work_order___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_10__views_Work_order__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__views_Invoices__ = __webpack_require__(125);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__views_Invoices___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11__views_Invoices__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__views_Invoice__ = __webpack_require__(128);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__views_Invoice__ = __webpack_require__(131);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__views_Invoice___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__views_Invoice__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__views_Bus_config__ = __webpack_require__(134);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__views_Bus_config__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__views_Bus_config___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_13__views_Bus_config__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__views_User_settings__ = __webpack_require__(137);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__views_User_settings__ = __webpack_require__(140);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__views_User_settings___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_14__views_User_settings__);
 var _ref;
 
@@ -54624,6 +54649,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -54692,6 +54718,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			__WEBPACK_IMPORTED_MODULE_1__app_helpers__["a" /* default */].clearFormErrors(this.form);
 			// Notify parent component
 			this.$emit('saved', id);
+		},
+		removed: function removed() {
+			// Notify parent component
+			this.$emit('removed');
 		},
 		failed: function failed(errors) {
 			__WEBPACK_IMPORTED_MODULE_1__app_helpers__["a" /* default */].populateFormErrors(this.form, errors);
@@ -54881,7 +54911,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				_this2.removeDialog = false;
 				_this2.isRemoving = false;
 				// The form was saved
-				_this2.$emit('saved');
+				_this2.$emit('removed');
 			}).catch(function (error) {
 				// Toggle loader and dialog
 				_this2.removeDialog = false;
@@ -55509,7 +55539,7 @@ var render = function() {
         "remove-action": "removeWorkOrder",
         fields: _vm.form
       },
-      on: { saved: _vm.saved, error: _vm.failed }
+      on: { saved: _vm.saved, removed: _vm.removed, error: _vm.failed }
     },
     [
       !_vm.editState
@@ -55896,12 +55926,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
-		return {};
+		return {
+			componentLoading: true
+		};
 	},
 
 
@@ -55916,10 +55970,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	created: function created() {
+		var _this = this;
+
 		// Get WOs
 		this.$store.dispatch('filterWorkOrders', {
 			created_at: '',
 			is_invoiced: 'false-bool'
+		}).then(function () {
+			// Toggle component state
+			_this.componentLoading = false;
 		});
 	}
 });
@@ -56069,7 +56128,7 @@ var render = function() {
               _c("v-icon", [_vm._v("event")]),
               _vm._v(" "),
               _c("span", { staticClass: "ml-2" }, [
-                _vm._v(_vm._s(_vm.wo.created_at))
+                _vm._v(_vm._s(_vm._f("date")(_vm.wo.date)))
               ])
             ],
             1
@@ -56248,25 +56307,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "v-container",
-    { attrs: { fluid: "" } },
-    [
-      _c(
-        "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.workOrders, function(wo) {
-          return _c(
-            "v-flex",
-            { key: wo.id, staticClass: "pl-2 pr-2 mt-4", attrs: { xs4: "" } },
-            [_c("wo-ticket", { attrs: { wo: wo } })],
-            1
-          )
-        })
-      )
-    ],
-    1
-  )
+  return _c("v-container", { attrs: { fluid: "" } }, [
+    !_vm.componentLoading
+      ? _c(
+          "div",
+          [
+            _c(
+              "v-layout",
+              { attrs: { row: "" } },
+              [
+                _c("v-flex", { staticClass: "pa-1", attrs: { xs12: "" } }, [
+                  _c("span", { staticClass: "subheading" }, [
+                    _c("strong", [_vm._v("Open Work Orders")])
+                  ])
+                ])
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm.workOrders.length > 0
+              ? _c(
+                  "v-layout",
+                  { attrs: { row: "", wrap: "" } },
+                  _vm._l(_vm.workOrders, function(wo) {
+                    return _c(
+                      "v-flex",
+                      {
+                        key: wo.id,
+                        staticClass: "pl-2 pr-2 mt-4",
+                        attrs: { xs4: "" }
+                      },
+                      [_c("wo-ticket", { attrs: { wo: wo } })],
+                      1
+                    )
+                  })
+                )
+              : _c(
+                  "v-layout",
+                  { staticClass: "mt-3", attrs: { row: "" } },
+                  [
+                    _c(
+                      "v-flex",
+                      { attrs: { xs4: "" } },
+                      [
+                        _c(
+                          "v-alert",
+                          {
+                            attrs: {
+                              outline: "",
+                              color: "info",
+                              icon: "info",
+                              value: "true"
+                            }
+                          },
+                          [_vm._v("\n\t\t\t\t\tNo open work orders\n\t\t\t\t")]
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+          ],
+          1
+        )
+      : _c(
+          "div",
+          { staticClass: "text-xs-center" },
+          [
+            _c("v-progress-circular", {
+              attrs: { indeterminate: "", color: "primary" }
+            })
+          ],
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -56297,7 +56412,7 @@ var render = function() {
       [
         _c(
           "v-tooltip",
-          { attrs: { top: "" } },
+          { attrs: { left: "" } },
           [
             _c(
               "v-btn",
@@ -59523,23 +59638,142 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       search: '',
-      loading: true,
+      dataLoading: true,
+      toDateMenu: false,
+      fromDateMenu: false,
+      isInvoicedOptions: [{ text: 'Invoiced', value: 1 }, { text: 'Open', value: 'false-bool' }],
+      isFiltering: false,
       headers: [{
-        text: 'Customer',
+        text: '#',
         align: 'left',
         sortable: true,
-        value: 'customer'
+        value: 'customer.last'
       }, {
-        text: 'Vehicle',
+        text: 'Date',
         align: 'left',
         sortable: true,
-        value: 'vehicle'
+        value: 'date'
+      }, {
+        text: 'First',
+        align: 'left',
+        sortable: true,
+        value: 'customer.first'
+      }, {
+        text: 'Last',
+        align: 'left',
+        sortable: true,
+        value: 'customer.last'
+      }, {
+        text: 'Year',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.year'
+      }, {
+        text: 'Make',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.make'
+      }, {
+        text: 'Model',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.model'
       }, {
         text: 'Invoiced?',
         align: 'left',
@@ -59555,7 +59789,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       editDialog: false,
       addVehicleDialog: false,
       viewVehiclesDialog: false
-
     };
   },
 
@@ -59563,23 +59796,53 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     workOrders: function workOrders() {
       return this.$store.getters.workOrders;
+    },
+    workOrdersFilter: function workOrdersFilter() {
+      return this.$store.getters.workOrdersFilter;
+    },
+    customersSelect: function customersSelect() {
+      return this.$store.getters.customersSelect;
     }
   },
 
   components: {},
 
-  methods: {},
+  methods: {
+    updateFromDateFilter: function updateFromDateFilter(value) {
+      return this.$store.commit('updateWorkOrderFromDateFilter', value);
+    },
+    updateToDateFilter: function updateToDateFilter(value) {
+      return this.$store.commit('updateWorkOrderToDateFilter', value);
+    },
+    updateIsInvoicedFilter: function updateIsInvoicedFilter(value) {
+      return this.$store.commit('updateWorkOrderIsInvoicedFilter', value);
+    },
+    updateCustomerFilter: function updateCustomerFilter(value) {
+      return this.$store.commit('updateWorkOrderCustomerIdFilter', value);
+    },
+    filter: function filter() {
+      var _this = this;
+
+      // Toggle loader
+      this.isFiltering = true;
+      // Dispatch action
+      this.$store.dispatch('filterWorkOrders', this.workOrdersFilter).then(function () {
+        // Toggle loader
+        _this.isFiltering = false;
+      });
+    }
+  },
 
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
-    this.$store.dispatch('filterWorkOrders', {
-      created_at: '',
-      is_invoiced: ''
-    }).then(function (response) {
+    this.$store.dispatch('filterWorkOrders', this.workOrdersFilter).then(function (response) {
       // Toggle table loader
-      _this.loading = false;
+      _this2.dataLoading = false;
     });
+
+    // Get customers (For filter)
+    this.$store.dispatch('filterCustomers');
   }
 });
 
@@ -59595,6 +59858,207 @@ var render = function() {
     "v-card",
     { staticClass: "elevation-0" },
     [
+      _c(
+        "v-container",
+        { attrs: { fluid: "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: {
+                        lazy: "",
+                        "close-on-content-click": true,
+                        transition: "scale-transition",
+                        "offset-y": "",
+                        "full-width": "",
+                        "nudge-right": 40,
+                        "max-width": "290px",
+                        "min-width": "290px"
+                      },
+                      model: {
+                        value: _vm.fromDateMenu,
+                        callback: function($$v) {
+                          _vm.fromDateMenu = $$v
+                        },
+                        expression: "fromDateMenu"
+                      }
+                    },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          slot: "activator",
+                          label: " From date...",
+                          value: _vm.workOrdersFilter.from_date,
+                          "prepend-icon": "event",
+                          readonly: "",
+                          clearable: ""
+                        },
+                        on: { input: _vm.updateFromDateFilter },
+                        slot: "activator"
+                      }),
+                      _vm._v(" "),
+                      _c("v-date-picker", {
+                        attrs: {
+                          value: _vm.workOrdersFilter.from_date,
+                          "no-title": "",
+                          scrollable: "",
+                          autosave: ""
+                        },
+                        on: { input: _vm.updateFromDateFilter }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: {
+                        lazy: "",
+                        "close-on-content-click": true,
+                        transition: "scale-transition",
+                        "offset-y": "",
+                        "full-width": "",
+                        "nudge-right": 40,
+                        "max-width": "290px",
+                        "min-width": "290px"
+                      },
+                      model: {
+                        value: _vm.toDateMenu,
+                        callback: function($$v) {
+                          _vm.toDateMenu = $$v
+                        },
+                        expression: "toDateMenu"
+                      }
+                    },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          slot: "activator",
+                          label: " To date...",
+                          value: _vm.workOrdersFilter.to_date,
+                          "prepend-icon": "event",
+                          readonly: "",
+                          clearable: ""
+                        },
+                        on: { input: _vm.updateToDateFilter },
+                        slot: "activator"
+                      }),
+                      _vm._v(" "),
+                      _c("v-date-picker", {
+                        attrs: {
+                          value: _vm.workOrdersFilter.to_date,
+                          "no-title": "",
+                          scrollable: "",
+                          autosave: ""
+                        },
+                        on: { input: _vm.updateToDateFilter }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.isInvoicedOptions,
+                      value: _vm.workOrdersFilter.is_invoiced,
+                      label: "Invoice status...",
+                      "single-line": "",
+                      bottom: "",
+                      clearable: ""
+                    },
+                    on: { input: _vm.updateIsInvoicedFilter }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs3: "" } },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.customersSelect,
+                      value: _vm.workOrdersFilter.customer_id,
+                      label: "Customer...",
+                      autocomplete: "",
+                      clearable: ""
+                    },
+                    on: { input: _vm.updateCustomerFilter }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                { attrs: { left: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        slot: "activator",
+                        loading: _vm.isFiltering,
+                        color: "primary"
+                      },
+                      on: { click: _vm.filter },
+                      slot: "activator"
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("pageview")
+                      ]),
+                      _vm._v(" Filter\n         ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Filter customers")])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider", { staticClass: "mt-3" })
+        ],
+        1
+      ),
+      _vm._v(" "),
       _c(
         "v-card-title",
         [
@@ -59624,7 +60088,8 @@ var render = function() {
         attrs: {
           headers: _vm.headers,
           items: _vm.workOrders,
-          search: _vm.search
+          search: _vm.search,
+          loading: _vm.dataLoading
         },
         scopedSlots: _vm._u([
           {
@@ -59633,68 +60098,38 @@ var render = function() {
               return [
                 _c("tr", [
                   _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(
-                      _vm._s(
-                        props.item.customer.first +
-                          " " +
-                          props.item.customer.last
-                      )
-                    )
+                    _vm._v(_vm._s(props.item.id))
                   ]),
                   _vm._v(" "),
                   _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(
-                      _vm._s(
-                        props.item.vehicle.year +
-                          " " +
-                          props.item.vehicle.make +
-                          " " +
-                          props.item.vehicle.model
-                      )
-                    )
+                    _vm._v(_vm._s(_vm._f("date")(props.item.date)))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.customer.first))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.customer.last))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.year))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.make))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.model))
                   ]),
                   _vm._v(" "),
                   _c("td", [
                     props.item.is_invoiced
-                      ? _c(
-                          "span",
-                          { staticClass: "success--text" },
-                          [
-                            _vm._v("\n             Yes \n             "),
-                            _c(
-                              "v-tooltip",
-                              { attrs: { left: "" } },
-                              [
-                                _c(
-                                  "v-btn",
-                                  {
-                                    staticClass: "caption",
-                                    attrs: {
-                                      slot: "activator",
-                                      flat: "",
-                                      icon: "",
-                                      color: "success"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        _vm.$router.push(
-                                          "/invoices/" + props.item.invoice_id
-                                        )
-                                      }
-                                    },
-                                    slot: "activator"
-                                  },
-                                  [_c("v-icon", [_vm._v("launch")])],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("View invoice")])
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
+                      ? _c("span", { staticClass: "success--text" }, [
+                          _vm._v("Yes")
+                        ])
                       : _c("span", { staticClass: "error--text" }, [
                           _vm._v("No")
                         ])
@@ -59706,6 +60141,34 @@ var render = function() {
                     "td",
                     { staticClass: "text-xs-right" },
                     [
+                      props.item.is_invoiced
+                        ? _c(
+                            "v-tooltip",
+                            { attrs: { left: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { slot: "activator", icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.$router.push(
+                                        "/invoices/" + props.item.invoice_id
+                                      )
+                                    }
+                                  },
+                                  slot: "activator"
+                                },
+                                [_c("v-icon", [_vm._v("payment")])],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("View invoice")])
+                            ],
+                            1
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
                       _c(
                         "v-tooltip",
                         { attrs: { left: "" } },
@@ -60139,6 +60602,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -60151,6 +60638,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	data: function data() {
 		return {
+			componentLoading: true,
 			addJobDialog: false,
 			removeWoDialog: false,
 			woOptionsDialog: false,
@@ -60192,10 +60680,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	watch: {
 		id: function id(newId) {
+			var _this = this;
+
 			// If ID prop does not match the selected work order then update selected work order
 			// ID prop is final source of truth
 			if (this.workOrder.id != newId) {
-				this.$store.dispatch('getWorkOrder', newId);
+				// Component loading new data
+				this.componentLoading = true;
+				// Fetch data
+				this.$store.dispatch('getWorkOrder', newId).then(function () {
+					// Toggle component loading
+					_this.componentLoading = false;
+				});
 			}
 		}
 	},
@@ -60210,7 +60706,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		createInvoice: function createInvoice() {
-			var _this = this;
+			var _this2 = this;
 
 			// Toggle loader
 			this.invoiceCreating = true;
@@ -60219,36 +60715,51 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				work_order_id: this.id
 			}).then(function (response) {
 				// Toggle loader
-				_this.invoiceCreating = false;
+				_this2.invoiceCreating = false;
 				// Toggle dialog
-				_this.confirmInvoiceDialog = false;
+				_this2.confirmInvoiceDialog = false;
 				// Redirect
-				_this.$router.push('/invoices/' + response.id);
+				_this2.$router.push('/invoices/' + response.id);
 			}).catch(function (error) {
-				_this.invoiceCreating = false;
+				_this2.invoiceCreating = false;
 				// Toggle dialog
-				_this.confirmInvoiceDialog = false;
+				_this2.confirmInvoiceDialog = false;
 				// Error response
 				if (error.response) {
 					// Form validation errors
 					if (error.response.data) {
 						// Check for error response from Laravel controller
 						if (error.response.data.result == 'error') {
-							_this.$router.app.$emit('snackbar', {
+							_this2.$router.app.$emit('snackbar', {
 								text: error.response.data.message
 							});
 						}
 					}
 				}
 			});
+		},
+		removed: function removed() {
+			console.log("removed");
+			// Toggle dialog
+			this.woOptionsDialog = false;
+			// Redirect
+			this.$router.push('/');
 		}
 	},
 
 	created: function created() {
+		var _this3 = this;
+
 		// If ID prop does not match the selected work order then update selected work order
 		// ID prop is final source of truth
 		if (!this.workOrder.id || this.workOrder.id != this.id) {
-			this.$store.dispatch('getWorkOrder', this.id);
+			this.$store.dispatch('getWorkOrder', this.id).then(function () {
+				// Toggle component loading
+				_this3.componentLoading = false;
+			});
+		} else {
+			// Toggle component loading
+			this.componentLoading = false;
 		}
 
 		// Work order 'children' forms need some resources. Load them
@@ -61900,859 +62411,1088 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.workOrder
-    ? _c("layout", [
-        _c("div", { attrs: { slot: "title" }, slot: "title" }, [
-          _vm._v("Work Order")
-        ]),
-        _vm._v(" "),
-        !_vm.workOrder.is_invoiced
-          ? _c(
-              "div",
-              { attrs: { slot: "tools" }, slot: "tools" },
-              [
-                _c(
-                  "v-tooltip",
-                  { attrs: { top: "" } },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: {
-                          slot: "activator",
-                          color: "primary",
-                          left: ""
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.woOptionsDialog = true
-                          }
-                        },
-                        slot: "activator"
-                      },
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [_vm._v("info")]),
-                        _vm._v(" Options\n\t\t    ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Options")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-tooltip",
-                  { attrs: { top: "" } },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: {
-                          slot: "activator",
-                          color: "primary",
-                          left: ""
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.addJobDialog = true
-                          }
-                        },
-                        slot: "activator"
-                      },
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("add_circle_outline")
-                        ]),
-                        _vm._v(" Job\n\t\t    ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Add job")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-tooltip",
-                  { attrs: { top: "" } },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: {
-                          slot: "activator",
-                          color: "teal",
-                          dark: "",
-                          left: ""
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.confirmInvoiceDialog = true
-                          }
-                        },
-                        slot: "activator"
-                      },
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("credit_card")
-                        ]),
-                        _vm._v(" Invoice\n\t\t    ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Create Invoice")])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
+  return _c("v-container", { staticClass: "pa-0", attrs: { fluid: "" } }, [
+    !_vm.componentLoading
+      ? _c(
           "div",
-          { attrs: { slot: "content" }, slot: "content" },
           [
-            _c(
-              "v-card",
-              { attrs: { flat: "" } },
-              [
-                _c(
-                  "v-container",
-                  { attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { staticClass: "mb-3", attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _vm.workOrder.is_invoiced
-                          ? _c(
-                              "router-link",
-                              {
-                                staticClass: "mt-1",
-                                attrs: {
-                                  to: "/invoices/" + _vm.workOrder.invoice_id
-                                }
-                              },
-                              [
-                                _c(
-                                  "em",
-                                  { staticClass: "success--text mr-1" },
-                                  [
-                                    _vm._v(
-                                      "\n\t\t\t\t\t\t\t\tInvoiced\n\t\t\t\t\t\t\t"
-                                    )
-                                  ]
-                                )
-                              ]
-                            )
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.workOrder.is_invoiced
-                          ? _c(
-                              "v-tooltip",
-                              { attrs: { top: "" } },
-                              [
-                                _c(
-                                  "v-icon",
-                                  {
-                                    attrs: {
-                                      slot: "activator",
-                                      color: "success"
-                                    },
-                                    slot: "activator"
+            _vm.workOrder
+              ? _c("layout", [
+                  _c("div", { attrs: { slot: "title" }, slot: "title" }, [
+                    _vm._v("Work Order")
+                  ]),
+                  _vm._v(" "),
+                  !_vm.workOrder.is_invoiced
+                    ? _c(
+                        "div",
+                        { attrs: { slot: "tools" }, slot: "tools" },
+                        [
+                          _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    slot: "activator",
+                                    color: "primary",
+                                    left: ""
                                   },
-                                  [_vm._v("check_circle")]
-                                ),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("WO has been invoiced")])
-                              ],
-                              1
-                            )
-                          : _c(
-                              "v-tooltip",
-                              { attrs: { top: "" } },
-                              [
-                                _c(
-                                  "v-icon",
-                                  {
-                                    attrs: { slot: "activator", color: "info" },
-                                    slot: "activator"
+                                  on: {
+                                    click: function($event) {
+                                      _vm.woOptionsDialog = true
+                                    }
                                   },
-                                  [_vm._v("info")]
-                                ),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("WO is open")])
-                              ],
-                              1
-                            )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h1", [_vm._v("UNA AUTO SERVICE")]),
+                                  slot: "activator"
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("info")
+                                  ]),
+                                  _vm._v(" Options\n\t\t\t    ")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Options")])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
-                          _c("h4", { staticClass: "ml-1" }, [
-                            _vm._v("Repairs, detailing, maintenance")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs6: "" } },
-                          [
-                            _c("h1", { staticClass: "grey--text" }, [
-                              _vm._v("WORK ORDER")
-                            ]),
-                            _vm._v(" "),
-                            _c("small", { staticClass: "grey--text" }, [
-                              _vm._v("(#" + _vm._s(_vm.workOrder.id) + ")")
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-divider", { staticClass: "mt-2 mb-2" }),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs4: "" } }, [
-                          _c("strong", [_vm._v("WO DATE:")]),
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm.workOrder.created_at) +
-                              "\n\t\t\t\t\t\t"
+                          _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    slot: "activator",
+                                    color: "primary",
+                                    left: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.addJobDialog = true
+                                    }
+                                  },
+                                  slot: "activator"
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("add_circle_outline")
+                                  ]),
+                                  _vm._v(" Job\n\t\t\t    ")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Add job")])
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    slot: "activator",
+                                    color: "teal",
+                                    dark: "",
+                                    left: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.confirmInvoiceDialog = true
+                                    }
+                                  },
+                                  slot: "activator"
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("credit_card")
+                                  ]),
+                                  _vm._v(" Invoice\n\t\t\t    ")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Create Invoice")])
+                            ],
+                            1
                           )
-                        ])
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "pa-2", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { staticClass: "red darken-4 mt-2", attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h3", { staticClass: "white--text pa-2" }, [
-                            _vm._v("CUSTOMER")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h3", { staticClass: "white--text pa-2" }, [
-                            _vm._v("VEHICLE")
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { staticClass: "red lighten-4 pt-2", attrs: { row: "" } },
-                      [
-                        _c(
-                          "v-flex",
-                          { attrs: { xs6: "" } },
-                          [
-                            _c(
-                              "v-container",
-                              { attrs: { fluid: "" } },
-                              [
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("NAME:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.workOrder.customer.first) +
-                                          " " +
-                                          _vm._s(_vm.workOrder.customer.last) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("PRIMARY:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(
-                                            _vm.workOrder.customer.phone_one
-                                          ) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _vm.workOrder.customer.phone_two
-                                  ? _c(
-                                      "v-layout",
-                                      { attrs: { row: "" } },
-                                      [
-                                        _c("v-flex", { attrs: { xs4: "" } }, [
-                                          _c("strong", [_vm._v("SECONDARY:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("v-flex", { attrs: { xs6: "" } }, [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(
-                                                _vm.workOrder.customer.phone_two
-                                              ) +
-                                              "\n\t\t\t\t\t\t\t\t\t"
+                        ],
+                        1
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { attrs: { slot: "content" }, slot: "content" },
+                    [
+                      _c(
+                        "v-card",
+                        { attrs: { flat: "" } },
+                        [
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { staticClass: "mb-3", attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _vm.workOrder.is_invoiced
+                                    ? _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "mt-1",
+                                          attrs: {
+                                            to:
+                                              "/invoices/" +
+                                              _vm.workOrder.invoice_id
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "em",
+                                            {
+                                              staticClass: "success--text mr-1"
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\tInvoiced\n\t\t\t\t\t\t\t\t"
+                                              )
+                                            ]
                                           )
-                                        ])
-                                      ],
-                                      1
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.workOrder.is_invoiced
+                                    ? _c(
+                                        "v-tooltip",
+                                        { attrs: { top: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                slot: "activator",
+                                                color: "success"
+                                              },
+                                              slot: "activator"
+                                            },
+                                            [_vm._v("check_circle")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("WO has been invoiced")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "v-tooltip",
+                                        { attrs: { top: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                slot: "activator",
+                                                color: "info"
+                                              },
+                                              slot: "activator"
+                                            },
+                                            [_vm._v("info")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("span", [_vm._v("WO is open")])
+                                        ],
+                                        1
+                                      )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c("h1", [_vm._v("UNA AUTO SERVICE")]),
+                                    _vm._v(" "),
+                                    _c("h4", { staticClass: "ml-1" }, [
+                                      _vm._v("Repairs, detailing, maintenance")
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs6: "" }
+                                    },
+                                    [
+                                      _c("h1", { staticClass: "grey--text" }, [
+                                        _vm._v("WORK ORDER")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "small",
+                                        { staticClass: "grey--text" },
+                                        [
+                                          _vm._v(
+                                            "(#" +
+                                              _vm._s(_vm.workOrder.id) +
+                                              ")"
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "mt-2 mb-2" }),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-flex", { attrs: { xs4: "" } }, [
+                                    _c("strong", [_vm._v("WO DATE:")]),
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          _vm._f("date")(_vm.workOrder.date)
+                                        ) +
+                                        "\n\t\t\t\t\t\t\t"
                                     )
-                                  : _vm._e()
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { attrs: { xs6: "" } },
-                          [
-                            _c(
-                              "v-container",
-                              { attrs: { fluid: "" } },
-                              [
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("YEAR:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.workOrder.vehicle.year) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("MAKE:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.workOrder.vehicle.make) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("MODEL:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.workOrder.vehicle.model) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("VIN:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs6: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.workOrder.vehicle.vin) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "pa-2", attrs: { fluid: "" } },
-                  [
-                    _vm.workOrder.jobs.length > 0
-                      ? _c(
-                          "v-layout",
-                          {
-                            staticClass: "red darken-4 mt-2",
-                            attrs: { row: "" }
-                          },
-                          [
-                            _c("v-flex", { attrs: { xs8: "" } }, [
-                              _c("h3", { staticClass: "white--text pa-2" }, [
-                                _vm._v("JOB REQUESTED")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("v-spacer"),
-                            _vm._v(" "),
-                            _c(
-                              "v-flex",
-                              {
-                                staticClass: "text-xs-right",
-                                attrs: { xs1: "" }
-                              },
-                              [
-                                _c("h3", { staticClass: "white--text pa-2" }, [
-                                  _vm._v("HOURS")
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c("v-flex", { attrs: { xs1: "" } })
-                          ],
-                          1
-                        )
-                      : _c(
-                          "v-container",
-                          { staticClass: "pa-0 mt-5", attrs: { fluid: "" } },
-                          [
-                            _c(
-                              "v-alert",
-                              {
-                                attrs: {
-                                  outline: "",
-                                  color: "info",
-                                  icon: "info",
-                                  value: "true"
-                                }
-                              },
-                              [
-                                _vm._v(
-                                  "\n\t\t\t\t\t\t\tNo jobs have been added to this work order yet\n\t\t\t\t\t\t"
-                                )
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                    _vm._v(" "),
-                    _vm._l(_vm.workOrder.jobs, function(job) {
-                      return _c("job-row", { key: job.id, attrs: { job: job } })
-                    })
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _vm.parts.length > 0
-                  ? _c(
-                      "v-container",
-                      { staticClass: "pa-2", attrs: { fluid: "" } },
-                      [
-                        _c(
-                          "v-layout",
-                          {
-                            staticClass: "red darken-4 mt-2",
-                            attrs: { row: "" }
-                          },
-                          [
-                            _c("v-flex", { attrs: { xs3: "" } }, [
-                              _c("h3", { staticClass: "white--text pa-2" }, [
-                                _vm._v("PART INVOICE #")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("v-flex", { attrs: { xs7: "" } }, [
-                              _c("h3", { staticClass: "white--text pa-2" }, [
-                                _vm._v("PARTS")
-                              ])
-                            ])
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.parts, function(part) {
-                          return _c("part-row", {
-                            key: part.id,
-                            attrs: { part: part }
-                          })
-                        })
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "mt-5", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c(
-                          "v-flex",
-                          {
-                            staticClass: "text-xs-center",
-                            attrs: { xs12: "" }
-                          },
-                          [
-                            _c("small", [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\tThis is only a work order.\n\t\t\t\t\t\t\t"
+                                  ])
+                                ],
+                                1
                               )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { persistent: "", "max-width": "500px" },
-                model: {
-                  value: _vm.addJobDialog,
-                  callback: function($$v) {
-                    _vm.addJobDialog = $$v
-                  },
-                  expression: "addJobDialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-system-bar",
-                      { staticClass: "blue darken-4", attrs: { window: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          { attrs: { top: "" } },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mr-0",
-                                attrs: { slot: "activator", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.addJobDialog = false
-                                  }
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pa-2", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                {
+                                  staticClass: "red darken-4 mt-2",
+                                  attrs: { row: "" }
                                 },
-                                slot: "activator"
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticClass: "white--text mr-0" },
-                                  [_vm._v("close")]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Close dialog")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      [
-                        _c("job-form", {
-                          attrs: {
-                            action: "createJob",
-                            "work-order": _vm.workOrder.id
-                          },
-                          on: {
-                            saved: function($event) {
-                              _vm.addJobDialog = false
-                            }
+                                [
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c(
+                                      "h3",
+                                      { staticClass: "white--text pa-2" },
+                                      [_vm._v("CUSTOMER")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c(
+                                      "h3",
+                                      { staticClass: "white--text pa-2" },
+                                      [_vm._v("VEHICLE")]
+                                    )
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                {
+                                  staticClass: "red lighten-4 pt-2",
+                                  attrs: { row: "" }
+                                },
+                                [
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs6: "" } },
+                                    [
+                                      _c(
+                                        "v-container",
+                                        { attrs: { fluid: "" } },
+                                        [
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("NAME:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.customer
+                                                          .first
+                                                      ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.workOrder.customer
+                                                          .last
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("PRIMARY:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.customer
+                                                          .phone_one
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.workOrder.customer.phone_two
+                                            ? _c(
+                                                "v-layout",
+                                                { attrs: { row: "" } },
+                                                [
+                                                  _c(
+                                                    "v-flex",
+                                                    { attrs: { xs4: "" } },
+                                                    [
+                                                      _c("strong", [
+                                                        _vm._v("SECONDARY:")
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-flex",
+                                                    { attrs: { xs6: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                          _vm._s(
+                                                            _vm.workOrder
+                                                              .customer
+                                                              .phone_two
+                                                          ) +
+                                                          "\n\t\t\t\t\t\t\t\t\t\t"
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs6: "" } },
+                                    [
+                                      _c(
+                                        "v-container",
+                                        { attrs: { fluid: "" } },
+                                        [
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("YEAR:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.vehicle
+                                                          .year
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("MAKE:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.vehicle
+                                                          .make
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("MODEL:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.vehicle
+                                                          .model
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [_c("strong", [_vm._v("VIN:")])]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs6: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.workOrder.vehicle
+                                                          .vin
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pa-2", attrs: { fluid: "" } },
+                            [
+                              _vm.workOrder.jobs.length > 0
+                                ? _c(
+                                    "v-layout",
+                                    {
+                                      staticClass: "red darken-4 mt-2",
+                                      attrs: { row: "" }
+                                    },
+                                    [
+                                      _c("v-flex", { attrs: { xs8: "" } }, [
+                                        _c(
+                                          "h3",
+                                          { staticClass: "white--text pa-2" },
+                                          [_vm._v("JOB REQUESTED")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticClass: "text-xs-right",
+                                          attrs: { xs1: "" }
+                                        },
+                                        [
+                                          _c(
+                                            "h3",
+                                            { staticClass: "white--text pa-2" },
+                                            [_vm._v("HOURS")]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("v-flex", { attrs: { xs1: "" } })
+                                    ],
+                                    1
+                                  )
+                                : _c(
+                                    "v-container",
+                                    {
+                                      staticClass: "pa-0 mt-5",
+                                      attrs: { fluid: "" }
+                                    },
+                                    [
+                                      _c(
+                                        "v-alert",
+                                        {
+                                          attrs: {
+                                            outline: "",
+                                            color: "info",
+                                            icon: "info",
+                                            value: "true"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n\t\t\t\t\t\t\t\tNo jobs have been added to this work order yet\n\t\t\t\t\t\t\t"
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                              _vm._v(" "),
+                              _vm._l(_vm.workOrder.jobs, function(job) {
+                                return _c("job-row", {
+                                  key: job.id,
+                                  attrs: { job: job }
+                                })
+                              })
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _vm.parts.length > 0
+                            ? _c(
+                                "v-container",
+                                { staticClass: "pa-2", attrs: { fluid: "" } },
+                                [
+                                  _c(
+                                    "v-layout",
+                                    {
+                                      staticClass: "red darken-4 mt-2",
+                                      attrs: { row: "" }
+                                    },
+                                    [
+                                      _c("v-flex", { attrs: { xs3: "" } }, [
+                                        _c(
+                                          "h3",
+                                          { staticClass: "white--text pa-2" },
+                                          [_vm._v("PART INVOICE #")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-flex", { attrs: { xs7: "" } }, [
+                                        _c(
+                                          "h3",
+                                          { staticClass: "white--text pa-2" },
+                                          [_vm._v("PARTS")]
+                                        )
+                                      ])
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.parts, function(part) {
+                                    return _c("part-row", {
+                                      key: part.id,
+                                      attrs: { part: part }
+                                    })
+                                  })
+                                ],
+                                2
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "mt-5", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-center",
+                                      attrs: { xs12: "" }
+                                    },
+                                    [
+                                      _c("small", [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\tThis is only a work order.\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "500px" },
+                          model: {
+                            value: _vm.addJobDialog,
+                            callback: function($$v) {
+                              _vm.addJobDialog = $$v
+                            },
+                            expression: "addJobDialog"
                           }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { persistent: "", "max-width": "500px" },
-                model: {
-                  value: _vm.woOptionsDialog,
-                  callback: function($$v) {
-                    _vm.woOptionsDialog = $$v
-                  },
-                  expression: "woOptionsDialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-system-bar",
-                      { staticClass: "blue darken-4", attrs: { window: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          { attrs: { top: "" } },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mr-0",
-                                attrs: { slot: "activator", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.woOptionsDialog = false
-                                  }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c(
+                                "v-system-bar",
+                                {
+                                  staticClass: "blue darken-4",
+                                  attrs: { window: "" }
                                 },
-                                slot: "activator"
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticClass: "white--text mr-0" },
-                                  [_vm._v("close")]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Close dialog")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      [
-                        _c("wo-form", {
-                          attrs: { wo: _vm.workOrder, "edit-state": true },
-                          on: {
-                            saved: function($event) {
-                              _vm.woOptionsDialog = false
-                            }
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    { attrs: { top: "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-0",
+                                          attrs: {
+                                            slot: "activator",
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.addJobDialog = false
+                                            }
+                                          },
+                                          slot: "activator"
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "white--text mr-0" },
+                                            [_vm._v("close")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Close dialog")])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c("job-form", {
+                                    attrs: {
+                                      action: "createJob",
+                                      "work-order": _vm.workOrder.id
+                                    },
+                                    on: {
+                                      saved: function($event) {
+                                        _vm.addJobDialog = false
+                                      }
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "500px" },
+                          model: {
+                            value: _vm.woOptionsDialog,
+                            callback: function($$v) {
+                              _vm.woOptionsDialog = $$v
+                            },
+                            expression: "woOptionsDialog"
                           }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { persistent: "", "max-width": "300px" },
-                model: {
-                  value: _vm.confirmInvoiceDialog,
-                  callback: function($$v) {
-                    _vm.confirmInvoiceDialog = $$v
-                  },
-                  expression: "confirmInvoiceDialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c(
+                                "v-system-bar",
+                                {
+                                  staticClass: "blue darken-4",
+                                  attrs: { window: "" }
+                                },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    { attrs: { top: "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-0",
+                                          attrs: {
+                                            slot: "activator",
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.woOptionsDialog = false
+                                            }
+                                          },
+                                          slot: "activator"
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "white--text mr-0" },
+                                            [_vm._v("close")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Close dialog")])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c("wo-form", {
+                                    attrs: {
+                                      wo: _vm.workOrder,
+                                      "edit-state": true
+                                    },
+                                    on: {
+                                      saved: function($event) {
+                                        _vm.woOptionsDialog = false
+                                      },
+                                      removed: _vm.removed
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "300px" },
+                          model: {
+                            value: _vm.confirmInvoiceDialog,
+                            callback: function($$v) {
+                              _vm.confirmInvoiceDialog = $$v
+                            },
+                            expression: "confirmInvoiceDialog"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c(
+                                "v-system-bar",
+                                { staticClass: "teal", attrs: { window: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    { attrs: { top: "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-0",
+                                          attrs: {
+                                            slot: "activator",
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.confirmInvoiceDialog = false
+                                            }
+                                          },
+                                          slot: "activator"
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "white--text mr-0" },
+                                            [_vm._v("close")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Close dialog")])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-card-text", [
+                                _vm._v(
+                                  "\n\t\t          Create invoice?\n\t\t        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "red darken-1",
+                                        flat: ""
+                                      },
+                                      nativeOn: {
+                                        click: function($event) {
+                                          _vm.confirmInvoiceDialog = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Cancel")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "green darken-1",
+                                        flat: "",
+                                        loading: _vm.invoiceCreating
+                                      },
+                                      nativeOn: {
+                                        click: function($event) {
+                                          _vm.createInvoice($event)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Yes")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-spacer")
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ])
+              : _c(
+                  "v-layout",
+                  { attrs: { row: "" } },
                   [
                     _c(
-                      "v-system-bar",
-                      { staticClass: "teal", attrs: { window: "" } },
+                      "v-flex",
+                      {
+                        staticClass: "text-xs-center",
+                        attrs: { xs6: "", "offset-xs3": "" }
+                      },
                       [
-                        _c("v-spacer"),
-                        _vm._v(" "),
                         _c(
-                          "v-tooltip",
-                          { attrs: { top: "" } },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mr-0",
-                                attrs: { slot: "activator", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.confirmInvoiceDialog = false
-                                  }
-                                },
-                                slot: "activator"
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticClass: "white--text mr-0" },
-                                  [_vm._v("close")]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Close dialog")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-card-text", [
-                      _vm._v("\n\t          Create invoice?\n\t        ")
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "red darken-1", flat: "" },
-                            nativeOn: {
-                              click: function($event) {
-                                _vm.confirmInvoiceDialog = false
-                              }
-                            }
-                          },
-                          [_vm._v("Cancel")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
+                          "v-alert",
                           {
                             attrs: {
-                              color: "green darken-1",
-                              flat: "",
-                              loading: _vm.invoiceCreating
-                            },
-                            nativeOn: {
+                              outline: "",
+                              color: "error",
+                              icon: "error",
+                              value: "true"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\tThe requested work order was not found. It may have been deleted\t\t\t\t\t\n\t\t\t\t"
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { flat: "" },
+                            on: {
                               click: function($event) {
-                                _vm.createInvoice($event)
+                                _vm.$router.push("/")
                               }
                             }
                           },
-                          [_vm._v("Yes")]
-                        ),
-                        _vm._v(" "),
-                        _c("v-spacer")
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("replay")
+                            ]),
+                            _vm._v(" Go to dashboard\n\t\t\t\t")
+                          ],
+                          1
+                        )
                       ],
                       1
                     )
                   ],
                   1
                 )
-              ],
-              1
-            )
           ],
           1
         )
-      ])
-    : _vm._e()
+      : _c(
+          "div",
+          { staticClass: "text-xs-center" },
+          [
+            _c("v-progress-circular", {
+              attrs: { indeterminate: "", color: "primary" }
+            })
+          ],
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -62773,7 +63513,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(126)
 /* template */
-var __vue_template__ = __webpack_require__(127)
+var __vue_template__ = __webpack_require__(130)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62819,7 +63559,7 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Layout__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Layout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Layout__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_tables_Invoices_table__ = __webpack_require__(160);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_tables_Invoices_table__ = __webpack_require__(127);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_tables_Invoices_table___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_tables_Invoices_table__);
 //
 //
@@ -62853,6 +63593,707 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* 127 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(128)
+/* template */
+var __vue_template__ = __webpack_require__(129)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\tables\\Invoices-table.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e4c8d252", Component.options)
+  } else {
+    hotAPI.reload("data-v-e4c8d252", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 128 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      dataLoading: true,
+      search: '',
+      toDateMenu: false,
+      fromDateMenu: false,
+      isPaidOptions: [{ text: 'Paid', value: 1 }, { text: 'Owing', value: 'false-bool' }],
+      isFiltering: false,
+      headers: [{
+        text: '#',
+        align: 'left',
+        sortable: true,
+        value: 'customer.last'
+      }, {
+        text: 'Date',
+        align: 'left',
+        sortable: true,
+        value: 'date'
+      }, {
+        text: 'First',
+        align: 'left',
+        sortable: true,
+        value: 'customer.first'
+      }, {
+        text: 'Last',
+        align: 'left',
+        sortable: true,
+        value: 'customer.last'
+      }, {
+        text: 'Year',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.year'
+      }, {
+        text: 'Make',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.make'
+      }, {
+        text: 'Model',
+        align: 'left',
+        sortable: true,
+        value: 'vehicle.model'
+      }, {
+        text: 'Paid?',
+        align: 'left',
+        sortable: true,
+        value: 'is_paid'
+      }, {
+        text: 'Amount',
+        align: 'left',
+        sortable: true,
+        value: 'grand_total'
+      }, {
+        text: '',
+        align: 'right'
+      }]
+    };
+  },
+
+
+  computed: {
+    invoices: function invoices() {
+      return this.$store.getters.invoices;
+    },
+    invoicesFilter: function invoicesFilter() {
+      return this.$store.getters.invoicesFilter;
+    },
+    customersSelect: function customersSelect() {
+      return this.$store.getters.customersSelect;
+    }
+  },
+
+  components: {},
+
+  methods: {
+    filter: function filter() {
+      var _this = this;
+
+      // Toggle loader
+      this.isFiltering = true;
+      // Dispatch action
+      this.$store.dispatch('filterInvoices', this.invoicesFilter).then(function () {
+        // Toggle loader
+        _this.isFiltering = false;
+      });
+    },
+    updateFromDateFilter: function updateFromDateFilter(value) {
+      return this.$store.commit('updateInvoiceFromDateFilter', value);
+    },
+    updateToDateFilter: function updateToDateFilter(value) {
+      return this.$store.commit('updateInvoiceToDateFilter', value);
+    },
+    updateIsPaidFilter: function updateIsPaidFilter(value) {
+      return this.$store.commit('updateInvoiceIsPaidFilter', value);
+    },
+    updateCustomerFilter: function updateCustomerFilter(value) {
+      return this.$store.commit('updateInvoiceCustomerIdFilter', value);
+    }
+  },
+
+  created: function created() {
+    var _this2 = this;
+
+    // Get invoices
+    this.$store.dispatch('filterInvoices', this.invoicesFilter).then(function () {
+      // Toggle state
+      _this2.dataLoading = false;
+    });
+    // Get customers (For filter)
+    this.$store.dispatch('filterCustomers');
+  }
+});
+
+/***/ }),
+/* 129 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "v-card",
+    { staticClass: "elevation-0" },
+    [
+      _c(
+        "v-container",
+        { attrs: { fluid: "" } },
+        [
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: {
+                        lazy: "",
+                        "close-on-content-click": true,
+                        transition: "scale-transition",
+                        "offset-y": "",
+                        "full-width": "",
+                        "nudge-right": 40,
+                        "max-width": "290px",
+                        "min-width": "290px"
+                      },
+                      model: {
+                        value: _vm.fromDateMenu,
+                        callback: function($$v) {
+                          _vm.fromDateMenu = $$v
+                        },
+                        expression: "fromDateMenu"
+                      }
+                    },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          slot: "activator",
+                          label: " From date...",
+                          value: _vm.invoicesFilter.from_date,
+                          "prepend-icon": "event",
+                          readonly: "",
+                          clearable: ""
+                        },
+                        on: { input: _vm.updateFromDateFilter },
+                        slot: "activator"
+                      }),
+                      _vm._v(" "),
+                      _c("v-date-picker", {
+                        attrs: {
+                          value: _vm.invoicesFilter.from_date,
+                          "no-title": "",
+                          scrollable: "",
+                          autosave: ""
+                        },
+                        on: { input: _vm.updateFromDateFilter }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: {
+                        lazy: "",
+                        "close-on-content-click": true,
+                        transition: "scale-transition",
+                        "offset-y": "",
+                        "full-width": "",
+                        "nudge-right": 40,
+                        "max-width": "290px",
+                        "min-width": "290px"
+                      },
+                      model: {
+                        value: _vm.toDateMenu,
+                        callback: function($$v) {
+                          _vm.toDateMenu = $$v
+                        },
+                        expression: "toDateMenu"
+                      }
+                    },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          slot: "activator",
+                          label: " To date...",
+                          value: _vm.invoicesFilter.to_date,
+                          "prepend-icon": "event",
+                          readonly: "",
+                          clearable: ""
+                        },
+                        on: { input: _vm.updateToDateFilter },
+                        slot: "activator"
+                      }),
+                      _vm._v(" "),
+                      _c("v-date-picker", {
+                        attrs: {
+                          value: _vm.invoicesFilter.to_date,
+                          "no-title": "",
+                          scrollable: "",
+                          autosave: ""
+                        },
+                        on: { input: _vm.updateToDateFilter }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.isPaidOptions,
+                      value: _vm.invoicesFilter.is_paid,
+                      label: "Paid status...",
+                      "single-line": "",
+                      bottom: "",
+                      clearable: ""
+                    },
+                    on: { input: _vm.updateIsPaidFilter }
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-flex",
+                { attrs: { xs3: "" } },
+                [
+                  _c("v-select", {
+                    attrs: {
+                      items: _vm.customersSelect,
+                      value: _vm.invoicesFilter.customer_id,
+                      label: "Customer...",
+                      autocomplete: "",
+                      clearable: ""
+                    },
+                    on: { input: _vm.updateCustomerFilter }
+                  })
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-layout",
+            { attrs: { row: "" } },
+            [
+              _c("v-spacer"),
+              _vm._v(" "),
+              _c(
+                "v-tooltip",
+                { attrs: { left: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        slot: "activator",
+                        loading: _vm.isFiltering,
+                        color: "primary"
+                      },
+                      on: { click: _vm.filter },
+                      slot: "activator"
+                    },
+                    [
+                      _c("v-icon", { attrs: { left: "" } }, [
+                        _vm._v("pageview")
+                      ]),
+                      _vm._v(" Filter\n         ")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("span", [_vm._v("Filter customers")])
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider", { staticClass: "mt-3" })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "v-card-title",
+        [
+          _vm._v("\n     Invoices\n     "),
+          _c("v-spacer"),
+          _vm._v(" "),
+          _c("v-text-field", {
+            attrs: {
+              "append-icon": "search",
+              label: "Search results...",
+              "single-line": "",
+              "hide-details": ""
+            },
+            model: {
+              value: _vm.search,
+              callback: function($$v) {
+                _vm.search = $$v
+              },
+              expression: "search"
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("v-data-table", {
+        attrs: {
+          headers: _vm.headers,
+          items: _vm.invoices,
+          search: _vm.search,
+          loading: _vm.dataLoading
+        },
+        scopedSlots: _vm._u([
+          {
+            key: "items",
+            fn: function(props) {
+              return [
+                _c("tr", [
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.id))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(_vm._f("date")(props.item.date)))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.customer.first))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.customer.last))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.year))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.make))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "text-xs-left" }, [
+                    _vm._v(_vm._s(props.item.vehicle.model))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    props.item.is_paid
+                      ? _c("span", { staticClass: "success--text" }, [
+                          _vm._v("Paid")
+                        ])
+                      : _c("span", { staticClass: "error--text" }, [
+                          _vm._v("Owing")
+                        ])
+                  ]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(_vm._s(_vm._f("money")(props.item.grand_total)))
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    { staticClass: "text-xs-right" },
+                    [
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.$router.push(
+                                    "/work-orders/" + props.item.work_order_id
+                                  )
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("insert_drive_file")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("View WO")])
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-tooltip",
+                        { attrs: { left: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { slot: "activator", icon: "" },
+                              on: {
+                                click: function($event) {
+                                  _vm.$router.push("/invoices/" + props.item.id)
+                                }
+                              },
+                              slot: "activator"
+                            },
+                            [_c("v-icon", [_vm._v("launch")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("span", [_vm._v("View invoice")])
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ])
+              ]
+            }
+          },
+          {
+            key: "pageText",
+            fn: function(ref) {
+              var pageStart = ref.pageStart
+              var pageStop = ref.pageStop
+              return [
+                _vm._v(
+                  "\n       From " +
+                    _vm._s(pageStart) +
+                    " to " +
+                    _vm._s(pageStop) +
+                    "\n     "
+                )
+              ]
+            }
+          }
+        ])
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e4c8d252", module.exports)
+  }
+}
+
+/***/ }),
+/* 130 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -62881,15 +64322,15 @@ if (false) {
 }
 
 /***/ }),
-/* 128 */
+/* 131 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(129)
+var __vue_script__ = __webpack_require__(132)
 /* template */
-var __vue_template__ = __webpack_require__(133)
+var __vue_template__ = __webpack_require__(136)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -62928,7 +64369,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 129 */
+/* 132 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -62937,12 +64378,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Layout___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Layout__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form__ = __webpack_require__(10);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_forms_Job_form__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_forms_Payment_method_form__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_forms_Payment_method_form__ = __webpack_require__(133);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__components_forms_Payment_method_form___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__components_forms_Payment_method_form__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_row__ = __webpack_require__(20);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_row___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_tickets_Job_row__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_tickets_Part_row__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_tickets_Part_row___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_tickets_Part_row__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -63324,6 +64784,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	data: function data() {
 		return {
+			componentLoading: true,
 			paymentMethodDialog: false,
 			rollbackDialog: false,
 			isRemoving: false
@@ -63339,10 +64800,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	watch: {
 		id: function id(newId) {
+			var _this = this;
+
 			// If ID prop does not match the selected work order then update selected work order
 			// ID prop is final source of truth
 			if (this.invoice.id != newId) {
-				this.$store.dispatch('getInvoice', newId);
+				// Fetching new data
+				this.componentLoading = true;
+				// Fetch data
+				this.$store.dispatch('getInvoice', newId).then(function () {
+					// Toggle state
+					_this.componentLoading = false;
+				});
 			}
 		}
 	},
@@ -63357,28 +64826,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 	methods: {
 		rollback: function rollback() {
-			var _this = this;
+			var _this2 = this;
 
 			// Toggle loader
 			this.isRemoving = true;
 			// Dispatch event to store
 			this.$store.dispatch('removeInvoice', this.id).then(function (response) {
 				// Toggle loader and dialog
-				_this.rollbackDialog = false;
-				_this.isRemoving = false;
+				_this2.rollbackDialog = false;
+				_this2.isRemoving = false;
+				console.log("Now redirect to wo");
 				// The form was saved
-				_this.$router.push('/work-orders/' + response.id);
+				_this2.$router.push('/work-orders/' + _this2.invoice.work_order_id);
+				console.log("Should have redirected");
 			}).catch(function (error) {
 				// Toggle loader and dialog
-				_this.rollbackDialog = false;
-				_this.isRemoving = false;
+				_this2.rollbackDialog = false;
+				_this2.isRemoving = false;
 
 				if (error.response) {
 					// Form validation errors
 					if (error.response.data) {
 						// Check for error response from Laravel controller
 						if (error.response.data.result == 'error') {
-							_this.$router.app.$emit('snackbar', {
+							_this2.$router.app.$emit('snackbar', {
 								text: error.response.data.message
 							});
 						}
@@ -63389,24 +64860,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	},
 
 	created: function created() {
+		var _this3 = this;
+
+		console.log(this.invoice);
 		// If ID prop does not match the selected work order then update selected work order
 		// ID prop is final source of truth
 		if (!this.invoice.id || this.invoice.id != this.id) {
-			this.$store.dispatch('getInvoice', this.id);
+			this.$store.dispatch('getInvoice', this.id).then(function () {
+				// Toggle state
+				_this3.componentLoading = false;
+			});
+		} else {
+			// Toggle state
+			this.componentLoading = false;
 		}
 	}
 });
 
 /***/ }),
-/* 130 */
+/* 133 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(131)
+var __vue_script__ = __webpack_require__(134)
 /* template */
-var __vue_template__ = __webpack_require__(132)
+var __vue_template__ = __webpack_require__(135)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -63445,7 +64925,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 131 */
+/* 134 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63537,7 +65017,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 132 */
+/* 135 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -63589,1072 +65069,1377 @@ if (false) {
 }
 
 /***/ }),
-/* 133 */
+/* 136 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm.invoice
-    ? _c("layout", [
-        _c("div", { attrs: { slot: "title" }, slot: "title" }, [
-          _vm._v("Invoice")
-        ]),
-        _vm._v(" "),
-        !_vm.invoice.is_paid
-          ? _c(
-              "div",
-              { attrs: { slot: "tools" }, slot: "tools" },
-              [
-                _c(
-                  "v-tooltip",
-                  { attrs: { top: "" } },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: {
-                          slot: "activator",
-                          color: "warning",
-                          left: ""
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.rollbackDialog = true
-                          }
-                        },
-                        slot: "activator"
-                      },
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("restore")
-                        ]),
-                        _vm._v(" Rollback\n\t\t    ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Rollback to WO")])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-tooltip",
-                  { attrs: { top: "" } },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: {
-                          slot: "activator",
-                          color: "success",
-                          left: ""
-                        },
-                        on: {
-                          click: function($event) {
-                            _vm.paymentMethodDialog = true
-                          }
-                        },
-                        slot: "activator"
-                      },
-                      [
-                        _c("v-icon", { attrs: { left: "" } }, [
-                          _vm._v("check_circle")
-                        ]),
-                        _vm._v(" Mark Paid\n\t\t    ")
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("Complete payment")])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
+  return _c("v-container", { staticClass: "pa-0", attrs: { fluid: "" } }, [
+    !_vm.componentLoading
+      ? _c(
           "div",
-          { attrs: { slot: "content" }, slot: "content" },
           [
-            _c(
-              "v-card",
-              { attrs: { flat: "" } },
-              [
-                _c(
-                  "v-container",
-                  { attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { staticClass: "mb-3", attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _vm.invoice.is_paid
-                          ? _c(
-                              "v-tooltip",
-                              { attrs: { top: "" } },
-                              [
-                                _c(
-                                  "v-icon",
-                                  {
-                                    attrs: {
-                                      slot: "activator",
-                                      color: "success"
-                                    },
-                                    slot: "activator"
+            _vm.invoice
+              ? _c("layout", [
+                  _c("div", { attrs: { slot: "title" }, slot: "title" }, [
+                    _vm._v("Invoice")
+                  ]),
+                  _vm._v(" "),
+                  !_vm.invoice.is_paid
+                    ? _c(
+                        "div",
+                        { attrs: { slot: "tools" }, slot: "tools" },
+                        [
+                          _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    slot: "activator",
+                                    color: "warning",
+                                    left: ""
                                   },
-                                  [_vm._v("check_circle")]
-                                ),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Invoice is paid")])
-                              ],
-                              1
-                            )
-                          : _c(
-                              "v-tooltip",
-                              { attrs: { top: "" } },
-                              [
-                                _c(
-                                  "v-icon",
-                                  {
-                                    attrs: {
-                                      slot: "activator",
-                                      color: "error"
-                                    },
-                                    slot: "activator"
+                                  on: {
+                                    click: function($event) {
+                                      _vm.rollbackDialog = true
+                                    }
                                   },
-                                  [_vm._v("cancel")]
-                                ),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Invoice not paid")])
-                              ],
-                              1
-                            )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h1", [_vm._v("UNA AUTO SERVICE")]),
+                                  slot: "activator"
+                                },
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("restore")
+                                  ]),
+                                  _vm._v(" Rollback\n\t\t\t    ")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Rollback to WO")])
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
-                          _c("h4", { staticClass: "ml-1" }, [
-                            _vm._v("Repairs, detailing, maintenance")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs6: "" } },
-                          [
-                            _c("h1", { staticClass: "grey--text" }, [
-                              _vm._v("INVOICE")
-                            ]),
-                            _vm._v(" "),
-                            _c("small", { staticClass: "grey--text" }, [
-                              _vm._v("(#" + _vm._s(_vm.invoice.id) + ")")
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-divider", { staticClass: "mt-2 mb-2" }),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs4: "" } }, [
-                          _c("strong", [_vm._v("INVOICE DATE:")]),
-                          _vm._v(
-                            " " +
-                              _vm._s(_vm.invoice.created_at) +
-                              "\n\t\t\t\t\t\t"
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs4: "" } },
-                          [
-                            _c("strong", [_vm._v("WO DATE:")]),
-                            _vm._v(
-                              " " +
-                                _vm._s(_vm.invoice.work_order.created_at) +
-                                "\n\t\t\t\t\t\t"
-                            )
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "pa-2", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { staticClass: "red darken-4 mt-2", attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h3", { staticClass: "white--text pa-2" }, [
-                            _vm._v("CUSTOMER")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("v-flex", { attrs: { xs6: "" } }, [
-                          _c("h3", { staticClass: "white--text pa-2" }, [
-                            _vm._v("VEHICLE")
-                          ])
-                        ])
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { staticClass: "red lighten-4 pt-2", attrs: { row: "" } },
-                      [
-                        _c(
-                          "v-flex",
-                          { attrs: { xs6: "" } },
-                          [
-                            _c(
-                              "v-container",
-                              { attrs: { fluid: "" } },
-                              [
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("NAME:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.invoice.customer.first) +
-                                          " " +
-                                          _vm._s(_vm.invoice.customer.last) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("PRIMARY:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(
-                                            _vm.invoice.customer.phone_one
-                                          ) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _vm.invoice.customer.phone_two
-                                  ? _c(
-                                      "v-layout",
-                                      { attrs: { row: "" } },
-                                      [
-                                        _c("v-flex", { attrs: { xs4: "" } }, [
-                                          _c("strong", [_vm._v("SECONDARY:")])
-                                        ]),
-                                        _vm._v(" "),
-                                        _c("v-flex", { attrs: { xs3: "" } }, [
-                                          _vm._v(
-                                            "\n\t\t\t\t\t\t\t\t\t\t" +
-                                              _vm._s(
-                                                _vm.invoice.customer.phone_two
-                                              ) +
-                                              "\n\t\t\t\t\t\t\t\t\t"
-                                          )
-                                        ])
-                                      ],
-                                      1
-                                    )
-                                  : _vm._e()
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { attrs: { xs6: "" } },
-                          [
-                            _c(
-                              "v-container",
-                              { attrs: { fluid: "" } },
-                              [
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("YEAR:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.invoice.vehicle.year) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("MAKE:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.invoice.vehicle.make) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("MODEL:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.invoice.vehicle.model) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                ),
-                                _vm._v(" "),
-                                _c(
-                                  "v-layout",
-                                  { attrs: { row: "" } },
-                                  [
-                                    _c("v-flex", { attrs: { xs4: "" } }, [
-                                      _c("strong", [_vm._v("VIN:")])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("v-flex", { attrs: { xs3: "" } }, [
-                                      _vm._v(
-                                        "\n\t\t\t\t\t\t\t\t\t\t" +
-                                          _vm._s(_vm.invoice.vehicle.vin) +
-                                          "\n\t\t\t\t\t\t\t\t\t"
-                                      )
-                                    ])
-                                  ],
-                                  1
-                                )
-                              ],
-                              1
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "pa-2", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { staticClass: "red darken-4 mt-2", attrs: { row: "" } },
-                      [
-                        _c("v-flex", { attrs: { xs8: "" } }, [
-                          _c("h3", { staticClass: "white--text pa-2" }, [
-                            _vm._v("JOB PERFORMED")
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs1: "" } },
-                          [
-                            _c("h3", { staticClass: "white--text pa-2" }, [
-                              _vm._v("HOURS")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs1: "" } },
-                          [
-                            _c("h3", { staticClass: "white--text pa-2" }, [
-                              _vm._v("RATE")
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("h3", { staticClass: "white--text pa-2" }, [
-                              _vm._v("TOTAL")
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _vm._l(_vm.invoice.work_order.jobs, function(job) {
-                      return _c("job-row", {
-                        key: job.id,
-                        attrs: { job: job, "invoice-state": true }
-                      })
-                    }),
-                    _vm._v(" "),
-                    _c("v-divider", { staticClass: "mt-2 mb-2" }),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("SUBTOTAL:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(_vm.invoice.total_labour)
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  2
-                ),
-                _vm._v(" "),
-                _vm.invoice.total_parts > 0
-                  ? _c(
-                      "v-container",
-                      { staticClass: "pa-2", attrs: { fluid: "" } },
-                      [
-                        _c(
-                          "v-layout",
-                          {
-                            staticClass: "red darken-4 mt-2",
-                            attrs: { row: "" }
-                          },
-                          [
-                            _c("v-flex", { attrs: { xs3: "" } }, [
-                              _c("h3", { staticClass: "white--text pa-2" }, [
-                                _vm._v("PART INVOICE #")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("v-flex", { attrs: { xs7: "" } }, [
-                              _c("h3", { staticClass: "white--text pa-2" }, [
-                                _vm._v("PARTS")
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c(
-                              "v-flex",
-                              {
-                                staticClass: "text-xs-right",
-                                attrs: { xs2: "" }
-                              },
-                              [
-                                _c("h3", { staticClass: "white--text pa-2" }, [
-                                  _vm._v("TOTAL")
-                                ])
-                              ]
-                            )
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _vm._l(_vm.invoice.work_order.jobs, function(job) {
-                          return _c(
-                            "div",
-                            { key: job.id },
-                            _vm._l(job.parts, function(part) {
-                              return _c("part-row", {
-                                key: part.id,
-                                attrs: { part: part, "invoice-state": true }
-                              })
-                            })
-                          )
-                        }),
-                        _vm._v(" "),
-                        _c("v-divider", { staticClass: "mt-4 mb-2" }),
-                        _vm._v(" "),
-                        _c(
-                          "v-layout",
-                          { attrs: { row: "" } },
-                          [
-                            _c("v-spacer"),
-                            _vm._v(" "),
-                            _c(
-                              "v-flex",
-                              {
-                                staticClass: "text-xs-right",
-                                attrs: { xs2: "" }
-                              },
-                              [
-                                _c("p", { staticClass: "pa-2 mb-0" }, [
-                                  _c("strong", [_vm._v("SUBTOTAL:")])
-                                ])
-                              ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "v-flex",
-                              {
-                                staticClass: "text-xs-right",
-                                attrs: { xs2: "" }
-                              },
-                              [
-                                _c("p", { staticClass: "pa-2 mb-0" }, [
-                                  _vm._v(
-                                    "\n\t\t\t\t\t\t\t\t" +
-                                      _vm._s(
-                                        _vm._f("money")(_vm.invoice.total_parts)
-                                      ) +
-                                      "\n\t\t\t\t\t\t\t"
-                                  )
-                                ])
-                              ]
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "pa-2 mt-2", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("GST RATE:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(_vm._f("gst")(_vm.invoice.gst_rate)) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("TOTAL LABOUR:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(_vm.invoice.total_labour)
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("TOTAL PARTS:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(_vm.invoice.total_parts)
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("TOTAL GST:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(_vm.invoice.gst_total)
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("SHOP SUPPLIES:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(
-                                      _vm.invoice.shop_supply_rate
-                                    )
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { attrs: { xs4: "" } },
-                          [_c("v-divider", { staticClass: "mt-2 mb-2" })],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _c("strong", [_vm._v("GRAND TOTAL:")])
-                            ])
-                          ]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-flex",
-                          { staticClass: "text-xs-right", attrs: { xs2: "" } },
-                          [
-                            _c("p", { staticClass: "pa-2 mb-0" }, [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\t" +
-                                  _vm._s(
-                                    _vm._f("money")(_vm.invoice.grand_total)
-                                  ) +
-                                  "\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "v-container",
-                  { staticClass: "mt-5", attrs: { fluid: "" } },
-                  [
-                    _c(
-                      "v-layout",
-                      { attrs: { row: "" } },
-                      [
-                        _c(
-                          "v-flex",
-                          {
-                            staticClass: "text-xs-center",
-                            attrs: { xs12: "" }
-                          },
-                          [
-                            _c("small", [
-                              _vm._v(
-                                "\n\t\t\t\t\t\t\t\tIf you have any questions or concerns regarding this invoice please contact us.\n\t\t\t\t\t\t\t"
-                              )
-                            ])
-                          ]
-                        )
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { persistent: "", "max-width": "500px" },
-                model: {
-                  value: _vm.paymentMethodDialog,
-                  callback: function($$v) {
-                    _vm.paymentMethodDialog = $$v
-                  },
-                  expression: "paymentMethodDialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-system-bar",
-                      { staticClass: "success", attrs: { window: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          { attrs: { top: "" } },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mr-0",
-                                attrs: { slot: "activator", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.paymentMethodDialog = false
-                                  }
+                          _c(
+                            "v-tooltip",
+                            { attrs: { top: "" } },
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: {
+                                    slot: "activator",
+                                    color: "success",
+                                    left: ""
+                                  },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.paymentMethodDialog = true
+                                    }
+                                  },
+                                  slot: "activator"
                                 },
-                                slot: "activator"
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticClass: "white--text mr-0" },
-                                  [_vm._v("close")]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Close dialog")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-text",
-                      [
-                        _c("payment-method-form", {
-                          attrs: { action: "markInvoicePaid", invoice: _vm.id },
-                          on: {
-                            saved: function($event) {
-                              _vm.paymentMethodDialog = false
-                            }
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ],
-                  1
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-dialog",
-              {
-                attrs: { persistent: "", "max-width": "300px" },
-                model: {
-                  value: _vm.rollbackDialog,
-                  callback: function($$v) {
-                    _vm.rollbackDialog = $$v
-                  },
-                  expression: "rollbackDialog"
-                }
-              },
-              [
-                _c(
-                  "v-card",
-                  [
-                    _c(
-                      "v-system-bar",
-                      { staticClass: "warning", attrs: { window: "" } },
-                      [
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-tooltip",
-                          { attrs: { top: "" } },
-                          [
-                            _c(
-                              "v-btn",
-                              {
-                                staticClass: "mr-0",
-                                attrs: { slot: "activator", icon: "" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.rollbackDialog = false
-                                  }
-                                },
-                                slot: "activator"
-                              },
-                              [
-                                _c(
-                                  "v-icon",
-                                  { staticClass: "white--text mr-0" },
-                                  [_vm._v("close")]
-                                )
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("span", [_vm._v("Close dialog")])
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-card-text", [
-                      _vm._v(
-                        "\n          Roll this invoice back to work order state?\n        "
+                                [
+                                  _c("v-icon", { attrs: { left: "" } }, [
+                                    _vm._v("check_circle")
+                                  ]),
+                                  _vm._v(" Mark Paid\n\t\t\t    ")
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("span", [_vm._v("Complete payment")])
+                            ],
+                            1
+                          )
+                        ],
+                        1
                       )
-                    ]),
-                    _vm._v(" "),
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { attrs: { slot: "content" }, slot: "content" },
+                    [
+                      _c(
+                        "v-card",
+                        { attrs: { flat: "" } },
+                        [
+                          _c(
+                            "v-container",
+                            { attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { staticClass: "mb-3", attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _vm.invoice.is_paid
+                                    ? _c(
+                                        "v-tooltip",
+                                        { attrs: { top: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                slot: "activator",
+                                                color: "success"
+                                              },
+                                              slot: "activator"
+                                            },
+                                            [_vm._v("check_circle")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Invoice is paid")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    : _c(
+                                        "v-tooltip",
+                                        { attrs: { top: "" } },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            {
+                                              attrs: {
+                                                slot: "activator",
+                                                color: "error"
+                                              },
+                                              slot: "activator"
+                                            },
+                                            [_vm._v("cancel")]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("span", [
+                                            _vm._v("Invoice not paid")
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c("h1", [_vm._v("UNA AUTO SERVICE")]),
+                                    _vm._v(" "),
+                                    _c("h4", { staticClass: "ml-1" }, [
+                                      _vm._v("Repairs, detailing, maintenance")
+                                    ])
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs6: "" }
+                                    },
+                                    [
+                                      _c("h1", { staticClass: "grey--text" }, [
+                                        _vm._v("INVOICE")
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "small",
+                                        { staticClass: "grey--text" },
+                                        [
+                                          _vm._v(
+                                            "(#" + _vm._s(_vm.invoice.id) + ")"
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "mt-2 mb-2" }),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-flex", { attrs: { xs4: "" } }, [
+                                    _c("strong", [_vm._v("INVOICE DATE:")]),
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          _vm._f("date")(_vm.invoice.date)
+                                        ) +
+                                        "\n\t\t\t\t\t\t\t"
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs4: "" }
+                                    },
+                                    [
+                                      _c("strong", [_vm._v("WO DATE:")]),
+                                      _vm._v(
+                                        " " +
+                                          _vm._s(
+                                            _vm._f("date")(
+                                              _vm.invoice.work_order.date
+                                            )
+                                          ) +
+                                          "\n\t\t\t\t\t\t\t"
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pa-2", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                {
+                                  staticClass: "red darken-4 mt-2",
+                                  attrs: { row: "" }
+                                },
+                                [
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c(
+                                      "h3",
+                                      { staticClass: "white--text pa-2" },
+                                      [_vm._v("CUSTOMER")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-flex", { attrs: { xs6: "" } }, [
+                                    _c(
+                                      "h3",
+                                      { staticClass: "white--text pa-2" },
+                                      [_vm._v("VEHICLE")]
+                                    )
+                                  ])
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                {
+                                  staticClass: "red lighten-4 pt-2",
+                                  attrs: { row: "" }
+                                },
+                                [
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs6: "" } },
+                                    [
+                                      _c(
+                                        "v-container",
+                                        { attrs: { fluid: "" } },
+                                        [
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("NAME:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.customer
+                                                          .first
+                                                      ) +
+                                                      " " +
+                                                      _vm._s(
+                                                        _vm.invoice.customer
+                                                          .last
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("PRIMARY:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.customer
+                                                          .phone_one
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.invoice.customer.phone_two
+                                            ? _c(
+                                                "v-layout",
+                                                { attrs: { row: "" } },
+                                                [
+                                                  _c(
+                                                    "v-flex",
+                                                    { attrs: { xs4: "" } },
+                                                    [
+                                                      _c("strong", [
+                                                        _vm._v("SECONDARY:")
+                                                      ])
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "v-flex",
+                                                    { attrs: { xs3: "" } },
+                                                    [
+                                                      _vm._v(
+                                                        "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                          _vm._s(
+                                                            _vm.invoice.customer
+                                                              .phone_two
+                                                          ) +
+                                                          "\n\t\t\t\t\t\t\t\t\t\t"
+                                                      )
+                                                    ]
+                                                  )
+                                                ],
+                                                1
+                                              )
+                                            : _vm._e()
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs6: "" } },
+                                    [
+                                      _c(
+                                        "v-container",
+                                        { attrs: { fluid: "" } },
+                                        [
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("YEAR:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.vehicle.year
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("MAKE:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.vehicle.make
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [
+                                                  _c("strong", [
+                                                    _vm._v("MODEL:")
+                                                  ])
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.vehicle
+                                                          .model
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-layout",
+                                            { attrs: { row: "" } },
+                                            [
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs4: "" } },
+                                                [_c("strong", [_vm._v("VIN:")])]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "v-flex",
+                                                { attrs: { xs3: "" } },
+                                                [
+                                                  _vm._v(
+                                                    "\n\t\t\t\t\t\t\t\t\t\t\t" +
+                                                      _vm._s(
+                                                        _vm.invoice.vehicle.vin
+                                                      ) +
+                                                      "\n\t\t\t\t\t\t\t\t\t\t"
+                                                  )
+                                                ]
+                                              )
+                                            ],
+                                            1
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pa-2", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                {
+                                  staticClass: "red darken-4 mt-2",
+                                  attrs: { row: "" }
+                                },
+                                [
+                                  _c("v-flex", { attrs: { xs8: "" } }, [
+                                    _c(
+                                      "h3",
+                                      { staticClass: "white--text pa-2" },
+                                      [_vm._v("JOB PERFORMED")]
+                                    )
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs1: "" }
+                                    },
+                                    [
+                                      _c(
+                                        "h3",
+                                        { staticClass: "white--text pa-2" },
+                                        [_vm._v("HOURS")]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs1: "" }
+                                    },
+                                    [
+                                      _c(
+                                        "h3",
+                                        { staticClass: "white--text pa-2" },
+                                        [_vm._v("RATE")]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c(
+                                        "h3",
+                                        { staticClass: "white--text pa-2" },
+                                        [_vm._v("TOTAL")]
+                                      )
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _vm._l(_vm.invoice.work_order.jobs, function(
+                                job
+                              ) {
+                                return _c("job-row", {
+                                  key: job.id,
+                                  attrs: { job: job, "invoice-state": true }
+                                })
+                              }),
+                              _vm._v(" "),
+                              _c("v-divider", { staticClass: "mt-2 mb-2" }),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("SUBTOTAL:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.total_labour
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            2
+                          ),
+                          _vm._v(" "),
+                          _vm.invoice.total_parts > 0
+                            ? _c(
+                                "v-container",
+                                { staticClass: "pa-2", attrs: { fluid: "" } },
+                                [
+                                  _c(
+                                    "v-layout",
+                                    {
+                                      staticClass: "red darken-4 mt-2",
+                                      attrs: { row: "" }
+                                    },
+                                    [
+                                      _c("v-flex", { attrs: { xs3: "" } }, [
+                                        _c(
+                                          "h3",
+                                          { staticClass: "white--text pa-2" },
+                                          [_vm._v("PART INVOICE #")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("v-flex", { attrs: { xs7: "" } }, [
+                                        _c(
+                                          "h3",
+                                          { staticClass: "white--text pa-2" },
+                                          [_vm._v("PARTS")]
+                                        )
+                                      ]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticClass: "text-xs-right",
+                                          attrs: { xs2: "" }
+                                        },
+                                        [
+                                          _c(
+                                            "h3",
+                                            { staticClass: "white--text pa-2" },
+                                            [_vm._v("TOTAL")]
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._l(_vm.invoice.work_order.jobs, function(
+                                    job
+                                  ) {
+                                    return _c(
+                                      "div",
+                                      { key: job.id },
+                                      _vm._l(job.parts, function(part) {
+                                        return _c("part-row", {
+                                          key: part.id,
+                                          attrs: {
+                                            part: part,
+                                            "invoice-state": true
+                                          }
+                                        })
+                                      })
+                                    )
+                                  }),
+                                  _vm._v(" "),
+                                  _c("v-divider", { staticClass: "mt-4 mb-2" }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-layout",
+                                    { attrs: { row: "" } },
+                                    [
+                                      _c("v-spacer"),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticClass: "text-xs-right",
+                                          attrs: { xs2: "" }
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            { staticClass: "pa-2 mb-0" },
+                                            [
+                                              _c("strong", [
+                                                _vm._v("SUBTOTAL:")
+                                              ])
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-flex",
+                                        {
+                                          staticClass: "text-xs-right",
+                                          attrs: { xs2: "" }
+                                        },
+                                        [
+                                          _c(
+                                            "p",
+                                            { staticClass: "pa-2 mb-0" },
+                                            [
+                                              _vm._v(
+                                                "\n\t\t\t\t\t\t\t\t\t" +
+                                                  _vm._s(
+                                                    _vm._f("money")(
+                                                      _vm.invoice.total_parts
+                                                    )
+                                                  ) +
+                                                  "\n\t\t\t\t\t\t\t\t"
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                2
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "pa-2 mt-2", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("GST RATE:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("gst")(
+                                                _vm.invoice.gst_rate
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("TOTAL LABOUR:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.total_labour
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("TOTAL PARTS:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.total_parts
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("TOTAL GST:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.gst_total
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("SHOP SUPPLIES:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.shop_supply_rate
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    { attrs: { xs4: "" } },
+                                    [
+                                      _c("v-divider", {
+                                        staticClass: "mt-2 mb-2"
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _c("strong", [_vm._v("GRAND TOTAL:")])
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-right",
+                                      attrs: { xs2: "" }
+                                    },
+                                    [
+                                      _c("p", { staticClass: "pa-2 mb-0" }, [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\t" +
+                                            _vm._s(
+                                              _vm._f("money")(
+                                                _vm.invoice.grand_total
+                                              )
+                                            ) +
+                                            "\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-container",
+                            { staticClass: "mt-5", attrs: { fluid: "" } },
+                            [
+                              _c(
+                                "v-layout",
+                                { attrs: { row: "" } },
+                                [
+                                  _c(
+                                    "v-flex",
+                                    {
+                                      staticClass: "text-xs-center",
+                                      attrs: { xs12: "" }
+                                    },
+                                    [
+                                      _c("small", [
+                                        _vm._v(
+                                          "\n\t\t\t\t\t\t\t\t\tIf you have any questions or concerns regarding this invoice please contact us.\n\t\t\t\t\t\t\t\t"
+                                        )
+                                      ])
+                                    ]
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "500px" },
+                          model: {
+                            value: _vm.paymentMethodDialog,
+                            callback: function($$v) {
+                              _vm.paymentMethodDialog = $$v
+                            },
+                            expression: "paymentMethodDialog"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c(
+                                "v-system-bar",
+                                {
+                                  staticClass: "success",
+                                  attrs: { window: "" }
+                                },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    { attrs: { top: "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-0",
+                                          attrs: {
+                                            slot: "activator",
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.paymentMethodDialog = false
+                                            }
+                                          },
+                                          slot: "activator"
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "white--text mr-0" },
+                                            [_vm._v("close")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Close dialog")])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-text",
+                                [
+                                  _c("payment-method-form", {
+                                    attrs: {
+                                      action: "markInvoicePaid",
+                                      invoice: _vm.id
+                                    },
+                                    on: {
+                                      saved: function($event) {
+                                        _vm.paymentMethodDialog = false
+                                      }
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-dialog",
+                        {
+                          attrs: { persistent: "", "max-width": "300px" },
+                          model: {
+                            value: _vm.rollbackDialog,
+                            callback: function($$v) {
+                              _vm.rollbackDialog = $$v
+                            },
+                            expression: "rollbackDialog"
+                          }
+                        },
+                        [
+                          _c(
+                            "v-card",
+                            [
+                              _c(
+                                "v-system-bar",
+                                {
+                                  staticClass: "warning",
+                                  attrs: { window: "" }
+                                },
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-tooltip",
+                                    { attrs: { top: "" } },
+                                    [
+                                      _c(
+                                        "v-btn",
+                                        {
+                                          staticClass: "mr-0",
+                                          attrs: {
+                                            slot: "activator",
+                                            icon: ""
+                                          },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.rollbackDialog = false
+                                            }
+                                          },
+                                          slot: "activator"
+                                        },
+                                        [
+                                          _c(
+                                            "v-icon",
+                                            { staticClass: "white--text mr-0" },
+                                            [_vm._v("close")]
+                                          )
+                                        ],
+                                        1
+                                      ),
+                                      _vm._v(" "),
+                                      _c("span", [_vm._v("Close dialog")])
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-card-text", [
+                                _vm._v(
+                                  "\n\t          Roll this invoice back to work order state?\n\t        "
+                                )
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "v-card-actions",
+                                [
+                                  _c("v-spacer"),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: { color: "error", flat: "" },
+                                      nativeOn: {
+                                        click: function($event) {
+                                          _vm.rollbackDialog = false
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Cancel")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    {
+                                      attrs: {
+                                        color: "success",
+                                        flat: "",
+                                        loading: _vm.isRemoving
+                                      },
+                                      nativeOn: {
+                                        click: function($event) {
+                                          _vm.rollback($event)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Yes")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("v-spacer")
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ])
+              : _c(
+                  "v-layout",
+                  { attrs: { row: "" } },
+                  [
                     _c(
-                      "v-card-actions",
+                      "v-flex",
+                      {
+                        staticClass: "text-xs-center",
+                        attrs: { xs6: "", "offset-xs3": "" }
+                      },
                       [
-                        _c("v-spacer"),
-                        _vm._v(" "),
                         _c(
-                          "v-btn",
-                          {
-                            attrs: { color: "green darken-1", flat: "" },
-                            nativeOn: {
-                              click: function($event) {
-                                _vm.rollbackDialog = false
-                              }
-                            }
-                          },
-                          [_vm._v("Cancel")]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
+                          "v-alert",
                           {
                             attrs: {
-                              color: "warning",
-                              flat: "",
-                              loading: _vm.isRemoving
-                            },
-                            nativeOn: {
+                              outline: "",
+                              color: "error",
+                              icon: "error",
+                              value: "true"
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n\t\t\t\t\t\tThe requested invoice was not found. It may have been deleted\t\t\t\t\t\n\t\t\t\t"
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-btn",
+                          {
+                            attrs: { flat: "" },
+                            on: {
                               click: function($event) {
-                                _vm.rollback($event)
+                                _vm.$router.push("/")
                               }
                             }
                           },
-                          [_vm._v("Yes")]
-                        ),
-                        _vm._v(" "),
-                        _c("v-spacer")
+                          [
+                            _c("v-icon", { attrs: { left: "" } }, [
+                              _vm._v("replay")
+                            ]),
+                            _vm._v(" Go to dashboard\n\t\t\t\t")
+                          ],
+                          1
+                        )
                       ],
                       1
                     )
                   ],
                   1
                 )
-              ],
-              1
-            )
           ],
           1
         )
-      ])
-    : _vm._e()
+      : _c(
+          "div",
+          { staticClass: "text-xs-center" },
+          [
+            _c("v-progress-circular", {
+              attrs: { indeterminate: "", color: "primary" }
+            })
+          ],
+          1
+        )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64667,15 +66452,15 @@ if (false) {
 }
 
 /***/ }),
-/* 134 */
+/* 137 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(135)
+var __vue_script__ = __webpack_require__(138)
 /* template */
-var __vue_template__ = __webpack_require__(136)
+var __vue_template__ = __webpack_require__(139)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64714,7 +66499,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 135 */
+/* 138 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64727,7 +66512,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 136 */
+/* 139 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64747,15 +66532,15 @@ if (false) {
 }
 
 /***/ }),
-/* 137 */
+/* 140 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(138)
+var __vue_script__ = __webpack_require__(141)
 /* template */
-var __vue_template__ = __webpack_require__(139)
+var __vue_template__ = __webpack_require__(142)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64794,7 +66579,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 138 */
+/* 141 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64807,7 +66592,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
-/* 139 */
+/* 142 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -64827,7 +66612,7 @@ if (false) {
 }
 
 /***/ }),
-/* 140 */
+/* 143 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64841,7 +66626,7 @@ if (false) {
 });
 
 /***/ }),
-/* 141 */
+/* 144 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -64852,19 +66637,28 @@ if (false) {
 });
 
 /***/ }),
-/* 142 */
+/* 145 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = (function (yyyyMMdd) {
+	return new Date(Date.parse(yyyyMMdd + 'T00:00:00')).toDateString();
+});
+
+/***/ }),
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(143)
+  __webpack_require__(147)
 }
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(148)
+var __vue_script__ = __webpack_require__(152)
 /* template */
-var __vue_template__ = __webpack_require__(155)
+var __vue_template__ = __webpack_require__(159)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -64903,17 +66697,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 143 */
+/* 147 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(144);
+var content = __webpack_require__(148);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(146)("742acd5c", content, false);
+var update = __webpack_require__(150)("742acd5c", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -64929,10 +66723,10 @@ if(false) {
 }
 
 /***/ }),
-/* 144 */
+/* 148 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(145)(undefined);
+exports = module.exports = __webpack_require__(149)(undefined);
 // imports
 
 
@@ -64943,7 +66737,7 @@ exports.push([module.i, "\n.absolute-center[data-v-3f5d5f05]{\n  top: 40%;\n}\n"
 
 
 /***/ }),
-/* 145 */
+/* 149 */
 /***/ (function(module, exports) {
 
 /*
@@ -65025,7 +66819,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 146 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -65044,7 +66838,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(147)
+var listToStyles = __webpack_require__(151)
 
 /*
 type StyleObject = {
@@ -65246,7 +67040,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 147 */
+/* 151 */
 /***/ (function(module, exports) {
 
 /**
@@ -65279,16 +67073,13 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 148 */
+/* 152 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_containers_Invoice_tickets_container__ = __webpack_require__(149);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_containers_Invoice_tickets_container__ = __webpack_require__(153);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_containers_Invoice_tickets_container___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_containers_Invoice_tickets_container__);
-//
-//
-//
 //
 //
 //
@@ -65495,15 +67286,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 149 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(150)
+var __vue_script__ = __webpack_require__(154)
 /* template */
-var __vue_template__ = __webpack_require__(154)
+var __vue_template__ = __webpack_require__(158)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65542,13 +67333,28 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 150 */
+/* 154 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tickets_Invoice_ticket__ = __webpack_require__(151);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tickets_Invoice_ticket__ = __webpack_require__(155);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__tickets_Invoice_ticket___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__tickets_Invoice_ticket__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -65576,15 +67382,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 151 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(152)
+var __vue_script__ = __webpack_require__(156)
 /* template */
-var __vue_template__ = __webpack_require__(153)
+var __vue_template__ = __webpack_require__(157)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -65623,7 +67429,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 152 */
+/* 156 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -65684,7 +67490,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 153 */
+/* 157 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65856,7 +67662,7 @@ if (false) {
 }
 
 /***/ }),
-/* 154 */
+/* 158 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -65869,20 +67675,60 @@ var render = function() {
     [
       _c(
         "v-layout",
-        { attrs: { row: "", wrap: "" } },
-        _vm._l(_vm.invoices, function(invoice) {
-          return _c(
-            "v-flex",
-            {
-              key: invoice.id,
-              staticClass: "pl-2 pr-2 mt-4",
-              attrs: { xs12: "" }
-            },
-            [_c("invoice-ticket", { attrs: { invoice: invoice } })],
+        { attrs: { row: "" } },
+        [
+          _c("v-flex", { staticClass: "pa-1", attrs: { xs12: "" } }, [
+            _c("span", { staticClass: "subheading" }, [
+              _c("strong", [_vm._v("Open Invoices")])
+            ])
+          ])
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _vm.invoices.length > 0
+        ? _c(
+            "v-layout",
+            { attrs: { row: "", wrap: "" } },
+            _vm._l(_vm.invoices, function(invoice) {
+              return _c(
+                "v-flex",
+                {
+                  key: invoice.id,
+                  staticClass: "pl-2 pr-2 mt-4",
+                  attrs: { xs12: "" }
+                },
+                [_c("invoice-ticket", { attrs: { invoice: invoice } })],
+                1
+              )
+            })
+          )
+        : _c(
+            "v-layout",
+            { staticClass: "mt-3", attrs: { row: "" } },
+            [
+              _c(
+                "v-flex",
+                { attrs: { xs10: "", "offset-xs1": "" } },
+                [
+                  _c(
+                    "v-alert",
+                    {
+                      attrs: {
+                        outline: "",
+                        color: "success",
+                        icon: "check",
+                        value: "true"
+                      }
+                    },
+                    [_vm._v("\n\t\t\t\tNo open invoices\n\t\t\t")]
+                  )
+                ],
+                1
+              )
+            ],
             1
           )
-        })
-      )
     ],
     1
   )
@@ -65898,7 +67744,7 @@ if (false) {
 }
 
 /***/ }),
-/* 155 */
+/* 159 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -66266,15 +68112,7 @@ var render = function() {
             expression: "right"
           }
         },
-        [
-          _c("v-container", { staticClass: "pb-0", attrs: { fluid: "" } }, [
-            _c("span", { staticClass: "subheading" }, [
-              _c("strong", [_vm._v("Open Invoices")])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("invoice-tickets-container")
-        ],
+        [_c("invoice-tickets-container")],
         1
       ),
       _vm._v(" "),
@@ -66308,716 +68146,10 @@ if (false) {
 }
 
 /***/ }),
-/* 156 */
+/* 160 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 157 */,
-/* 158 */,
-/* 159 */,
-/* 160 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(0)
-/* script */
-var __vue_script__ = __webpack_require__(161)
-/* template */
-var __vue_template__ = __webpack_require__(162)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\tables\\Invoices-table.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e4c8d252", Component.options)
-  } else {
-    hotAPI.reload("data-v-e4c8d252", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 161 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      search: '',
-      loading: true,
-      toDateMenu: false,
-      fromDateMenu: false,
-      isPaidOptions: [{ text: 'Paid', value: 1 }, { text: 'Owing', value: 'false-bool' }],
-      isFiltering: false,
-      headers: [{
-        text: '#',
-        align: 'left',
-        sortable: true,
-        value: 'customer.last'
-      }, {
-        text: 'Date',
-        align: 'left',
-        sortable: true,
-        value: 'created_at'
-      }, {
-        text: 'First',
-        align: 'left',
-        sortable: true,
-        value: 'customer.first'
-      }, {
-        text: 'Last',
-        align: 'left',
-        sortable: true,
-        value: 'customer.last'
-      }, {
-        text: 'Year',
-        align: 'left',
-        sortable: true,
-        value: 'vehicle.year'
-      }, {
-        text: 'Make',
-        align: 'left',
-        sortable: true,
-        value: 'vehicle.make'
-      }, {
-        text: 'Model',
-        align: 'left',
-        sortable: true,
-        value: 'vehicle.model'
-      }, {
-        text: 'Paid?',
-        align: 'left',
-        sortable: true,
-        value: 'is_paid'
-      }, {
-        text: 'Amount',
-        align: 'left',
-        sortable: true,
-        value: 'grand_total'
-      }, {
-        text: '',
-        align: 'right'
-      }]
-    };
-  },
-
-
-  computed: {
-    invoices: function invoices() {
-      return this.$store.getters.invoices;
-    },
-    invoicesFilter: function invoicesFilter() {
-      return this.$store.getters.invoicesFilter;
-    },
-    customersSelect: function customersSelect() {
-      return this.$store.getters.customersSelect;
-    }
-  },
-
-  components: {},
-
-  methods: {
-    filter: function filter() {
-      var _this = this;
-
-      // Toggle loader
-      this.isFiltering = true;
-      // Dispatch action
-      this.$store.dispatch('filterInvoices', this.invoicesFilter).then(function () {
-        // Toggle loader
-        _this.isFiltering = false;
-      });
-    },
-    updateFromDateFilter: function updateFromDateFilter(value) {
-      return this.$store.commit('updateInvoiceFromDateFilter', value);
-    },
-    updateToDateFilter: function updateToDateFilter(value) {
-      return this.$store.commit('updateInvoiceToDateFilter', value);
-    },
-    updateIsPaidFilter: function updateIsPaidFilter(value) {
-      return this.$store.commit('updateInvoiceIsPaidFilter', value);
-    },
-    updateCustomerFilter: function updateCustomerFilter(value) {
-      return this.$store.commit('updateInvoiceCustomerIdFilter', value);
-    }
-  },
-
-  created: function created() {
-    // Get invoices
-    this.$store.dispatch('filterInvoices');
-    // Get customers (For filter)
-    this.$store.dispatch('filterCustomers');
-  }
-});
-
-/***/ }),
-/* 162 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "v-card",
-    { staticClass: "elevation-0" },
-    [
-      _c(
-        "v-container",
-        { attrs: { fluid: "" } },
-        [
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c(
-                "v-flex",
-                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
-                [
-                  _c(
-                    "v-menu",
-                    {
-                      attrs: {
-                        lazy: "",
-                        "close-on-content-click": true,
-                        transition: "scale-transition",
-                        "offset-y": "",
-                        "full-width": "",
-                        "nudge-right": 40,
-                        "max-width": "290px",
-                        "min-width": "290px"
-                      },
-                      model: {
-                        value: _vm.fromDateMenu,
-                        callback: function($$v) {
-                          _vm.fromDateMenu = $$v
-                        },
-                        expression: "fromDateMenu"
-                      }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          slot: "activator",
-                          label: " From date...",
-                          value: _vm.invoicesFilter.from_date,
-                          "prepend-icon": "event",
-                          readonly: "",
-                          clearable: ""
-                        },
-                        on: { input: _vm.updateFromDateFilter },
-                        slot: "activator"
-                      }),
-                      _vm._v(" "),
-                      _c("v-date-picker", {
-                        attrs: {
-                          value: _vm.invoicesFilter.from_date,
-                          "no-title": "",
-                          scrollable: "",
-                          autosave: ""
-                        },
-                        on: { input: _vm.updateFromDateFilter }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
-                [
-                  _c(
-                    "v-menu",
-                    {
-                      attrs: {
-                        lazy: "",
-                        "close-on-content-click": true,
-                        transition: "scale-transition",
-                        "offset-y": "",
-                        "full-width": "",
-                        "nudge-right": 40,
-                        "max-width": "290px",
-                        "min-width": "290px"
-                      },
-                      model: {
-                        value: _vm.toDateMenu,
-                        callback: function($$v) {
-                          _vm.toDateMenu = $$v
-                        },
-                        expression: "toDateMenu"
-                      }
-                    },
-                    [
-                      _c("v-text-field", {
-                        attrs: {
-                          slot: "activator",
-                          label: " To date...",
-                          value: _vm.invoicesFilter.to_date,
-                          "prepend-icon": "event",
-                          readonly: "",
-                          clearable: ""
-                        },
-                        on: { input: _vm.updateToDateFilter },
-                        slot: "activator"
-                      }),
-                      _vm._v(" "),
-                      _c("v-date-picker", {
-                        attrs: {
-                          value: _vm.invoicesFilter.to_date,
-                          "no-title": "",
-                          scrollable: "",
-                          autosave: ""
-                        },
-                        on: { input: _vm.updateToDateFilter }
-                      })
-                    ],
-                    1
-                  )
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { staticClass: "pl-3 pr-3", attrs: { xs3: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.isPaidOptions,
-                      value: _vm.invoicesFilter.is_paid,
-                      label: "Paid status...",
-                      "single-line": "",
-                      bottom: "",
-                      clearable: ""
-                    },
-                    on: { input: _vm.updateIsPaidFilter }
-                  })
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "v-flex",
-                { attrs: { xs3: "" } },
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.customersSelect,
-                      value: _vm.invoicesFilter.customer_id,
-                      label: "Customer...",
-                      autocomplete: "",
-                      clearable: ""
-                    },
-                    on: { input: _vm.updateCustomerFilter }
-                  })
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "v-layout",
-            { attrs: { row: "" } },
-            [
-              _c("v-spacer"),
-              _vm._v(" "),
-              _c(
-                "v-tooltip",
-                { attrs: { left: "" } },
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        slot: "activator",
-                        loading: _vm.isFiltering,
-                        color: "primary"
-                      },
-                      on: { click: _vm.filter },
-                      slot: "activator"
-                    },
-                    [
-                      _c("v-icon", { attrs: { left: "" } }, [
-                        _vm._v("pageview")
-                      ]),
-                      _vm._v(" Filter\n         ")
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c("span", [_vm._v("Filter customers")])
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("v-divider", { staticClass: "mt-3" })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "v-card-title",
-        [
-          _vm._v("\n     Invoices\n     "),
-          _c("v-spacer"),
-          _vm._v(" "),
-          _c("v-text-field", {
-            attrs: {
-              "append-icon": "search",
-              label: "Search results...",
-              "single-line": "",
-              "hide-details": ""
-            },
-            model: {
-              value: _vm.search,
-              callback: function($$v) {
-                _vm.search = $$v
-              },
-              expression: "search"
-            }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c("v-data-table", {
-        attrs: {
-          headers: _vm.headers,
-          items: _vm.invoices,
-          search: _vm.search
-        },
-        scopedSlots: _vm._u([
-          {
-            key: "items",
-            fn: function(props) {
-              return [
-                _c("tr", [
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.id))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(_vm._f("date")(props.item.date)))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.customer.first))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.customer.last))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.vehicle.year))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.vehicle.make))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticClass: "text-xs-left" }, [
-                    _vm._v(_vm._s(props.item.vehicle.model))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    props.item.is_paid
-                      ? _c("span", { staticClass: "success--text" }, [
-                          _vm._v("Paid")
-                        ])
-                      : _c("span", { staticClass: "error--text" }, [
-                          _vm._v("Owing")
-                        ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(_vm._s(_vm._f("money")(props.item.grand_total)))
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    { staticClass: "text-xs-right" },
-                    [
-                      _c(
-                        "v-tooltip",
-                        { attrs: { left: "" } },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { slot: "activator", icon: "" },
-                              on: {
-                                click: function($event) {
-                                  _vm.$router.push(
-                                    "/work-orders/" + props.item.work_order_id
-                                  )
-                                }
-                              },
-                              slot: "activator"
-                            },
-                            [_c("v-icon", [_vm._v("insert_drive_file")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("View WO")])
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "v-tooltip",
-                        { attrs: { left: "" } },
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { slot: "activator", icon: "" },
-                              on: {
-                                click: function($event) {
-                                  _vm.$router.push("/invoices/" + props.item.id)
-                                }
-                              },
-                              slot: "activator"
-                            },
-                            [_c("v-icon", [_vm._v("launch")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c("span", [_vm._v("View invoice")])
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ])
-              ]
-            }
-          },
-          {
-            key: "pageText",
-            fn: function(ref) {
-              var pageStart = ref.pageStart
-              var pageStop = ref.pageStop
-              return [
-                _vm._v(
-                  "\n       From " +
-                    _vm._s(pageStart) +
-                    " to " +
-                    _vm._s(pageStop) +
-                    "\n     "
-                )
-              ]
-            }
-          }
-        ])
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e4c8d252", module.exports)
-  }
-}
-
-/***/ }),
-/* 163 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony default export */ __webpack_exports__["a"] = (function (yyyyMMdd) {
-	return new Date(Date.parse(yyyyMMdd + 'T00:00:00')).toDateString();
-});
 
 /***/ })
 /******/ ]);

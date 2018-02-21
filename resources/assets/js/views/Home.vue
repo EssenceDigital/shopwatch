@@ -3,7 +3,7 @@
 		<div slot="title">Dashboard</div>
 
 		<div slot="tools">
-			<v-tooltip top>
+			<v-tooltip left>
 		    <v-btn color="info" left slot="activator" @click="addWoDialog = true">
 		      <v-icon left>note_add</v-icon> Work Order
 		    </v-btn>				

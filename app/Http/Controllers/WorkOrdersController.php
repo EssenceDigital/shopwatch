@@ -18,15 +18,48 @@ class WorkOrdersController extends Controller
 	 * 
 	 * @return Json Collection
 	*/
-	public function filter($created_at = false, $is_invoiced = false)
+	public function filter($from_date = false, $to_date = false, $is_invoiced = false, $customer_id = false)
 	{
+    	// Default state for date (single date)
+    	$date = false;
+    	// If only one of from_date or to_date is set then the filter wants a specific single date
+    	if($from_date && !$to_date){
+    		// Cache date
+    		$date = $from_date;
+    	} elseif($to_date && !$from_date){
+    		// Cache date
+    		$date = $to_date;
+    	}
+
 		// Possible where fields for the filter
 		$whereFields = [
-			['filter' => $created_at, 'field' => 'created_at', 'value' => "%{$created_at}%", 'conditional' => 'like'],
-			['filter' => $is_invoiced, 'field' => 'is_invoiced', 'value' => $is_invoiced, 'conditional' => '=']
+			['filter' => $date, 'field' => 'date', 'value' => $date, 'conditional' => '='],
+			['filter' => $is_invoiced, 'field' => 'is_invoiced', 'value' => $is_invoiced, 'conditional' => '='],
+			['filter' => $customer_id, 'field' => 'customer_id', 'value' => $customer_id, 'conditional' => '=']
 		];
 
-		return $this->genericFilter(WorkOrder::with(['customer', 'vehicle', 'jobs', 'jobs.parts', 'jobs.parts.supplier'])->orderBy('created_at', 'asc'), $whereFields);			
+		// Default value for whereBetweenFields
+		$whereBetweenFields = false;
+		// Set where between values if dates present
+		if($from_date && $to_date){
+			// Possible where between fields for the filter
+			$whereBetweenFields = [
+				'first' => ['field' => 'date', 'value' => $from_date],
+				'second' => ['field' => 'date', 'value' => $to_date]
+			];			
+		}
+
+		return $this->genericFilter(
+			WorkOrder::with([
+				'customer', 
+				'vehicle', 
+				'jobs', 
+				'jobs.parts', 
+				'jobs.parts.supplier'
+			])->orderBy('created_at', 'asc'), 
+			$whereFields, 
+			$whereBetweenFields
+		);			
 	}
 
 	/** 

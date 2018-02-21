@@ -25,7 +25,10 @@ export const store = new Vuex.Store({
 
 		workOrders: [],
 		workOrdersFilter: {
-
+			from_date: '',
+			to_date: '',
+			is_invoiced: '',
+			customer_id:  ''
 		},
 		selectedWorkOrder: false,
 
@@ -147,6 +150,18 @@ export const store = new Vuex.Store({
 			// Re-add updated payload at same index
 			return state.workOrders.splice(index, 0, payload);			
 		},
+		updateWorkOrderFromDateFilter (state, payload){
+			return state.workOrdersFilter.from_date = payload;
+		},		
+		updateWorkOrderToDateFilter (state, payload){
+			return state.workOrdersFilter.to_date = payload;
+		},
+		updateWorkOrderIsInvoicedFilter (state, payload){
+			return state.workOrdersFilter.is_invoiced = payload;
+		},				
+		updateWorkOrderCustomerIdFilter (state, payload){
+			return state.workOrdersFilter.customer_id = payload;
+		},		
 		removeWorkOrder (state, payload){
 			// Get index of updated payload
 			let index = Helpers.pluckObjectById(state.workOrders, 'id', payload);
@@ -318,14 +333,21 @@ export const store = new Vuex.Store({
 
 		filterWorkOrders (context, payload){
 			var url = '/work-orders/filter';
-			// Create payload 
+
 			if(payload){
-				if(payload.created_at != '') url += '/' + payload.created_at;
+				if(payload.from_date && payload.from_date != '') url += '/' + payload.from_date;
 					else url += '/' + 0;
 
-				if(payload.is_invoiced != '') url += '/' + payload.is_invoiced;
-					else url += '/' + 0;																			
+				if(payload.to_date && payload.to_date != '') url += '/' + payload.to_date;
+					else url += '/' + 0;		
+
+				if(payload.is_invoiced && payload.is_invoiced != '') url += '/' + payload.is_invoiced;
+					else url += '/' + 0;		
+																															
+				if(payload.customer_id && payload.customer_id != '') url += '/' + payload.customer_id;
+					else url += '/' + 0;		
 			}
+
 			// Use api to send the request
 			return ApiHelper.getAction(context, url, 'updateWorkOrders');			
 		},	
@@ -460,6 +482,9 @@ export const store = new Vuex.Store({
 		},
 		selectedWorkOrder (state){
 			return state.selectedWorkOrder;
+		},
+		workOrdersFilter (state){
+			return state.workOrdersFilter;
 		},
 
 		invoices (state){

@@ -12,7 +12,7 @@ class WorkOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'id', 'vehicle_id', 'customer_id', 'invoice_id', 'created_by', 'is_invoiced'
+        'id', 'vehicle_id', 'customer_id', 'invoice_id', 'created_by', 'date', 'is_invoiced'
     ];
 
     /**

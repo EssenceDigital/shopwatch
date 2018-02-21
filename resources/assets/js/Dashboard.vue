@@ -136,9 +136,6 @@
       v-model="right"
       fixed
     >
-      <v-container fluid class="pb-0">
-        <span class="subheading"><strong>Open Invoices</strong></span>
-      </v-container>
       <invoice-tickets-container></invoice-tickets-container>
     </v-navigation-drawer>
     <v-footer color="red darken-4" class="white--text" app>

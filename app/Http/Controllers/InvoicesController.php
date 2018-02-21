@@ -52,10 +52,10 @@ class InvoicesController extends Controller
 		}
 
 		return $this->genericFilter(
-			Invoice::with(
+			Invoice::with([
 	    		'customer', 
 	    		'vehicle'
-	    	)->orderBy('created_at', 'asc'), 
+	    	])->orderBy('created_at', 'asc'), 
 	    	$whereFields, 
 	    	$whereBetweenFields
 		);    	
@@ -135,6 +135,15 @@ class InvoicesController extends Controller
 
 	    	// Save invoice
 	    	$invoice = $this->genericSave($invoice);
+	    	// Load invoice relationships
+	    	$invoice->load(    		
+		    	'customer', 
+	    		'vehicle',
+	    		'work_order', 
+	    		'work_order.jobs', 
+	    		'work_order.jobs.parts', 
+	    		'work_order.jobs.parts.supplier'
+	    	);
 
 	    	// Mark all jobs on work order as complete
 	    	forEach($wo->jobs as $job){

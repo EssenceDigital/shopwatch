@@ -161,7 +161,7 @@
       			this.removeDialog = false;
       			this.isRemoving = false;
     				// The form was saved
-    				this.$emit('saved');
+    				this.$emit('removed');
       		})
       		.catch((error) => {
       			// Toggle loader and dialog

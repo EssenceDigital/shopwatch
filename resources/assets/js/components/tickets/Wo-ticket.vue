@@ -3,7 +3,7 @@
 		<v-container fluid class="pa-0">
 			<v-card-title>
 				<v-icon>event</v-icon>
-				<span class="ml-2">{{ wo.created_at }}</span>
+				<span class="ml-2">{{ wo.date | date }}</span>
 			</v-card-title>
 			<v-divider></v-divider>
 			<v-card-title>

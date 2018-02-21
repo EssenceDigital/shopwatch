@@ -105,6 +105,7 @@
       :headers="headers"
       :items="invoices"
       :search="search"
+      :loading="dataLoading"
     >
       <template slot="items" slot-scope="props">
         <tr>
@@ -148,8 +149,8 @@
 	export default{
 		data (){
 			return {
+        dataLoading: true,
 				search: '',
-				loading: true,
         toDateMenu: false,
         fromDateMenu: false,
         isPaidOptions: [
@@ -168,7 +169,7 @@
             text: 'Date',
             align: 'left',
             sortable: true,
-            value: 'created_at'
+            value: 'date'
           },                 
           {
             text: 'First',
@@ -266,7 +267,11 @@
 
 		created (){
       // Get invoices
-      this.$store.dispatch('filterInvoices');
+      this.$store.dispatch('filterInvoices', this.invoicesFilter)
+        .then(() => {
+          // Toggle state
+          this.dataLoading = false;
+        });
       // Get customers (For filter)
       this.$store.dispatch('filterCustomers');
 		}		

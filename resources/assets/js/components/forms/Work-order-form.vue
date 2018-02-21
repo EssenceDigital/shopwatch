@@ -6,6 +6,7 @@
 		remove-action="removeWorkOrder"
 		:fields="form" 
 		@saved="saved"
+		@removed="removed"
 		@error="failed"
 	>
 		<template v-if="!editState" slot="form-fields">
@@ -162,6 +163,11 @@
 				Helpers.clearFormErrors(this.form);
 				// Notify parent component
 				this.$emit('saved', id);
+			},
+
+			removed (){
+				// Notify parent component
+				this.$emit('removed');				
 			},
 
 			failed (errors){

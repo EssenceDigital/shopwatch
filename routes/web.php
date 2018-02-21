@@ -62,7 +62,7 @@ Route::get('/vehicles/{id}', 'VehiclesController@get');
 /*
  * Work order routes
 */
-Route::get('/work-orders/filter/{created_at}/{is_invoiced}', 'WorkOrdersController@filter');
+Route::get('/work-orders/filter/{from_date?}/{to_date?}/{is_invoiced?}/{customer_id?}', 'WorkOrdersController@filter');
 Route::post('/work-orders/create', 'WorkOrdersController@create');
 Route::delete('/work-orders/{id}/remove', 'WorkOrdersController@remove');
 Route::get('/work-orders/{id}', 'WorkOrdersController@get');
